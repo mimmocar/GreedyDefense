@@ -5,13 +5,14 @@ using UnityEngine.AI;
 
 public class MoveDestination : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     private Transform goal;
+    private GameObject destination;
     void Start()
     {
-        goal = GameObject.FindWithTag("food").transform;
+        destination = GameObject.FindGameObjectWithTag("food");
+        goal = destination.transform;
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         agent.destination = goal.position;
     }
-
 }
