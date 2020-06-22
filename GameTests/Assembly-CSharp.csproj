@@ -65,6 +65,11 @@
   <ItemGroup>
     <Compile Include="Assets\Characters\FG3D\Vendor\Unity\Shaders\UniqueShadow\UniqueShadow.cs" />
     <Compile Include="Assets\Characters\FG3D\Vendor\Unity\Shaders\UniqueShadow\UniqueShadowSun.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\Scripts\CameraManagerScript.cs" />
     <Compile Include="Assets\Scripts\CharController.cs" />
     <Compile Include="Assets\Scripts\CharacterMotionInEightD.cs" />
@@ -73,6 +78,12 @@
     <Compile Include="Assets\Scripts\Enemies\Spawn.cs" />
     <Compile Include="Assets\Scripts\Enemies\WaveSpawner.cs" />
     <Compile Include="Assets\Scripts\FollowingChar.cs" />
+    <Compile Include="Assets\Scripts\Turret\Explosion.cs" />
+    <Compile Include="Assets\Scripts\Turret\Version1\FireProjectile.cs" />
+    <Compile Include="Assets\Scripts\Turret\Version1\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Turret\Version1\TurretController.cs" />
+    <Compile Include="Assets\Scripts\Turret\Version2\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Turret\Version2\Turret.cs" />
     <None Include="Assets\Characters\FG3D\Vendor\Unity\Shaders\Standard\Standard-2pass-doublesided-half depth.shader" />
     <None Include="Assets\Characters\FG3D\Vendor\Unity\Shaders\Skin\Volund_StandardSpecularCharacter.shader" />
     <None Include="Assets\Characters\FG3D\Shaders\Standard-Two-Sided_Soft-Blend.shader" />
