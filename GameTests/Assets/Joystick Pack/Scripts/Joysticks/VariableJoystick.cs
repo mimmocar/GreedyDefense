@@ -9,8 +9,19 @@ public class VariableJoystick : Joystick
 
     [SerializeField] private float moveThreshold = 1;
     [SerializeField] private JoystickType joystickType = JoystickType.Fixed;
+    private bool active;
 
-    private Vector2 fixedPosition = Vector2.zero;
+
+    public Vector2 fixedPosition = Vector2.zero;
+
+    public bool isActive
+    {
+        get
+        {
+            return Horizontal!=0 || Vertical!=0;
+        }
+    }
+
 
     public void SetMode(JoystickType joystickType)
     {

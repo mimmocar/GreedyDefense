@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{9EF4AD86-508C-F34D-453E-835D9A8F52D1}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MineAndCharacterScripts/Character/CharacterJoystickMovement.cs">
+    <Files>
+      <File FileName="Assets/Scripts/MineAndCharacterScripts/Character/JoystickCharacterState.cs" Line="7" Column="5" />
+      <File FileName="Assets/Scripts/MineAndCharacterScripts/Character/CharacterJoystickMovement.cs" Line="56" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="GameTests" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="MineAndCharacterScripts" expanded="True">
+                  <Node name="Character" expanded="True">
+                    <Node name="CharacterJoystickMovement.cs" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1edb956d-930e-40bb-949c-4ae283d8ff69" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
