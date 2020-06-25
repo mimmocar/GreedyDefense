@@ -112,7 +112,7 @@ public class CharacterJoystickMovement : MonoBehaviour
         angle = Mathf.Atan2(input.x, input.y);
         angle = Mathf.Rad2Deg * angle;
         angle += cam.eulerAngles.y;
-        Debug.Log(angle);
+        //Debug.Log(angle);
         if (angle < 0) anim.SetBool("rotation", true);
         else anim.SetBool("rotation", false);
 
