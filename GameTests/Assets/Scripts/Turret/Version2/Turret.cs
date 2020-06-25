@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Turret : MonoBehaviour {
+public class Turret : MonoBehaviour
+{
 
 	private Transform target;
 
@@ -11,7 +12,7 @@ public class Turret : MonoBehaviour {
 	public float fireRate = 1f;
 	private float fireCountdown = 0f;
 
-
+	private int bulletFired = 0;
 
 	public string enemyTag = "Enemy";
 
@@ -21,11 +22,13 @@ public class Turret : MonoBehaviour {
 	public Transform firePoint;
 
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
+
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}
-	
-	void UpdateTarget ()
+
+	void UpdateTarget()
 	{
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 		float shortestDistance = Mathf.Infinity;
@@ -52,7 +55,8 @@ public class Turret : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		if (target == null)
 		{
 			return;
@@ -63,6 +67,8 @@ public class Turret : MonoBehaviour {
 		if (fireCountdown <= 0f)
 		{
 			Shoot();
+			bulletFired += 1;
+			Debug.Log("Bullet count " + bulletFired);
 			fireCountdown = 1f / fireRate;
 		}
 
@@ -70,7 +76,7 @@ public class Turret : MonoBehaviour {
 
 	}
 
-	void LockOnTarget ()
+	void LockOnTarget()
 	{
 		Vector3 dir = target.position - transform.position;
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
@@ -87,7 +93,7 @@ public class Turret : MonoBehaviour {
 			bullet.Seek(target);
 	}
 
-	void OnDrawGizmosSelected ()
+	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, range);
