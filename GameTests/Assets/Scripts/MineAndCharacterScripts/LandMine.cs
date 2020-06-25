@@ -7,55 +7,79 @@ public class LandMine : MonoBehaviour
 
     public GameObject explosionPrefab;
     private Vector3 explosionPosition;
-    private float explosionRadius = 50.0f;
-    private float explosionPower = 100000.0f;
+    private float explosionRadius = 10.0f;
+    private float explosionPower = 1000.0f;
+    private bool explosion = false;
     // Start is called before the first frame update
     void Start()
     {
         explosionPosition = transform.position;
-        explosionPrefab = Instantiate(explosionPrefab, transform.position,transform.rotation);
+        explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);
         explosionPrefab.SetActive(false);
 
-        Debug.Log("Tranform Mina: " + transform.position);
-        Debug.Log("Tranform Esplosione: " + explosionPrefab.transform.position);    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        //Debug.Log("Tranform Mina: " + transform.position);
+        //Debug.Log("Tranform Esplosione: " + explosionPrefab.transform.position);
     }
 
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
-        foreach (Collider hit in colliders)
+        // Update is called once per frame
+        void Update()
         {
-            if (hit.GetComponent<Rigidbody>())
-            { // if it's a rigidbody, add explosion force:
-                hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, 3.0f);
-            }
-            else
-            { // but if it's a character with ImpactReceiver, add the impact:
-                ImpactReceiver script = hit.GetComponent<ImpactReceiver>();
-                if (script)
-                {
-                    Debug.Log("Explosion ImpactReceiver");
-                    explosionPrefab.SetActive(true);
-                    
-                    Vector3 dir = hit.transform.position - explosionPosition;
-                    float force = Mathf.Clamp(explosionPower / 3, 0, 5000);
-                    script.AddImpact(dir, force);
+
+        }
+
+
+
+        private void OnTriggerEnter(Collider other)
+        {
+
+
+        if (other.tag == "Enemy")
+        {
+            Debug.Log(other.tag);
+            Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
+            foreach (Collider hit in colliders)
+            {
+
+                if (hit.tag != "Enemy") continue;
+
+                Debug.Log(hit.tag);
+
+                hit.GetComponent<Animator>().enabled = false;
+                hit.GetComponent<MoveDestination>().enabled = false;
+                if (hit.GetComponent<Rigidbody>())
+                { // if it's a rigidbody, add explosion force:
+                    Debug.Log("Explosion with RigidBody");
+                    hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, 0.0f, ForceMode.Force);
+                    Debug.Log(hit);
+                    explosion = true;
+                }
+                else
+                { // but if it's a character with ImpactReceiver, add the impact:
+                    ImpactReceiver script = hit.GetComponent<ImpactReceiver>();
+                    if (script)
+                    {
+
+                        Debug.Log("Explosion ImpactReceiver");
+                        explosionPrefab.SetActive(true);
+
+                        Vector3 dir = hit.transform.position - explosionPosition;
+                        float force = Mathf.Clamp(explosionPower / 3, 0, 5000);
+                        script.AddImpact(dir, force);
+                        explosion = true;
+                    }
+
                 }
 
+                hit.GetComponent<Animator>().enabled = true;
+                hit.GetComponent<MoveDestination>().enabled = true;
             }
         }
-        
-        transform.gameObject.SetActive(false);
-        Destroy(this);
-        //gameObject.SetActive(false);
+            if (explosion)
+            {
+                transform.gameObject.SetActive(false);
+                Destroy(this);
+                //gameObject.SetActive(false);
+            }
 
-    }
+        }
 }
