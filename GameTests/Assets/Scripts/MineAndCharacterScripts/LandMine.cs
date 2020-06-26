@@ -21,16 +21,16 @@ public class LandMine : MonoBehaviour
         //Debug.Log("Tranform Esplosione: " + explosionPrefab.transform.position);
     }
 
-        // Update is called once per frame
-        void Update()
-        {
+    // Update is called once per frame
+    void Update()
+    {
 
-        }
+    }
 
 
 
-        private void OnTriggerEnter(Collider other)
-        {
+    private void OnTriggerEnter(Collider other)
+    {
 
 
         if (other.tag == "Enemy")
@@ -49,7 +49,9 @@ public class LandMine : MonoBehaviour
                 if (hit.GetComponent<Rigidbody>())
                 { // if it's a rigidbody, add explosion force:
                     Debug.Log("Explosion with RigidBody");
+                    explosionPrefab.SetActive(true);
                     hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, 0.0f, ForceMode.Force);
+                    Messenger<GameObject>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject);
                     Debug.Log(hit);
                     explosion = true;
                 }
@@ -65,6 +67,7 @@ public class LandMine : MonoBehaviour
                         Vector3 dir = hit.transform.position - explosionPosition;
                         float force = Mathf.Clamp(explosionPower / 3, 0, 5000);
                         script.AddImpact(dir, force);
+                        Messenger<GameObject>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject);
                         explosion = true;
                     }
 
@@ -74,12 +77,12 @@ public class LandMine : MonoBehaviour
                 hit.GetComponent<MoveDestination>().enabled = true;
             }
         }
-            if (explosion)
-            {
-                transform.gameObject.SetActive(false);
-                Destroy(this);
-                //gameObject.SetActive(false);
-            }
-
+        if (explosion)
+        {
+            transform.gameObject.SetActive(false);
+            Destroy(this);
+            //gameObject.SetActive(false);
         }
+
+    }
 }
