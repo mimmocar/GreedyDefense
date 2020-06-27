@@ -23,6 +23,12 @@ public class GUIManager : MonoBehaviour
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
     }
 
+    void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.SHOOTING, OnShootingStart);
+        Messenger.RemoveListener(GameEvent.STOP_SHOOTING, OnShootingStop);
+    }
+
 
     void Update()
     {
