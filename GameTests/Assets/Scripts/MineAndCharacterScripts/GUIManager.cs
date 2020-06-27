@@ -9,11 +9,20 @@ public class GUIManager : MonoBehaviour
     [SerializeField] GameObject character;
     [SerializeField] private Texture2D mineTexture, wallTexture, torretTexture;
     private Vector2 touchPositionStart;
+    private Vector2 position;
     private Vector2 touchPositionEnd;
     private bool display = false;
     private Rect mine, wall, torret;
     private bool evaluateSelection = false;
     private Vector3 worldPosition;
+    private bool shooting = false;
+
+    private void Start()
+    {
+        Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
+        Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
+    }
+
 
     void Update()
     {
@@ -36,21 +45,25 @@ public class GUIManager : MonoBehaviour
                     
                     // Vector2 position = RectTransformUtility.WorldToScreenPoint(Camera.main, hit.point);
                     // position.y = Screen.height - position.y;
-                    Vector2 position = touchPositionStart;
+                    position = touchPositionStart;
                     position.y = Screen.height - position.y;
                     Debug.Log("Touch Position: " + position);
                     Debug.Log("Rect Position: " + (position.y - 50));
-                    mine = new Rect(position.x - 300, position.y - 200, 200, 150);
-                    wall = new Rect(position.x - 100, position.y - 200, 200, 150);
-                    torret = new Rect(position.x + 100, position.y - 200, 200, 150);
-                    if (!joystick.isActive) display = true;
+                    if (!joystick.isActive && !shooting)
+                    {
+                        display = true;
+                    }
+                    else
+                    {
+                        display = false;
+                    }
                 }
                 else
                 {
                     display = false;
                 }
             }
-            else if (joystick.isActive)
+            else if (joystick.isActive || shooting)
             {
                 display = false;
             }
@@ -58,7 +71,7 @@ public class GUIManager : MonoBehaviour
             {
                 touchPositionEnd = theTouch.position;
                 touchPositionEnd.y = Screen.height - touchPositionEnd.y;
-                evaluateSelection = true;
+                if(display) evaluateSelection = true;
 
             }
 
@@ -68,14 +81,33 @@ public class GUIManager : MonoBehaviour
 
     }
 
+    private void OnShootingStart()
+    {
+        shooting = true;
+    }
+
+    private void OnShootingStop()
+    {
+        shooting = false;
+    }
+
     void OnGUI()
     {
+        
         if (display)
         {
+            mine = new Rect(position.x - 300, position.y - 200, 200, 150);
+            wall = new Rect(position.x - 100, position.y - 200, 200, 150);
+            torret = new Rect(position.x + 100, position.y - 200, 200, 150);
+
+
             GUI.Box(mine, mineTexture);
             GUI.Box(wall, wallTexture);
             GUI.Box(torret, torretTexture);
+
+            
         }
+
         if (evaluateSelection)
         {
             if (mine.Contains(touchPositionEnd))
