@@ -4,6 +4,7 @@ using UnityEngine;
 public class ShootingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Mouse Down: " + eventData.pointerCurrentRaycast.gameObject.name);
