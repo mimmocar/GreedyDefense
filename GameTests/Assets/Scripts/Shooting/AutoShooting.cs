@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shooting : MonoBehaviour
+public class AutoShooting : MonoBehaviour
 {
 
 	private Transform target;
@@ -21,6 +21,7 @@ public class Shooting : MonoBehaviour
 
 	public Transform firePoint;
 
+
 	//Temporary added for Automatic Shooting character
 	protected JoystickCharacterState status;
 	Animator anim;
@@ -33,7 +34,7 @@ public class Shooting : MonoBehaviour
 		status = GetComponent<JoystickCharacterState>();    //Temporary added for Automatic Shooting character
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}
-	
+
 
 	void UpdateTarget()
 	{
@@ -72,29 +73,29 @@ public class Shooting : MonoBehaviour
 		//Temporary added for Shooting character
 		if (!status.IsMoving && !status.IsRotating) //Temporary added for Automatic Shooting character
 		{
-			anim.SetBool("isShooting", true); //Temporary added for Automatic Shooting character
-			LockOnTarget();
+		anim.SetBool("isShooting", true); //Temporary added for Automatic Shooting character
+		LockOnTarget();
 
-			if (fireCountdown <= 0f)
-			{
-				Shoot();
-				bulletFired += 1;
-				Debug.Log("Bullet count " + bulletFired);
-				fireCountdown = 1f / fireRate;
-			}
-
-			fireCountdown -= Time.deltaTime;
-		} else
+		if (fireCountdown <= 0f)
 		{
-			anim.SetBool("isShooting", false); //Temporary added for Automatic Shooting character
+			Shoot();
+			bulletFired += 1;
+			Debug.Log("Bullet count " + bulletFired);
+			fireCountdown = 1f / fireRate;
 		}
-			
+
+		fireCountdown -= Time.deltaTime;
+		}
+		else
+		{
+		anim.SetBool("isShooting", false); //Temporary added for Automatic Shooting character
+		}
+
 
 	}
 
 	void LockOnTarget()
 	{
-		anim.SetBool("isShooting", true);
 		Vector3 dir = target.position - transform.position;
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;

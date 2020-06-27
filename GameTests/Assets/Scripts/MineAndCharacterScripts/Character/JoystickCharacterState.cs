@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class JoystickCharacterState : MonoBehaviour
 {
-    
+
     [SerializeField] VariableJoystick joystick;
     protected bool isMoving;
     protected bool isRotating;
     protected bool isGrounded;
 
+    // Temporary added for Automatic Shooting character
+    protected bool isShooting;
+
     protected float movement;
     protected float rotation;
+
+    // Temporary added for Automatic Shooting character
+    public bool IsShooting
+    {
+        get { return isShooting; }
+    }
 
     public bool IsGrounded
     {
@@ -20,12 +29,12 @@ public class JoystickCharacterState : MonoBehaviour
     }
 
     public bool IsMoving
-	{
-		get
-		{
+    {
+        get
+        {
             return isMoving;
-		}
-	}
+        }
+    }
 
     public bool IsRotating
     {
@@ -54,7 +63,7 @@ public class JoystickCharacterState : MonoBehaviour
     void Start()
     {
 
-       
+
     }
 
     // Update is called once per frame
@@ -83,12 +92,12 @@ public class JoystickCharacterState : MonoBehaviour
     }
 
     protected void CollectInputs()
-	{
-        
+    {
+
         movement = joystick.Vertical;
         rotation = joystick.Horizontal;
-        isMoving = movement!=0 ;
+        isMoving = movement != 0;
         isRotating = rotation != 0;
-        
+
     }
 }
