@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This script is place on a projectile GameObject
+// This script is placed on a projectile GameObject
+// This script uses Message, intercepted by ObjectManager script
 public class Bullet : MonoBehaviour
 {
     private Transform target;

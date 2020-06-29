@@ -105,7 +105,7 @@ public class AutoShooting : MonoBehaviour
 	void Shoot()
 	{
 		GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-		Bullet bullet = bulletGO.GetComponent<Bullet>();
+		Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
 
 		if (bullet != null)
 			bullet.Seek(target);
