@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 15
-  bulletPrefab: {fileID: 7148587794417947855, guid: 17c1b54585e6f0b45833ab15d50c080e,
+  bulletPrefab: {fileID: 6639248345562873518, guid: 55d2e4946fe657d458dcbc97973be958,
     type: 3}
   fireRate: 1
   enemyTag: Enemy
