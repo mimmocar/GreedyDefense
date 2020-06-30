@@ -255,7 +255,7 @@ Rigidbody:
   m_GameObject: {fileID: 6686929051704891474}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1.1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -312,21 +312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startSpeed: 10
   speed: 0
-  startHealth: 100
+  startHealth: 200
   worth: 50
   healthBar: {fileID: 4959215371740793424}
---- !u!114 &7415009364814719282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6686929051704891474}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14663ecea6d784a7b99b0d0533383a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8640678183319771427
 MonoBehaviour:
   m_ObjectHideFlags: 0

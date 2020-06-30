@@ -51,6 +51,7 @@ public class Bullet1 : MonoBehaviour
 		else
 		{
 			Damage(target);
+			//Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, target.gameObject,damage);
 		}
 
 		Destroy(gameObject);
@@ -68,17 +69,19 @@ public class Bullet1 : MonoBehaviour
 		}
 	}
 
-	void Damage(Transform enemy)
-	{
+    void Damage(Transform enemy)
+    {
 		Enemy e = enemy.GetComponent<Enemy>();
 
 		if (e != null)
 		{
-			e.TakeDamage(damage);
+			Messenger<GameObject, int>.Broadcast(GameEvent.ENEMY_HIT, enemy.gameObject, damage);
+			//    e.TakeDamage(damage);
 		}
+		
 	}
 
-	void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, explosionRadius);

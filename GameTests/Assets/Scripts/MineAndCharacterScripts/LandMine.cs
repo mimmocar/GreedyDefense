@@ -7,6 +7,7 @@ public class LandMine : MonoBehaviour
 
     public GameObject explosionPrefab;
     private Vector3 explosionPosition;
+    private int damage = 100;
     private float explosionRadius = 10.0f;
     private float explosionPower = 1000.0f;
     private bool explosion = false;
@@ -44,14 +45,14 @@ public class LandMine : MonoBehaviour
 
                 Debug.Log(hit.tag);
 
-                hit.GetComponent<Animator>().enabled = false;
-                hit.GetComponent<MoveDestination>().enabled = false;
+                //hit.GetComponent<Animator>().enabled = false;
+                //hit.GetComponent<MoveDestination>().enabled = false;
                 if (hit.GetComponent<Rigidbody>())
                 { // if it's a rigidbody, add explosion force:
                     Debug.Log("Explosion with RigidBody");
                     explosionPrefab.SetActive(true);
                     hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, 0.0f, ForceMode.Force);
-                    Messenger<GameObject>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject);
+                    Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
                     Debug.Log(hit);
                     explosion = true;
                 }
@@ -67,14 +68,14 @@ public class LandMine : MonoBehaviour
                         Vector3 dir = hit.transform.position - explosionPosition;
                         float force = Mathf.Clamp(explosionPower / 3, 0, 5000);
                         script.AddImpact(dir, force);
-                        Messenger<GameObject>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject);
+                        Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
                         explosion = true;
                     }
 
                 }
 
-                hit.GetComponent<Animator>().enabled = true;
-                hit.GetComponent<MoveDestination>().enabled = true;
+                //hit.GetComponent<Animator>().enabled = true;
+                //hit.GetComponent<MoveDestination>().enabled = true;
             }
         }
         if (explosion)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GUIManager : MonoBehaviour
     {
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
+        Messenger<GameObject, int>.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
     }
 
     void OnDestroy()
@@ -85,6 +87,14 @@ public class GUIManager : MonoBehaviour
 
         }
 
+    }
+
+    private void OnEnemyHit(GameObject enemy, int damage)
+    {
+        float health = enemy.GetComponent<Enemy>().Health;
+        Image healthBar = enemy.GetComponent<Enemy>().healthBar;
+        float startH = enemy.GetComponent<Enemy>().startHealth;
+        healthBar.fillAmount = health / startH;
     }
 
     private void OnShootingStart()
