@@ -24,12 +24,12 @@ public class Enemy : MonoBehaviour {
 		get
 		{
 
-			return startHealth;
+			return health;
 		}
 
 		set
 		{
-			startHealth = value;
+			health = value;
 		}
 	}
 
