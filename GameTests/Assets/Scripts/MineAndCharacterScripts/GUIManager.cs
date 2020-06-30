@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
+    [SerializeField] private PauseMenu pauseMenu;
 
     [SerializeField] VariableJoystick joystick;
     [SerializeField] GameObject character;
@@ -20,6 +21,7 @@ public class GUIManager : MonoBehaviour
 
     private void Start()
     {
+        pauseMenu.Close();
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
         Messenger<GameObject, int>.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
@@ -147,5 +149,10 @@ public class GUIManager : MonoBehaviour
         }
 
 
+    }
+
+    public void OnOpenPauseMenu()
+    {
+        pauseMenu.Open();
     }
 }
