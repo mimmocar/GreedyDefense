@@ -5,34 +5,53 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+	private GameObject thisObj;
+	private static PauseMenu instance;
+	public GameObject pauseMenuObj;
 
+	void Awake()
+	{
+		instance = this;
+		thisObj = gameObject;
+
+	}
 	void Start()
 	{
+		OnOptionBackButton();
+		Hide();
 	}
-
-	public void Open()
+	public void OnResumeButton()
 	{
-		gameObject.SetActive(true);
-
-		Time.timeScale = 0f;
+		Hide();
+		GameControl.ResumeGame();
 	}
-	public void Close()
+	public void OnMainMenuButton()
 	{
-		gameObject.SetActive(false);
-
-		Time.timeScale = 1f;
+		Time.timeScale = 1;
+		GameControl.LoadMainMenu();
 	}
-
-	public void Retry()
+	public void OnRestartButton()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-		
+		UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 	}
 
-	public void MainMenu()
+	public static void Hide() { instance._Hide(); }
+
+	public static bool isOn = true;
+	public static void Show() { instance._Show(); }
+	public void _Show()
 	{
-		SceneManager.LoadScene("MainMenuScene");
+		isOn = true;
+		thisObj.SetActive(isOn);
+	}
+	public void _Hide()
+	{
+		isOn = false;
+		thisObj.SetActive(isOn);
 	}
 
-	
+	public void OnOptionBackButton()
+	{
+		pauseMenuObj.SetActive(true);
+	}
 }

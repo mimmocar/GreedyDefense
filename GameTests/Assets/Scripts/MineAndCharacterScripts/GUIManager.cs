@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
-    [SerializeField] private PauseMenu pauseMenu;
+    private bool paused;
 
     [SerializeField] VariableJoystick joystick;
     [SerializeField] GameObject character;
@@ -19,9 +19,8 @@ public class GUIManager : MonoBehaviour
     private Vector3 worldPosition;
     private bool shooting = false;
 
-    private void Start()
+    void Start()
     {
-        pauseMenu.Close();
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
         Messenger<GameObject, int>.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
@@ -36,7 +35,6 @@ public class GUIManager : MonoBehaviour
 
     void Update()
     {
-
         int count = Input.touchCount;
         if (count > 0)
         {
@@ -108,51 +106,69 @@ public class GUIManager : MonoBehaviour
     {
         shooting = false;
     }
-
+    
     void OnGUI()
     {
-        
-        if (display)
-        {
-            mine = new Rect(position.x - 300, position.y - 200, 200, 150);
-            wall = new Rect(position.x - 100, position.y - 200, 200, 150);
-            torret = new Rect(position.x + 100, position.y - 200, 200, 150);
+
+        paused = GameControl.IsGamePaused();
+        if (!paused) { 
+       
+            if (display)
+            {
+                mine = new Rect(position.x - 300, position.y - 200, 200, 150);
+                wall = new Rect(position.x - 100, position.y - 200, 200, 150);
+                torret = new Rect(position.x + 100, position.y - 200, 200, 150);
 
 
-            GUI.Box(mine, mineTexture);
-            GUI.Box(wall, wallTexture);
-            GUI.Box(torret, torretTexture);
+                GUI.Box(mine, mineTexture);
+                GUI.Box(wall, wallTexture);
+                GUI.Box(torret, torretTexture);
 
             
-        }
-
-        if (evaluateSelection)
-        {
-            if (mine.Contains(touchPositionEnd))
-            {
-                Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 0);
-                Debug.Log("Selected arma 1");
-            }
-            else if (wall.Contains(touchPositionEnd))
-            {
-                Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 1);
-                Debug.Log("Selected arma 2");
-            }
-            else if (torret.Contains(touchPositionEnd))
-            {
-                Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 2);
-                Debug.Log("Selected arma 3");
             }
 
-            display = false;
-            evaluateSelection = false;
+            if (evaluateSelection)
+            {
+                if (mine.Contains(touchPositionEnd))
+                {
+                    Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 0);
+                    Debug.Log("Selected arma 1");
+                }
+                else if (wall.Contains(touchPositionEnd))
+                {
+                    Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 1);
+                    Debug.Log("Selected arma 2");
+                }
+                else if (torret.Contains(touchPositionEnd))
+                {
+                    Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 2);
+                    Debug.Log("Selected arma 3");
+                }
+
+                display = false;
+                evaluateSelection = false;
+            }
         }
 
 
     }
 
-    public void OnOpenPauseMenu()
+    public void OnPauseButton()
     {
-        pauseMenu.Open();
+        _GameState gameState = GameControl.GetGameState();
+        if (gameState == _GameState.Over) return;
+
+
+        if (gameState == _GameState.Pause)
+        {
+            GameControl.ResumeGame();
+            PauseMenu.Hide();
+        }
+        else
+        {
+            GameControl.PauseGame();
+            PauseMenu.Show();
+        }
     }
+
 }
