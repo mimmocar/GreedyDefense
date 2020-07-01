@@ -40,6 +40,8 @@ public static class GameEvent
 	public const string SPEED_CHANGED = "SPEED_CHANGED";
 	public const string SHOOTING = "SHOOTING";
 	public const string STOP_SHOOTING = "STOP";
+	public const string PAUSE = "PAUSE";
+	public const string CHANGE_SCENE = "CHANGE SCENE";
 }
 static internal class MessengerInternal
 {
