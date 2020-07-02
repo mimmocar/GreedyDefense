@@ -10,6 +10,7 @@ public class GUIManager : MonoBehaviour
     [SerializeField] VariableJoystick joystick;
     [SerializeField] GameObject character;
     [SerializeField] private Texture2D mineTexture, wallTexture, torretTexture;
+    [SerializeField] private Text killsText;
     private Vector2 touchPositionStart;
     private Vector2 position;
     private Vector2 touchPositionEnd;
@@ -24,6 +25,7 @@ public class GUIManager : MonoBehaviour
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
         Messenger<GameObject, int>.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
+        Messenger<int, int>.AddListener(GameEvent.ENEMY_DIED, OnEnemyDied);
     }
 
     void OnDestroy()
@@ -96,7 +98,13 @@ public class GUIManager : MonoBehaviour
         float startH = enemy.GetComponent<Enemy>().startHealth;
         healthBar.fillAmount = health / startH;
     }
-
+    private void OnEnemyDied(int kills, int berserk)
+    {
+        if (killsText != null)
+        {
+            killsText.text = kills.ToString() + "/" + berserk.ToString();
+        }
+    }
     private void OnShootingStart()
     {
         shooting = true;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
@@ -19,6 +20,18 @@ public class Enemy : MonoBehaviour {
 	public Image healthBar;
 
 	private bool isDead = false;
+	public bool Dead
+	{
+		get
+		{
+			return isDead;
+		}
+		set
+		{
+			isDead = value;
+		}
+	}
+
 	public float Health
 	{
 		get
@@ -43,22 +56,23 @@ public class Enemy : MonoBehaviour {
 	{
 		health -= amount;
 
-		healthBar.fillAmount = health / startHealth;
+		//healthBar.fillAmount = health / startHealth;
 
 		if (health <= 0 && !isDead)
 		{
-			Die();
+			isDead = true;
+			//Die();
 		}
 	}
 
-	public void Slow (float pct)
-	{
-		speed = startSpeed * (1f - pct);
-	}
+	//public void Slow (float pct)
+	//{
+	//	speed = startSpeed * (1f - pct);
+	//}
 
-	void Die ()
+	public void Die ()
 	{
-		isDead = true;
+		//isDead = true;
 
 		// PlayerStats.Money += worth;
 

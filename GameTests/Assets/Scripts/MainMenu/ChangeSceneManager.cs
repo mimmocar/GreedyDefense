@@ -8,7 +8,7 @@ public class ChangeSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         Messenger.AddListener(GameEvent.CHANGE_SCENE, ChangeScene);
     }
 
