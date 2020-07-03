@@ -8,6 +8,22 @@ public class ObjectManager : MonoBehaviour
     //private delegate void OnSpawnObject(Vector3 pos, GameObject pref);
     //Start is called before the first frame update
     private int hit = 0, kills = 0, berserk = 100;
+
+    public int Kills
+    {
+        get
+        {
+            return kills;
+        }
+    }
+
+    public int Berserk
+    {
+        get
+        {
+            return berserk;
+        }
+    }
     [SerializeField] GameObject[] prefab;
     void Awake()
     {
@@ -41,22 +57,17 @@ public class ObjectManager : MonoBehaviour
         Enemy enemy = target.GetComponent<Enemy>();
         hit += 1;
         Debug.Log("Invocazione n " + hit);
-        //enemy.GetComponent<EnemyStatus>().Stamina -= 1;
-        //enemy.GetComponent<Enemy>().Health -= damage;
         enemy.TakeDamage(damage);
         Debug.Log(enemy + "  Stamina is: " + enemy.GetComponent<Enemy>().Health);
-        if (/*enemy.GetComponent<Enemy>().Health == 0*/enemy.Dead)
+        if (enemy.Dead)
         {
-            //Destroy(enemy.gameObject);
             enemy.Die();
             
             if(kills >= berserk)
             {
                 kills = 0;
             }
-
             kills++;
-            Messenger<int, int>.Broadcast(GameEvent.ENEMY_DIED, kills, berserk);
         }
 
     }

@@ -10,7 +10,6 @@ public class GUIManager : MonoBehaviour
     [SerializeField] VariableJoystick joystick;
     [SerializeField] GameObject character;
     [SerializeField] private Texture2D mineTexture, wallTexture, torretTexture;
-    [SerializeField] private Text killsText;
     private Vector2 touchPositionStart;
     private Vector2 position;
     private Vector2 touchPositionEnd;
@@ -24,8 +23,6 @@ public class GUIManager : MonoBehaviour
     {
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
-        Messenger<GameObject, int>.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
-        Messenger<int, int>.AddListener(GameEvent.ENEMY_DIED, OnEnemyDied);
     }
 
     void OnDestroy()
@@ -51,10 +48,7 @@ public class GUIManager : MonoBehaviour
                 if (Physics.Raycast(ray, out hit) && hit.collider != null && hit.transform.tag == "floor")
                 {
                     Debug.Log("Hit identified: " + hit);
-                    worldPosition = hit.point;
-                    
-                    // Vector2 position = RectTransformUtility.WorldToScreenPoint(Camera.main, hit.point);
-                    // position.y = Screen.height - position.y;
+                    worldPosition = hit.point;            
                     position = touchPositionStart;
                     position.y = Screen.height - position.y;
                     Debug.Log("Touch Position: " + position);
@@ -91,20 +85,6 @@ public class GUIManager : MonoBehaviour
 
     }
 
-    private void OnEnemyHit(GameObject enemy, int damage)
-    {
-        float health = enemy.GetComponent<Enemy>().Health;
-        Image healthBar = enemy.GetComponent<Enemy>().healthBar;
-        float startH = enemy.GetComponent<Enemy>().startHealth;
-        healthBar.fillAmount = health / startH;
-    }
-    private void OnEnemyDied(int kills, int berserk)
-    {
-        if (killsText != null)
-        {
-            killsText.text = kills.ToString() + "/" + berserk.ToString();
-        }
-    }
     private void OnShootingStart()
     {
         shooting = true;
