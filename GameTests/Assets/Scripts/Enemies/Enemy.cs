@@ -1,20 +1,36 @@
 using UnityEngine;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.UI;
+using System.IO;
+using System.Collections.Generic;
+
+public enum EnemyType { Barbarian, Dragon, Monster}
+
 
 public class Enemy : MonoBehaviour {
 
-	public float startSpeed = 10f;
+		//public float startSpeed = 10f;
+		[SerializeField] private EnemyType type;
+		private float[] damegesMultipliers;
+		[HideInInspector]
+		public float speed;
 
-	[HideInInspector]
-	public float speed;
+		public float startHealth = 100;
+		private float health;
 
-	public float startHealth = 100;
-	private float health;
+		public int worth = 50;
 
-	public int worth = 50;
+    // public GameObject deathEffect;
 
-	// public GameObject deathEffect;
+	public float[] DamagesMultipliers {
+
+		get
+		{
+		  return damegesMultipliers;
+		}
+
+
+	}
 
 	[Header("Unity Stuff")]
 	public Image healthBar;
@@ -24,12 +40,12 @@ public class Enemy : MonoBehaviour {
 	{
 		get
 		{
-			return isDead;
+			return health <= 0;
 		}
-		set
-		{
-			isDead = value;
-		}
+			//set
+			//{
+			//	isDead = value;
+			//}
 	}
 
 	public float Health
@@ -46,42 +62,61 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	void Start ()
+	void Start()
 	{
-		speed = startSpeed;
+		//speed = startSpeed;
 		health = startHealth;
+		string eT = type.ToString();
+		string path = "Assets/Scripts/Enemies/" + eT + "DamageMultipliers.txt";
+		Debug.Log("PATH LETTO PER IL NEMICO "+eT+": "+path);
+		StreamReader sr = new StreamReader(path);
+	    List<float> dM = new List<float>();
+
+        while (!sr.EndOfStream)
+        {
+			dM.Add(float.Parse(sr.ReadLine()));
+        }
+
+		damegesMultipliers = dM.ToArray();
+        for(int i=0;i< damegesMultipliers.Length -1; i++)
+        {
+			Debug.Log(i + "   " + damegesMultipliers[i]);
+
+        }
+
+
 	}
 
-	public void TakeDamage (float amount)
+		//public void TakeDamage(float amount)
+		//{
+		//	health -= amount;
+
+		//	//healthBar.fillAmount = health / startHealth;
+
+		//	if (health <= 0 && !isDead)
+		//	{
+		//		isDead = true;
+		//		//Die();
+		//	}
+		//}
+
+		//public void Slow (float pct)
+		//{
+		//	speed = startSpeed * (1f - pct);
+		//}
+
+	public void Die()
 	{
-		health -= amount;
+			//isDead = true;
 
-		//healthBar.fillAmount = health / startHealth;
+			// PlayerStats.Money += worth;
 
-		if (health <= 0 && !isDead)
-		{
-			isDead = true;
-			//Die();
-		}
-	}
+			// GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity);
+			// Destroy(effect, 5f);
 
-	//public void Slow (float pct)
-	//{
-	//	speed = startSpeed * (1f - pct);
-	//}
+			// WaveSpawner.EnemiesAlive--;
 
-	public void Die ()
-	{
-		//isDead = true;
-
-		// PlayerStats.Money += worth;
-
-		// GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity);
-		// Destroy(effect, 5f);
-
-		// WaveSpawner.EnemiesAlive--;
-
-		Destroy(gameObject);
+	Destroy(gameObject);
 	}
 
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DamagePackage;
 
 // Script placed to a Bullet 
 public class Bullet1 : MonoBehaviour
@@ -6,11 +7,18 @@ public class Bullet1 : MonoBehaviour
 
 	private Transform target;
 	public float speed = 70f;
-	public int damage = 50;
+	//public int damage = 50;
 	public float explosionRadius = 0f;
 	public GameObject impactEffect;
+	private _Damage damage;
 
-	public void Seek(Transform _target)
+    private void Awake()
+    {
+		damage = _Damage.ReadDamage("Assets/Scripts/Turret/Version2/bulletFeatures.txt");
+    }
+
+
+    public void Seek(Transform _target)
 	{
 		target = _target;
 	}
@@ -52,6 +60,7 @@ public class Bullet1 : MonoBehaviour
 		{
 			Damage(target);
 			//Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, target.gameObject,damage);
+			Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, target.gameObject, damage);
 		}
 
 		Destroy(gameObject);
@@ -75,7 +84,7 @@ public class Bullet1 : MonoBehaviour
 
 		if (e != null)
 		{
-			Messenger<GameObject, int>.Broadcast(GameEvent.ENEMY_HIT, enemy.gameObject, damage);
+			//Messenger<GameObject, int>.Broadcast(GameEvent.ENEMY_HIT, enemy.gameObject, damage);
 			//    e.TakeDamage(damage);
 		}
 		
