@@ -1,21 +1,35 @@
 ﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using DamagePackage;
+using System;
 
-public class LandMine : MonoBehaviour
+public class LandMine : Features
 {
 
     public GameObject explosionPrefab;
     private Vector3 explosionPosition;
     //private int damage = 100;
-    private _Damage damage = new _Damage(DamageType.Impact,"Land Mine",20.0f);
-    private float explosionRadius = 10.0f;
-    private float explosionPower = 1000.0f;
+    //private _Damage damage = new _Damage(DamageType.Impact,"Land Mine",20.0f);
+    //private float explosionRadius = 10.0f;
+    //private float explosionPower = 1000.0f;
     private bool explosion = false;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        string path = "Assets/Scripts/Defense/landMineFeatures.txt";
+        StreamReader sr = new StreamReader(path);
+
+        DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());
+        string descr = sr.ReadLine();
+        float amount = float.Parse(sr.ReadLine());
+
+        damage = new _Damage(type, descr, amount);
+        explosionRadius = float.Parse(sr.ReadLine());
+        explosionPower = float.Parse(sr.ReadLine());
+        cost = float.Parse(sr.ReadLine());
+
         explosionPosition = transform.position;
         explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);
         explosionPrefab.SetActive(false);
@@ -24,13 +38,7 @@ public class LandMine : MonoBehaviour
         //Debug.Log("Tranform Esplosione: " + explosionPrefab.transform.position);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
+    
 
     private void OnTriggerEnter(Collider other)
     {

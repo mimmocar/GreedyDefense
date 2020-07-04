@@ -9,16 +9,13 @@ public enum EnemyType { Barbarian, Dragon, Monster}
 
 public class Enemy : MonoBehaviour {
 
-		//public float startSpeed = 10f;
+		
 		[SerializeField] private EnemyType type;
 		private float[] damegesMultipliers;
 		[HideInInspector]
-		public float speed;
-
+		
 		public float startHealth = 100;
 		private float health;
-
-		public int worth = 50;
 
     // public GameObject deathEffect;
 
@@ -64,7 +61,7 @@ public class Enemy : MonoBehaviour {
 
 	void Start()
 	{
-		//speed = startSpeed;
+		
 		health = startHealth;
 		string eT = type.ToString();
 		string path = "Assets/Scripts/Enemies/" + eT + "DamageMultipliers.txt";
