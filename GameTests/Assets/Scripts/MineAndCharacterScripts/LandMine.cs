@@ -1,13 +1,15 @@
 ﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamagePackage;
 
 public class LandMine : MonoBehaviour
 {
 
     public GameObject explosionPrefab;
     private Vector3 explosionPosition;
-    private int damage = 100;
+    //private int damage = 100;
+    private _Damage damage = new _Damage(DamageType.Impact,"Land Mine",20.0f);
     private float explosionRadius = 10.0f;
     private float explosionPower = 1000.0f;
     private bool explosion = false;
@@ -52,7 +54,8 @@ public class LandMine : MonoBehaviour
                     Debug.Log("Explosion with RigidBody");
                     explosionPrefab.SetActive(true);
                     hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, 0.0f, ForceMode.Force);
-                    Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
+                    //Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
+                    Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, hit.gameObject, damage);
                     Debug.Log(hit);
                     explosion = true;
                 }
@@ -68,7 +71,8 @@ public class LandMine : MonoBehaviour
                         Vector3 dir = hit.transform.position - explosionPosition;
                         float force = Mathf.Clamp(explosionPower / 3, 0, 5000);
                         script.AddImpact(dir, force);
-                        Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
+                        //Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
+                        Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, hit.gameObject, damage);
                         explosion = true;
                     }
 
