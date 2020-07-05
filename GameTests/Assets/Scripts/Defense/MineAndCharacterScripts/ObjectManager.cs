@@ -9,8 +9,8 @@ public class ObjectManager : MonoBehaviour
     //private delegate void OnSpawnObject(Vector3 pos, GameObject pref);
     //Start is called before the first frame update
 
-    private float startCurrency = 70.0f; //implementare lettura da file
-    private float currentCurrency;
+    private int startCurrency = 70; //implementare lettura da file
+    private int currentCurrency;
     private int hit = 0, kills = 0, berserk = 100;
     [SerializeField] GameObject[] prefab;
 
@@ -72,7 +72,7 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    public float GetCost(int i)
+    public int GetCost(int i)
     {
         return prefab[i].GetComponent<Features>().Cost;
     }
@@ -95,7 +95,7 @@ public class ObjectManager : MonoBehaviour
             if (enemy.Dead)
             {
                 enemy.Die();
-                currentCurrency += 20; //implementare lettura valore nemico
+                currentCurrency += enemy.Worth; //implementare lettura valore nemico
 
                 if (kills >= berserk)
                 {

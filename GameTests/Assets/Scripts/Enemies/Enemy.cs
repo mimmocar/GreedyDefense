@@ -14,8 +14,9 @@ public class Enemy : MonoBehaviour {
 		private float[] damegesMultipliers;
 		[HideInInspector]
 		
-		public float startHealth = 100;
+		public float startHealth;
 		private float health;
+		private int worth;
 
     // public GameObject deathEffect;
 
@@ -28,6 +29,14 @@ public class Enemy : MonoBehaviour {
 
 
 	}
+
+	public int Worth
+    {
+        get
+        {
+			return worth;
+        }
+    }
 
 	[Header("Unity Stuff")]
 	public Image healthBar;
@@ -68,6 +77,9 @@ public class Enemy : MonoBehaviour {
 		Debug.Log("PATH LETTO PER IL NEMICO "+eT+": "+path);
 		StreamReader sr = new StreamReader(path);
 	    List<float> dM = new List<float>();
+
+		startHealth = float.Parse(sr.ReadLine());
+		worth = int.Parse(sr.ReadLine());
 
         while (!sr.EndOfStream)
         {

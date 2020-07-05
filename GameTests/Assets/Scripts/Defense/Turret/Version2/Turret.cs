@@ -7,11 +7,9 @@ public class Turret : Features
 {
 
 	private Transform target;
-
-	//public float range = 15f;
-
+	public float range;
 	public GameObject bulletPrefab;
-	//public float fireRate = 1f;
+	public float fireRate;
 	private float fireCountdown = 0f;
 
 	private int bulletFired = 0;
@@ -19,7 +17,7 @@ public class Turret : Features
 	public string enemyTag = "Enemy";
 
 	public Transform partToRotate;
-	//public float turnSpeed = 10f;
+	public float turnSpeed ;
 
 	public Transform firePoint;
 
@@ -34,7 +32,7 @@ public class Turret : Features
 		range = float.Parse(sr.ReadLine());
 		fireRate = float.Parse(sr.ReadLine());
 		turnSpeed = float.Parse(sr.ReadLine());
-		cost = float.Parse(sr.ReadLine());
+		//cost = int.Parse(sr.ReadLine());
 
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}

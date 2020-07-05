@@ -21,7 +21,7 @@ public class UpdateGUI : MonoBehaviour
     {
         //Aggiornamento Kills
         killsText.text = om.Kills.ToString() + "/" + om.Berserk.ToString();
-        currency.text = ((int)om.Currency).ToString(); //implementare conversione a intero della currency
+        currency.text = om.Currency.ToString(); //implementare conversione a intero della currency
         //Implementare aggiornamento parti restanti dell'interfaccia
 
         //Aggiornamento barra della vita dei nemici

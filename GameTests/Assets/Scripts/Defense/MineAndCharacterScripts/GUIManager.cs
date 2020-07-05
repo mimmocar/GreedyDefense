@@ -16,6 +16,7 @@ public class GUIManager : MonoBehaviour
     private Vector2 touchPositionEnd;
     private bool display = false;
     private Rect mine, missileTur, torret;
+    int mineCost, missileTurCost, torretCost;
     private bool evaluateSelection = false;
     private Vector3 worldPosition;
     private bool shooting = false;
@@ -24,6 +25,9 @@ public class GUIManager : MonoBehaviour
     void Start()
     {
         om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
+        mineCost = om.GetCost(0);
+        missileTurCost = om.GetCost(1);
+        torretCost = om.GetCost(2);
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
     }
@@ -125,9 +129,9 @@ public class GUIManager : MonoBehaviour
 
                 GUI.backgroundColor = new Color(0, 0, 0, 0);
                 
-                GUI.Box(mine, ((int)om.GetCost(0)).ToString(), textStyle);  //convertire prezzo in int
-                GUI.Box(missileTur, ((int)om.GetCost(1)).ToString(), textStyle);
-                GUI.Box(torret, ((int)om.GetCost(2)).ToString(), textStyle);
+                GUI.Box(mine, mineCost.ToString(), textStyle);  //convertire prezzo in int
+                GUI.Box(missileTur, missileTurCost.ToString(), textStyle);
+                GUI.Box(torret, torretCost.ToString(), textStyle);
 
             }
 
