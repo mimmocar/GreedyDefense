@@ -7,6 +7,7 @@ public class UpdateGUI : MonoBehaviour
 {
     private ObjectManager om;
     [SerializeField] private Text killsText;
+    [SerializeField] private Text currency;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class UpdateGUI : MonoBehaviour
     {
         //Aggiornamento Kills
         killsText.text = om.Kills.ToString() + "/" + om.Berserk.ToString();
+        currency.text = ((int)om.Currency).ToString(); //implementare conversione a intero della currency
         //Implementare aggiornamento parti restanti dell'interfaccia
 
         //Aggiornamento barra della vita dei nemici

@@ -8,7 +8,11 @@ public class ObjectManager : MonoBehaviour
 {
     //private delegate void OnSpawnObject(Vector3 pos, GameObject pref);
     //Start is called before the first frame update
+
+    private float startCurrency = 70.0f; //implementare lettura da file
+    private float currentCurrency;
     private int hit = 0, kills = 0, berserk = 100;
+    [SerializeField] GameObject[] prefab;
 
     public int Kills
     {
@@ -25,19 +29,27 @@ public class ObjectManager : MonoBehaviour
             return berserk;
         }
     }
-    [SerializeField] GameObject[] prefab;
+
+    public float Currency
+    {
+        get
+        {
+            return currentCurrency;
+        }
+    }
+    
     void Awake()
     {
+        currentCurrency = startCurrency;
         Messenger<Vector3, int>.AddListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
-        //Messenger<GameObject, int>.AddListener(GameEvent.ENEMY_HIT, OnEnemyHit);
         Messenger<GameObject, _Damage>.AddListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
+        Debug.Log("LETTURA FEATURES COST "+prefab[0].GetComponent<Features>().Cost);
 
     }
 
     void OnDestroy()
     {
         Messenger<Vector3, int>.RemoveListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
-        // Messenger<GameObject, int>.RemoveListener(GameEvent.ENEMY_HIT, OnEnemyHit);
         Messenger<GameObject, _Damage>.RemoveListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
     }
 
@@ -49,31 +61,22 @@ public class ObjectManager : MonoBehaviour
 
     }
 
-    void OnSpawnObject(Vector3 position, int i)
+    public void OnSpawnObject(Vector3 position, int i)
     {
-        position += new Vector3(0, prefab[i].transform.localScale.y / 2, 0);
-        Instantiate(prefab[i], position, new Quaternion(0, 0, 0, 0));
+        float cost = prefab[i].GetComponent<Features>().Cost;
+        if (currentCurrency >= cost)
+        {
+            position += new Vector3(0, prefab[i].transform.localScale.y / 2, 0);
+            currentCurrency -= prefab[i].GetComponent<Features>().Cost;
+            Instantiate(prefab[i], position, new Quaternion(0, 0, 0, 0));
+        }
     }
 
-    //void OnEnemyHit(GameObject target, int damage)
-    //{
-    //    Enemy enemy = target.GetComponent<Enemy>();
-    //    hit += 1;
-    //    Debug.Log("Invocazione n " + hit);
-    //    enemy.TakeDamage(damage);
-    //    Debug.Log(enemy + "  Stamina is: " + enemy.GetComponent<Enemy>().Health);
-    //    if (enemy.Dead)
-    //    {
-    //        enemy.Die();
+    public float GetCost(int i)
+    {
+        return prefab[i].GetComponent<Features>().Cost;
+    }
 
-    //        if(kills >= berserk)
-    //        {
-    //            kills = 0;
-    //        }
-    //        kills++;
-    //    }
-
-    //}
     void OnHandleDamage(GameObject target, _Damage damage)
     {
         Enemy enemy = target.GetComponent<Enemy>();
@@ -84,13 +87,15 @@ public class ObjectManager : MonoBehaviour
         {
             float[] damagesMultipilers = enemy.DamagesMultipliers;
             float amount = damage.Amount;
+            int index = (int)damage.Type;
 
-            enemy.Health = enemy.Health - damagesMultipilers[(int)damage.Type] * amount;
-            //enemy.TakeDamage(damage);
+            enemy.Health = enemy.Health - damagesMultipilers[index] * amount;
+            
             Debug.Log(enemy + "  Stamina is: " + enemy.GetComponent<Enemy>().Health);
             if (enemy.Dead)
             {
                 enemy.Die();
+                currentCurrency += 20; //implementare lettura valore nemico
 
                 if (kills >= berserk)
                 {

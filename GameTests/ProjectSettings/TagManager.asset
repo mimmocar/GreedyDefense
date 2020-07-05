@@ -9,6 +9,7 @@ TagManager:
   - floor
   - bullet
   - turret
+  - mine
   layers:
   - Default
   - TransparentFX
