@@ -10,11 +10,12 @@ public class LandMine : Features
 
     public GameObject explosionPrefab;
     private Vector3 explosionPosition;
-    //private int damage = 100;
-    //private _Damage damage = new _Damage(DamageType.Impact,"Land Mine",20.0f);
-    //private float explosionRadius = 10.0f;
-    //private float explosionPower = 1000.0f;
+    
+    private _Damage damage;
+    private float explosionRadius = 10.0f;
+    private float explosionPower = 1000.0f;
     private bool explosion = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -28,7 +29,7 @@ public class LandMine : Features
         damage = new _Damage(type, descr, amount);
         explosionRadius = float.Parse(sr.ReadLine());
         explosionPower = float.Parse(sr.ReadLine());
-        cost = float.Parse(sr.ReadLine());
+        //cost = int.Parse(sr.ReadLine());
 
         explosionPosition = transform.position;
         explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);

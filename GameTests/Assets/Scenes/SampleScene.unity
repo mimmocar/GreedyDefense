@@ -714,7 +714,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 1176019326}
   character: {fileID: 871991578}
-  newSkin: {fileID: 11400000, guid: 55cfc4c12e6954605b1806184e71b7f8, type: 2}
   mineTexture: {fileID: 2800000, guid: d30848abc501d4f6f93be69820f82f3e, type: 3}
   missileTurrTexture: {fileID: 2800000, guid: 38870017ecc3f4dffb0af78afb1acc1c, type: 3}
   torretTexture: {fileID: 2800000, guid: 17528ed70866a43a6bafaa2a97a41416, type: 3}
@@ -745,6 +744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killsText: {fileID: 968387963}
+  currency: {fileID: 1136026371}
 --- !u!4 &346951686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: adc25a9d70eeb2d4791b32af1b2fe767,
@@ -2033,7 +2033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab:
   - {fileID: 8276454261595016206, guid: e04e86a445f4f4563b3451b4115a8848, type: 3}
-  - {fileID: 369439599444984830, guid: 4042491864dafc048bf57c65a72dca21, type: 3}
+  - {fileID: 1000010346017410, guid: aecedb29f6676854aa0d6bca3f2f1283, type: 3}
   - {fileID: 174700, guid: 160da3a4ea1a8fb408844aace652fee0, type: 3}
 --- !u!4 &946440325
 Transform:
