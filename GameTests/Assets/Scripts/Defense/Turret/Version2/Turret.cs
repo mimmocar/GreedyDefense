@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 
 // Script attached to a Turret
-public class Turret : MonoBehaviour
+public class Turret : Features
 {
 
 	private Transform target;
 
-	public float range = 15f;
+	//public float range = 15f;
 
 	public GameObject bulletPrefab;
-	public float fireRate = 1f;
+	//public float fireRate = 1f;
 	private float fireCountdown = 0f;
 
 	private int bulletFired = 0;
@@ -18,13 +19,22 @@ public class Turret : MonoBehaviour
 	public string enemyTag = "Enemy";
 
 	public Transform partToRotate;
-	public float turnSpeed = 10f;
+	//public float turnSpeed = 10f;
 
 	public Transform firePoint;
 
 	// Use this for initialization
-	void Start()
+	protected override void Start()
 	{
+		
+		
+		string path = "Assets/Scripts/Defense/turretFeatures.txt";
+		StreamReader sr = new StreamReader(path);
+
+		range = float.Parse(sr.ReadLine());
+		fireRate = float.Parse(sr.ReadLine());
+		turnSpeed = float.Parse(sr.ReadLine());
+		cost = float.Parse(sr.ReadLine());
 
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}
@@ -56,7 +66,7 @@ public class Turret : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	 void Update()
 	{
 		if (target == null)
 		{

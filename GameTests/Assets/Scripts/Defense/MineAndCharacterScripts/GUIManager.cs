@@ -9,18 +9,21 @@ public class GUIManager : MonoBehaviour
 
     [SerializeField] VariableJoystick joystick;
     [SerializeField] GameObject character;
-    [SerializeField] private Texture2D mineTexture, wallTexture, torretTexture;
+    private ObjectManager om;
+    [SerializeField] private Texture2D mineTexture, missileTurrTexture, torretTexture;
     private Vector2 touchPositionStart;
     private Vector2 position;
     private Vector2 touchPositionEnd;
     private bool display = false;
-    private Rect mine, wall, torret;
+    private Rect mine, missileTur, torret;
     private bool evaluateSelection = false;
     private Vector3 worldPosition;
     private bool shooting = false;
 
+
     void Start()
     {
+        om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
     }
@@ -97,39 +100,55 @@ public class GUIManager : MonoBehaviour
     
     void OnGUI()
     {
+        
 
         paused = GameControl.IsGamePaused();
         if (!paused) { 
        
             if (display)
             {
+
+                GUIStyle textStyle = new GUIStyle();
+                textStyle.fontSize = 50;
+                textStyle.alignment = TextAnchor.LowerRight;
+                textStyle.normal.textColor = Color.black;
+                textStyle.hover.textColor = Color.black;
+
                 mine = new Rect(position.x - 300, position.y - 200, 200, 150);
-                wall = new Rect(position.x - 100, position.y - 200, 200, 150);
+                missileTur = new Rect(position.x - 100, position.y - 200, 200, 150);
                 torret = new Rect(position.x + 100, position.y - 200, 200, 150);
 
-
+                GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
                 GUI.Box(mine, mineTexture);
-                GUI.Box(wall, wallTexture);
+                GUI.Box(missileTur, missileTurrTexture);
                 GUI.Box(torret, torretTexture);
 
-            
+                GUI.backgroundColor = new Color(0, 0, 0, 0);
+                
+                GUI.Box(mine, ((int)om.GetCost(0)).ToString(), textStyle);  //convertire prezzo in int
+                GUI.Box(missileTur, ((int)om.GetCost(1)).ToString(), textStyle);
+                GUI.Box(torret, ((int)om.GetCost(2)).ToString(), textStyle);
+
             }
 
             if (evaluateSelection)
             {
                 if (mine.Contains(touchPositionEnd))
                 {
-                    Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 0);
+                    //Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 0);
+                    om.OnSpawnObject(worldPosition, 0);
                     Debug.Log("Selected arma 1");
                 }
-                else if (wall.Contains(touchPositionEnd))
+                else if (missileTur.Contains(touchPositionEnd))
                 {
-                    Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 1);
+                    //Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 1);
+                    om.OnSpawnObject(worldPosition, 1);
                     Debug.Log("Selected arma 2");
                 }
                 else if (torret.Contains(touchPositionEnd))
                 {
-                    Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 2);
+                    //Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 2);
+                    om.OnSpawnObject(worldPosition, 2);
                     Debug.Log("Selected arma 3");
                 }
 

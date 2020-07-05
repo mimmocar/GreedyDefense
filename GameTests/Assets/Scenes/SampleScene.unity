@@ -714,9 +714,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 1176019326}
   character: {fileID: 871991578}
-  mineTexture: {fileID: 2800000, guid: 26b412207c2f14037ab3b51e275261ff, type: 3}
-  wallTexture: {fileID: 2800000, guid: 53f86591f06224a67876ef01202d58f5, type: 3}
-  torretTexture: {fileID: 2800000, guid: d7bfe149d3c0745f184ef49f4774ee61, type: 3}
+  newSkin: {fileID: 11400000, guid: 55cfc4c12e6954605b1806184e71b7f8, type: 2}
+  mineTexture: {fileID: 2800000, guid: d30848abc501d4f6f93be69820f82f3e, type: 3}
+  missileTurrTexture: {fileID: 2800000, guid: 38870017ecc3f4dffb0af78afb1acc1c, type: 3}
+  torretTexture: {fileID: 2800000, guid: 17528ed70866a43a6bafaa2a97a41416, type: 3}
 --- !u!4 &248748819
 Transform:
   m_ObjectHideFlags: 0
