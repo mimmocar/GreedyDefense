@@ -26,7 +26,7 @@ public class Turret : Features
 	{
 		
 		
-		string path = "Assets/Scripts/Defense/turretFeatures.txt";
+		string path = "Assets/Resources/File/turretFeatures.txt";
 		StreamReader sr = new StreamReader(path);
 
 		range = float.Parse(sr.ReadLine());

@@ -13,7 +13,8 @@ public class AnimationScript : MonoBehaviour
         Vector2 movement = context.ReadValue<Vector2>();
         anim.SetFloat("vert", movement.y);
         anim.SetFloat("hor", movement.x);
-    } 
+    }
+
     public void OnRun(InputAction.CallbackContext context)
     {
         float run = context.ReadValue<float>();
