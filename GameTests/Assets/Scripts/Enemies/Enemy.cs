@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour {
 	void Start()
 	{
 		
-		health = startHealth;
+		
 		string eT = type.ToString();
 		string path = "Assets/Scripts/Enemies/" + eT + "DamageMultipliers.txt";
 		Debug.Log("PATH LETTO PER IL NEMICO "+eT+": "+path);
@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviour {
 	    List<float> dM = new List<float>();
 
 		startHealth = float.Parse(sr.ReadLine());
+		health = startHealth;
 		worth = int.Parse(sr.ReadLine());
 
         while (!sr.EndOfStream)
