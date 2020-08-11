@@ -12,8 +12,9 @@ public class Enemy : MonoBehaviour {
 		
 		[SerializeField] private EnemyType type;
 		private float[] damegesMultipliers;
-		[HideInInspector]
-		
+	[HideInInspector]
+
+		private Camera cam;
 		public float startHealth;
 		private float health;
 		private int worth;
@@ -39,6 +40,7 @@ public class Enemy : MonoBehaviour {
     }
 
 	[Header("Unity Stuff")]
+	public Image hbContainer;
 	public Image healthBar;
 
 	private bool isDead = false;
@@ -94,6 +96,8 @@ public class Enemy : MonoBehaviour {
 
         }
 
+		cam = Camera.main;
+
 
 	}
 
@@ -129,4 +133,8 @@ public class Enemy : MonoBehaviour {
 	Destroy(gameObject);
 	}
 
+	void LateUpdate()
+    {
+		hbContainer.transform.LookAt(healthBar.transform.position + cam.transform.forward);
+    }
 }

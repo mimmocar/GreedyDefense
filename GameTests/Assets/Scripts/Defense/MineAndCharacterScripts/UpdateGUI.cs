@@ -35,7 +35,15 @@ public class UpdateGUI : MonoBehaviour
                 float health = enemy.Health;
                 Image healthBar = enemy.healthBar;
                 float startH = enemy.startHealth;
-                healthBar.fillAmount = health / startH;
+                //healthBar.fillAmount = health / startH;
+                
+                float speed = 2f;
+                float start = healthBar.fillAmount;
+                float end = health / startH;
+
+                healthBar.fillAmount = Mathf.Lerp(start, end, speed * Time.deltaTime);
+
+
             }
 
         }
