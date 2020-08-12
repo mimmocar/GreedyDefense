@@ -7,9 +7,10 @@ using System.Collections.Generic;
 public enum EnemyType { Barbarian, Dragon, Monster}
 
 
-public class Enemy : MonoBehaviour {
-
+public class Enemy : MonoBehaviour 
+{
 		
+<<<<<<< HEAD
 		[SerializeField] private EnemyType type;
 		private float[] damegesMultipliers;
 	[HideInInspector]
@@ -18,6 +19,31 @@ public class Enemy : MonoBehaviour {
 		public float startHealth;
 		private float health;
 		private int worth;
+=======
+	[SerializeField] private EnemyType type;
+	private float[] damegesMultipliers;
+	[HideInInspector]
+		
+	public float startHealth;
+	private float health;
+	private int worth;
+
+	private int enemiesDied = 0;
+
+	public int Died
+	{
+		get
+		{
+			return enemiesDied;
+		}
+
+		set
+		{
+			enemiesDied = value;
+		}
+	}
+
+>>>>>>> ae71a95e0d1272633363b42e3feaef3c68a0965b
 
     // public GameObject deathEffect;
 
@@ -39,8 +65,11 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+<<<<<<< HEAD
 	[Header("Unity Stuff")]
 	public Image hbContainer;
+=======
+>>>>>>> ae71a95e0d1272633363b42e3feaef3c68a0965b
 	public Image healthBar;
 
 	private bool isDead = false;
@@ -75,7 +104,7 @@ public class Enemy : MonoBehaviour {
 		
 		
 		string eT = type.ToString();
-		string path = "Assets/Scripts/Enemies/" + eT + "DamageMultipliers.txt";
+		string path = "Assets/Resources/File/" + eT + "DamageMultipliers.txt";
 		Debug.Log("PATH LETTO PER IL NEMICO "+eT+": "+path);
 		StreamReader sr = new StreamReader(path);
 	    List<float> dM = new List<float>();
@@ -96,7 +125,11 @@ public class Enemy : MonoBehaviour {
 
         }
 
+<<<<<<< HEAD
 		cam = Camera.main;
+=======
+		health = startHealth;
+>>>>>>> ae71a95e0d1272633363b42e3feaef3c68a0965b
 
 
 	}
@@ -121,16 +154,18 @@ public class Enemy : MonoBehaviour {
 
 	public void Die()
 	{
-			//isDead = true;
+		//isDead = true;
 
-			// PlayerStats.Money += worth;
+		// PlayerStats.Money += worth;
 
-			// GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity);
-			// Destroy(effect, 5f);
+		// GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity);
+		// Destroy(effect, 5f);
 
-			// WaveSpawner.EnemiesAlive--;
+		//WaveSpawner1.EnemiesAlive--;
+		//Died++;
 
-	Destroy(gameObject);
+		//Messenger<int>.Broadcast("Enemy died", Died);
+		Destroy(gameObject);
 	}
 
 	void LateUpdate()

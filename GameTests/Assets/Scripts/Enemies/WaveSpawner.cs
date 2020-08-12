@@ -1,114 +1,128 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Globalization;
 
-public class WaveSpawner : MonoBehaviour
-{
-    public enum SpawnState { SPAWNING, WAITING, COUNTING };
+public class WaveSpawner : MonoBehaviour {
 
-    [System.Serializable]
-    public class Wave
-    {
-        public string name;
-        public Transform enemy;
-        public int count;
-        public float rate;
-    }
+	private const string NEW_LINE = "\n";
+	private const string SEMICOLON = ";";
 
-    public Wave[] waves;
-    private int nextWave = 0;
+	private string filePath = "File/Level1_waves";
+	private string enemyPath = "EnemiesPrefab/";
+
+	private enum SpawnState { SPAWNING, WAITING, COUNTING };
+
+	private SpawnState state = SpawnState.COUNTING;
+
+	[SerializeField] protected Transform[] spawnPoints;
+	private List<Wave> waves = new List<Wave>();
+	private List<float> timeBetweenWaves = new List<float>();
+	private int waveIndex = -1;
+	private float countDown;
+
+	private List<Transform> enemies = new List<Transform>();
+
+	private void Start()
+	{
+		GameObject enemy;
+
+		TextAsset data = Resources.Load<TextAsset>(filePath);	//Presuppone che il file sia in Asset/Resources
+		string[] lines = data.text.Split(NEW_LINE.ToCharArray());
+		
+		for (int i = 0; i < lines.Length; i++)
+		{
+			string enemyPrefab = "";
+
+			string[] row = lines[i].Split(SEMICOLON.ToCharArray());
+
+			timeBetweenWaves.Add(float.Parse(row[0]));
+
+			int enemiesNum = int.Parse(row[1]);
+			float rate = float.Parse(row[2]);
+			string enemyType = row[3];
+
+			if (enemyType.Equals("B"))
+				enemyPrefab = enemyPath + "BarbarianAI";
+			else if (enemyType.Equals("D"))
+				enemyPrefab = enemyPath + "DragonSoulEaterBlueHPAI";
+			else if (enemyType.Equals("M"))
+				enemyPrefab = enemyPath + "MonsterAI";
+			else
+				Debug.LogError("Error reading waves file: illegal enemy prefab id");
+			enemy = Resources.Load<GameObject>(enemyPrefab);
+
+			Wave wave = new Wave(enemiesNum, rate, enemy.transform);
+			waves.Add(wave);
+		}
+		countDown = timeBetweenWaves[0];
+		StartCoroutine(RunSpawner());
+	}
+
+	// This replaces Update method
+	private IEnumerator RunSpawner()
+	{
+		// First time waiting
+		yield return new WaitForSeconds(countDown);
+
+		while (true)
+		{
+			state = SpawnState.SPAWNING;
+			
+			// Do the spawning and at the same time wait until it's finished
+			yield return SpawnWave();
+
+			state = SpawnState.WAITING;
+
+			// Wait until all enemies died (are destroyed)
+			yield return new WaitWhile(EnemyisAlive);
+
+			// Ended level control
+			if (waveIndex == waves.Count - 1)
+			{
+				Debug.Log("LEVEL FINISHED");
+				StopCoroutine(RunSpawner());
+				break;
+			}
 
 
-    public float timeBetweenWaves = 5f;
-    private float waveCountDown;
+			state = SpawnState.COUNTING;
+	
+		// wait 5 seconds
+			yield return new WaitForSeconds(countDown);
+		}
+	}
 
-    private float searchCountDown = 1f;
+	private bool EnemyisAlive()
+	{
+		// uses Linq to filter out null (previously detroyed) entries
+		enemies = enemies.Where(e => e != null).ToList();
 
-    public SpawnState state = SpawnState.COUNTING;
-    // Start is called before the first frame update
-    void Start()
-    {
-        waveCountDown = timeBetweenWaves;
-    }
+		return enemies.Count > 0;
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (state == SpawnState.WAITING)
-        {
-            if (!EnemyIsAlive())
-            {
-                WaveCompleted();
-            }
-            else
-            {
-                return;
-            }
-        }
+	private IEnumerator SpawnWave()
+	{
+		waveIndex++;
+		countDown = timeBetweenWaves[waveIndex];
+	
+		Wave wave = waves[waveIndex];
+		for (int i = 0; i < wave.WaveCount; i++)
+		{
+			for (int j = 0; j < spawnPoints.Length; j++)
+			{
+				SpawnEnemy(spawnPoints[j], wave.Enemy);
+			}
+			yield return new WaitForSeconds(1.0f/wave.WaveRate);
+		}
+		
+	}
 
-        if (waveCountDown <= 0)
-        {
-            if (state != SpawnState.SPAWNING)
-            {
-                StartCoroutine(SpawnWave(waves[nextWave]));
-            }
-        }
-        else
-        {
-            waveCountDown -= Time.deltaTime;
-        }
-    }
-
-    void WaveCompleted()
-    {
-        Debug.Log("Wave completed");
-
-        state = SpawnState.COUNTING;
-        waveCountDown = timeBetweenWaves;
-        if (nextWave + 1 > waves.Length - 1)
-        {
-            nextWave = 0;
-            Debug.Log("All waves complete!");
-        }
-        else
-        {
-            nextWave++;
-        }
-
-    }
-
-    bool EnemyIsAlive()
-    {
-        searchCountDown -= Time.deltaTime;
-        if (searchCountDown <= 0f)
-        {
-            searchCountDown = 1f;
-            if (GameObject.FindGameObjectWithTag("Enemey") == null)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    IEnumerator SpawnWave(Wave _wave)
-    {
-        Debug.Log("Spawning wave: " + _wave.name);
-        state = SpawnState.SPAWNING;
-        for (int i = 0; i < _wave.count; i++)
-        {
-            SpawnEnemy(_wave.enemy);
-            yield return new WaitForSeconds(1f / _wave.rate);
-        }
-        state = SpawnState.WAITING;
-
-        yield break;
-    }
-
-    void SpawnEnemy(Transform _enemy)
-    {
-        Instantiate(_enemy, transform.position, transform.rotation);
-        Debug.Log("Spawning Enemy: " + _enemy.name);
-    }
+	private void SpawnEnemy(Transform point, Transform enemy)
+	{
+		enemies.Add(Instantiate(enemy, point.position, point.rotation));
+	}
 }

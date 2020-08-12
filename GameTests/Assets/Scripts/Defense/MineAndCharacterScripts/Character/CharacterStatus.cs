@@ -1,4 +1,5 @@
-﻿using UnityEngine; using UnityEngine.InputSystem;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class CharacterStatus : MonoBehaviour
@@ -85,7 +86,9 @@ public class CharacterStatus : MonoBehaviour
             isGrounded = false;
         }
 
-    }      public void OnWalking(InputAction.CallbackContext context)
+    }
+
+    public void OnWalking(InputAction.CallbackContext context)
     {
         movement= context.ReadValue<Vector2>().y;
         rotation= context.ReadValue<Vector2>().x;
@@ -111,7 +114,8 @@ public class CharacterStatus : MonoBehaviour
             isRotating = false;
             //anim.SetBool("isMoving", false);
         }
-    } 
+    }
+
     public void OnRunning(InputAction.CallbackContext context)
     {
         float run = context.ReadValue<float>();
