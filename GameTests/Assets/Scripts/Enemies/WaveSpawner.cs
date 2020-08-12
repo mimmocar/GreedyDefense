@@ -91,14 +91,14 @@ public class WaveSpawner : MonoBehaviour {
 
 			state = SpawnState.COUNTING;
 	
-		// wait 5 seconds
+			// Wait next wave
 			yield return new WaitForSeconds(countDown);
 		}
 	}
 
 	private bool EnemyisAlive()
 	{
-		// uses Linq to filter out null (previously detroyed) entries
+		// Uses Linq to filter out null (previously detroyed) entries
 		enemies = enemies.Where(e => e != null).ToList();
 
 		return enemies.Count > 0;
