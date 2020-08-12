@@ -10,23 +10,15 @@ public enum EnemyType { Barbarian, Dragon, Monster}
 public class Enemy : MonoBehaviour 
 {
 		
-<<<<<<< HEAD
 		[SerializeField] private EnemyType type;
 		private float[] damegesMultipliers;
-	[HideInInspector]
+		[HideInInspector]
 
 		private Camera cam;
 		public float startHealth;
 		private float health;
 		private int worth;
-=======
-	[SerializeField] private EnemyType type;
-	private float[] damegesMultipliers;
-	[HideInInspector]
-		
-	public float startHealth;
-	private float health;
-	private int worth;
+
 
 	private int enemiesDied = 0;
 
@@ -43,7 +35,6 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
->>>>>>> ae71a95e0d1272633363b42e3feaef3c68a0965b
 
     // public GameObject deathEffect;
 
@@ -65,11 +56,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
+
 	[Header("Unity Stuff")]
 	public Image hbContainer;
-=======
->>>>>>> ae71a95e0d1272633363b42e3feaef3c68a0965b
 	public Image healthBar;
 
 	private bool isDead = false;
@@ -125,11 +114,11 @@ public class Enemy : MonoBehaviour
 
         }
 
-<<<<<<< HEAD
+
 		cam = Camera.main;
-=======
+
 		health = startHealth;
->>>>>>> ae71a95e0d1272633363b42e3feaef3c68a0965b
+
 
 
 	}
