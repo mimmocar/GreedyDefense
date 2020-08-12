@@ -19,7 +19,7 @@ public class LandMine : Features
     // Start is called before the first frame update
     void Awake()
     {
-        string path = "Assets/Scripts/Defense/landMineFeatures.txt";
+        string path = "Assets/Resources/File/landMineFeatures.txt";
         StreamReader sr = new StreamReader(path);
 
         DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());

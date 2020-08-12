@@ -14,7 +14,7 @@ public class Bullet1 : MonoBehaviour
 
     private void Awake()
     {
-		damage = _Damage.ReadDamage("Assets/Scripts/Defense/Turret/Version2/bulletFeatures.txt");
+		damage = _Damage.ReadDamage("Assets/Resources/File/bulletFeatures.txt");
     }
 
 
