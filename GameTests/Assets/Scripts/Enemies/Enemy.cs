@@ -10,13 +10,15 @@ public enum EnemyType { Barbarian, Dragon, Monster}
 public class Enemy : MonoBehaviour 
 {
 		
-	[SerializeField] private EnemyType type;
-	private float[] damegesMultipliers;
-	[HideInInspector]
-		
-	public float startHealth;
-	private float health;
-	private int worth;
+		[SerializeField] private EnemyType type;
+		private float[] damegesMultipliers;
+		[HideInInspector]
+
+		private Camera cam;
+		public float startHealth;
+		private float health;
+		private int worth;
+
 
 	private int enemiesDied = 0;
 
@@ -54,6 +56,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+	[Header("Unity Stuff")]
+	public Image hbContainer;
 	public Image healthBar;
 
 	private bool isDead = false;
@@ -94,6 +99,7 @@ public class Enemy : MonoBehaviour
 	    List<float> dM = new List<float>();
 
 		startHealth = float.Parse(sr.ReadLine());
+		health = startHealth;
 		worth = int.Parse(sr.ReadLine());
 
         while (!sr.EndOfStream)
@@ -108,7 +114,11 @@ public class Enemy : MonoBehaviour
 
         }
 
+
+		cam = Camera.main;
+
 		health = startHealth;
+
 
 
 	}
@@ -147,4 +157,8 @@ public class Enemy : MonoBehaviour
 		Destroy(gameObject);
 	}
 
+	void LateUpdate()
+    {
+		hbContainer.transform.LookAt(healthBar.transform.position + cam.transform.forward);
+    }
 }

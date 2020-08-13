@@ -26,19 +26,28 @@ public class UpdateGUI : MonoBehaviour
 
         //Aggiornamento barra della vita dei nemici
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject en in enemies)
+
+        foreach (GameObject en in enemies)
         {
             Enemy enemy = en.GetComponent<Enemy>();
 
-            if(enemy != null)
+            if (enemy != null)
             {
                 float health = enemy.Health;
                 Image healthBar = enemy.healthBar;
                 float startH = enemy.startHealth;
-                healthBar.fillAmount = health / startH;
+                //healthBar.fillAmount = health / startH;
+
+                float speed = 2f;
+                float start = healthBar.fillAmount;
+                float end = health / startH;
+
+                healthBar.fillAmount = Mathf.Lerp(start, end, speed * Time.deltaTime);
+
+
             }
 
-        }
 
+        }
     }
 }
