@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ namespace DamagePackage
 
             DamageType type = (DamageType) Enum.Parse(typeof(DamageType),sr.ReadLine());
             string description = sr.ReadLine();
-            float amount = (float)float.Parse(sr.ReadLine()); //ipotizzo formattazione del file e contenuto singolo
+            float amount = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture); //ipotizzo formattazione del file e contenuto singolo
 
             return new _Damage(type, description, amount);
 

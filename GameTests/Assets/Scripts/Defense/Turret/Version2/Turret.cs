@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Globalization;
 
 // Script attached to a Turret
 public class Turret : Features
@@ -29,10 +30,10 @@ public class Turret : Features
 		string path = "Assets/Resources/File/turretFeatures.txt";
 		StreamReader sr = new StreamReader(path);
 
-		range = float.Parse(sr.ReadLine());
-		fireRate = float.Parse(sr.ReadLine());
-		turnSpeed = float.Parse(sr.ReadLine());
-		//cost = int.Parse(sr.ReadLine());
+		range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		turnSpeed = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		//cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}
