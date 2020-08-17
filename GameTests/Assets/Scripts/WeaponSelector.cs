@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using System.Globalization;
 
 public class WeaponSelector : MonoBehaviour
 {
@@ -37,10 +37,10 @@ public class WeaponSelector : MonoBehaviour
             string path = "Assets/Resources/File/weapon"+(i+1)+"Features.txt";
             StreamReader sr = new StreamReader(path);
 
-            float range = float.Parse(sr.ReadLine());
-            float fireRate = float.Parse(sr.ReadLine());
-            float damage = float.Parse(sr.ReadLine());
-            int price = int.Parse(sr.ReadLine());
+            float range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            float fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            float damage = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            int price = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
             prices[i] = price;
 
             Image rangeIm = levelButtons[i].transform.Find("RangePanel").Find("RangeFront").GetComponent<Image>();

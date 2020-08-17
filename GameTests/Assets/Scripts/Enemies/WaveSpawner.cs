@@ -39,10 +39,10 @@ public class WaveSpawner : MonoBehaviour {
 
 			string[] row = lines[i].Split(SEMICOLON.ToCharArray());
 
-			timeBetweenWaves.Add(float.Parse(row[0]));
+			timeBetweenWaves.Add(float.Parse(row[0], CultureInfo.InvariantCulture));
 
-			int enemiesNum = int.Parse(row[1]);
-			float rate = float.Parse(row[2]);
+			int enemiesNum = int.Parse(row[1], CultureInfo.InvariantCulture);
+			float rate = float.Parse(row[2], CultureInfo.InvariantCulture);
 			string enemyType = row[3];
 
 			if (enemyType.Equals("B"))
@@ -91,14 +91,14 @@ public class WaveSpawner : MonoBehaviour {
 
 			state = SpawnState.COUNTING;
 	
-		// wait 5 seconds
+			// Wait next wave
 			yield return new WaitForSeconds(countDown);
 		}
 	}
 
 	private bool EnemyisAlive()
 	{
-		// uses Linq to filter out null (previously detroyed) entries
+		// Uses Linq to filter out null (previously detroyed) entries
 		enemies = enemies.Where(e => e != null).ToList();
 
 		return enemies.Count > 0;

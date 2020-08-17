@@ -3,6 +3,7 @@ using UnityEngine.InputSystem.Processors;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 
 public enum EnemyType { Barbarian, Dragon, Monster}
 
@@ -98,17 +99,17 @@ public class Enemy : MonoBehaviour
 		StreamReader sr = new StreamReader(path);
 	    List<float> dM = new List<float>();
 
-		startHealth = float.Parse(sr.ReadLine());
+		startHealth = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 		health = startHealth;
-		worth = int.Parse(sr.ReadLine());
+		worth = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
         while (!sr.EndOfStream)
         {
-			dM.Add(float.Parse(sr.ReadLine()));
+			dM.Add(float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture));
         }
 
 		damegesMultipliers = dM.ToArray();
-        for(int i=0;i< damegesMultipliers.Length -1; i++)
+        for(int i=0;i< damegesMultipliers.Length; i++)
         {
 			Debug.Log(i + "   " + damegesMultipliers[i]);
 

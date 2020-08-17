@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using DamagePackage;
 using System;
+using System.Globalization;
 
 public class LandMine : Features
 {
@@ -24,12 +25,12 @@ public class LandMine : Features
 
         DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());
         string descr = sr.ReadLine();
-        float amount = float.Parse(sr.ReadLine());
+        float amount = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
         damage = new _Damage(type, descr, amount);
-        explosionRadius = float.Parse(sr.ReadLine());
-        explosionPower = float.Parse(sr.ReadLine());
-        //cost = int.Parse(sr.ReadLine());
+        explosionRadius = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        explosionPower = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        //cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
         explosionPosition = transform.position;
         explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);
