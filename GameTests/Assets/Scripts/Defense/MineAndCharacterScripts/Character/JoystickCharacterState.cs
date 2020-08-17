@@ -6,6 +6,7 @@ public class JoystickCharacterState : MonoBehaviour
 {
 
     [SerializeField] VariableJoystick joystick;
+    [SerializeField] FloatingButton shootingButton;
     protected bool isMoving;
     protected bool isRotating;
     protected bool isGrounded;
@@ -98,6 +99,7 @@ public class JoystickCharacterState : MonoBehaviour
         rotation = joystick.Horizontal;
         isMoving = movement != 0;
         isRotating = rotation != 0;
+        isShooting = shootingButton.IsShooting;
 
     }
 }
