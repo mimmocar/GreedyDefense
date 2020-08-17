@@ -3458,6 +3458,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4313652152875760578, guid: 8fd188c55c38e1945990a3627667cbfe,
+        type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 5251478670977697333, guid: ed18278a397e6144cb605f63dd7320da,
+        type: 3}
+    - target: {fileID: 4313652152875760578, guid: 8fd188c55c38e1945990a3627667cbfe,
+        type: 3}
+      propertyPath: weaponPrefab
+      value: 
+      objectReference: {fileID: 5251478670977697333, guid: ed18278a397e6144cb605f63dd7320da,
+        type: 3}
     - target: {fileID: 4313652152875760579, guid: 8fd188c55c38e1945990a3627667cbfe,
         type: 3}
       propertyPath: joystick
@@ -3467,6 +3479,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FG3D_Ogre
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807003163131971249, guid: 8fd188c55c38e1945990a3627667cbfe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fd188c55c38e1945990a3627667cbfe, type: 3}

@@ -18,6 +18,8 @@ public class CharacterJoystickMovement : MonoBehaviour
     Quaternion targetRotation;
     Transform cam;
     Camera followingCamera;
+    protected GameObject weapon;
+    public GameObject weaponPrefab;
 
     protected JoystickCharacterState status;
     private void Awake()
@@ -31,6 +33,11 @@ public class CharacterJoystickMovement : MonoBehaviour
         cam = GameObject.Find("FollowingCamera").transform;
         status = GetComponent<JoystickCharacterState>();
         _charController = GetComponent<CharacterController>();
+
+        GameObject rHand = GameObject.Find("rHand");
+        weapon = Instantiate(weaponPrefab, rHand.transform.position, Quaternion.Euler(-90, 0, 180));
+        weapon.transform.parent = rHand.transform;
+        weapon.SetActive(true);
 
     }
 
