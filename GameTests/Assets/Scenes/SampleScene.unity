@@ -744,6 +744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 1176019326}
+  shootingButton: {fileID: 987594352}
   character: {fileID: 871991578}
   mineTexture: {fileID: 2800000, guid: d30848abc501d4f6f93be69820f82f3e, type: 3}
   missileTurrTexture: {fileID: 2800000, guid: 38870017ecc3f4dffb0af78afb1acc1c, type: 3}
@@ -1924,11 +1925,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871991578}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdaf30352c28d764582c4ea75e5c4f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waeponPrefabs:
+  - {fileID: 5251478670977697333, guid: ed18278a397e6144cb605f63dd7320da, type: 3}
+  - {fileID: 2737534605285874672, guid: 855b47bc6a74644ebad75fdb75b055cd, type: 3}
+  bulletPrefabs:
+  - {fileID: 8328437907177306254, guid: c474cc856c5c64d6da6e073b52e42b43, type: 3}
+  - {fileID: 6639248345562873518, guid: 55d2e4946fe657d458dcbc97973be958, type: 3}
   range: 15
   bulletPrefab: {fileID: 6639248345562873518, guid: 55d2e4946fe657d458dcbc97973be958,
     type: 3}
@@ -1953,7 +1960,6 @@ GameObject:
   m_Component:
   - component: {fileID: 946440325}
   - component: {fileID: 946440324}
-  - component: {fileID: 946440326}
   m_Layer: 0
   m_Name: ObjectManager
   m_TagString: Untagged
@@ -1991,27 +1997,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &946440326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946440323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b836e279708c0c4cb863b644b8e7b3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 871991578}
-  range: 15
-  bulletPrefab: {fileID: 6639248345562873518, guid: 55d2e4946fe657d458dcbc97973be958,
-    type: 3}
-  fireRate: 1
-  enemyTag: Enemy
-  partToRotate: {fileID: 871991585}
-  turnSpeed: 10
-  firePoint: {fileID: 1038895850}
 --- !u!1001 &953505466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2266,6 +2251,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968387961}
   m_CullTransparentMesh: 0
+--- !u!114 &987594352 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6113136979605858874, guid: 0d230cc8be529a542a08cb878ab14b18,
+    type: 3}
+  m_PrefabInstance: {fileID: 1938287796}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 673591a959e8148e5a17d553d6448a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1010444256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3475,6 +3472,11 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1176019326}
+    - target: {fileID: 4313652152875760579, guid: 8fd188c55c38e1945990a3627667cbfe,
+        type: 3}
+      propertyPath: shootingButton
+      value: 
+      objectReference: {fileID: 987594352}
     - target: {fileID: 4313652152875760581, guid: 8fd188c55c38e1945990a3627667cbfe,
         type: 3}
       propertyPath: m_Name
@@ -3949,7 +3951,7 @@ PrefabInstance:
     - target: {fileID: 8170153791668043269, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
       propertyPath: m_Name
-      value: Floating Joystick
+      value: Floating Button
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043271, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}

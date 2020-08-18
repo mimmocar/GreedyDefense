@@ -8,6 +8,7 @@ public class GUIManager : MonoBehaviour
     private bool paused;
 
     [SerializeField] VariableJoystick joystick;
+    [SerializeField] FloatingButton shootingButton;
     [SerializeField] GameObject character;
     private ObjectManager om;
     [SerializeField] private Texture2D mineTexture, missileTurrTexture, torretTexture;
@@ -60,7 +61,7 @@ public class GUIManager : MonoBehaviour
                     position.y = Screen.height - position.y;
                     Debug.Log("Touch Position: " + position);
                     Debug.Log("Rect Position: " + (position.y - 50));
-                    if (!joystick.isActive && !shooting)
+                    if (!joystick.isActive && !shootingButton.IsShooting)
                     {
                         display = true;
                     }
@@ -74,7 +75,7 @@ public class GUIManager : MonoBehaviour
                     display = false;
                 }
             }
-            else if (joystick.isActive || shooting)
+            else if (joystick.isActive || shootingButton.IsShooting)  //controllare che l'accesso allo stato sia consentito
             {
                 display = false;
             }

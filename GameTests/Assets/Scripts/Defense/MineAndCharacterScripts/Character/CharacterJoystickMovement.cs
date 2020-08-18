@@ -34,11 +34,6 @@ public class CharacterJoystickMovement : MonoBehaviour
         status = GetComponent<JoystickCharacterState>();
         _charController = GetComponent<CharacterController>();
 
-        GameObject rHand = GameObject.Find("rHand");
-        weapon = Instantiate(weaponPrefab, rHand.transform.position, Quaternion.Euler(-90, 0, 180));
-        weapon.transform.parent = rHand.transform;
-        weapon.SetActive(true);
-
     }
 
     // Update is called once per frame
@@ -61,18 +56,21 @@ public class CharacterJoystickMovement : MonoBehaviour
         if (followingCamera.enabled)
         {
             anim.enabled = true;
-            if (!status.IsMoving && !status.IsRotating)
+
+            if (!status.IsShooting)
             {
-                anim.SetBool("isMoving", false);
-                anim.SetBool("rotation", false);
-                return;
+                if (!status.IsMoving && !status.IsRotating)
+                {
+                    anim.SetBool("isMoving", false);
+                    anim.SetBool("rotation", false);
+                    return;
 
+                }
+                GetInput();
+                CalculateDirection();
+                Rotate();
+                Move();
             }
-            GetInput();
-            CalculateDirection();
-            Rotate();
-            Move();
-
 
         }
         else

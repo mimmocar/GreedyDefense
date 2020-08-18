@@ -13,7 +13,16 @@ public class Button : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private Canvas canvas;
     private Camera cam;
 
-    
+    private bool isShooting;
+
+    public bool IsShooting
+    {
+        get
+        {
+            return isShooting;
+        }
+
+    }
 
     protected virtual void Start()
     {
@@ -47,7 +56,8 @@ public class Button : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (eventData.position.x > position.x - radius.x && eventData.position.y < position.y + radius.y)
         //if (eventData.position.x < Screen.width/2+1000 && eventData.position.y < Screen.height/2+1000)
         {
-            Messenger.Broadcast(GameEvent.SHOOTING);
+            isShooting = true;
+            //Messenger.Broadcast(GameEvent.SHOOTING);
         }
     }
 
@@ -57,7 +67,8 @@ public class Button : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         
         handle.anchoredPosition = Vector2.zero;
-        Messenger.Broadcast(GameEvent.STOP_SHOOTING);
+        isShooting = false;
+        //Messenger.Broadcast(GameEvent.STOP_SHOOTING);
 
     }
 

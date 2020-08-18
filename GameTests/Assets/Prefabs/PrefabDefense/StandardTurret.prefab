@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 30
   range: 0
-  bulletPrefab: {fileID: 6639248345562873518, guid: 55d2e4946fe657d458dcbc97973be958,
+  bulletPrefab: {fileID: 8328437907177306254, guid: c474cc856c5c64d6da6e073b52e42b43,
     type: 3}
   fireRate: 0
   enemyTag: Enemy

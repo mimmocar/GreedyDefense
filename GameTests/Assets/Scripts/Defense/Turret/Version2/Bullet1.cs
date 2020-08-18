@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using System.Globalization;
+using System.IO;
+using System;
+
 using DamagePackage;
 
 // Script placed to a Bullet
-public enum BulletType {bullet, missile }
+public enum BulletType {bullet1,bullet2, missile }
 
 public class Bullet1 : MonoBehaviour
 {
@@ -14,7 +18,9 @@ public class Bullet1 : MonoBehaviour
 
     private void Awake()
     {
-		damage = _Damage.ReadDamage("Assets/Resources/File/bulletFeatures.txt");
+		
+		Debug.Log(type.ToString());
+		damage = _Damage.ReadDamage("Assets/Resources/File/"+type.ToString()+"Features.txt");
     }
 
 
