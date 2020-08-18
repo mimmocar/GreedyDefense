@@ -14,11 +14,30 @@ public class ObjectManager : MonoBehaviour
     private int hit = 0, kills = 0, berserk = 100;
     [SerializeField] GameObject[] prefab;
 
+    private float startFoodStamina = 100; //valore di inizializzazione costante
+    private float foodStamina;
+
     public int Kills
     {
         get
         {
             return kills;
+        }
+    }
+
+    public float FoodStamina
+    {
+        get
+        {
+            return foodStamina;
+        }
+    }
+
+    public float StartFoodStamina
+    {
+        get
+        {
+            return startFoodStamina;
         }
     }
 
@@ -37,12 +56,16 @@ public class ObjectManager : MonoBehaviour
             return currentCurrency;
         }
     }
-    
+
+
     void Awake()
     {
         currentCurrency = startCurrency;
+        foodStamina = startFoodStamina;
+
         Messenger<Vector3, int>.AddListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
         Messenger<GameObject, _Damage>.AddListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
+        Messenger.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);
         Debug.Log("LETTURA FEATURES COST "+prefab[0].GetComponent<Features>().Cost);
 
     }
@@ -105,5 +128,12 @@ public class ObjectManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void OnHandleFoodAttack()
+    {
+        //riduazione costante della stamina
+        float amount = Time.deltaTime * 1; //possibile estendere con un danno connesso all'attaccante
+        foodStamina -= amount;
     }
 }

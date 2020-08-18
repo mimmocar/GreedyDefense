@@ -52,11 +52,57 @@ public class MoveDestination : MonoBehaviour
 
     private Transform goal;
     private GameObject destination;
+    private NavMeshAgent agent;
+    private Animator animator;
     void Start()
     {
         destination = GameObject.FindGameObjectWithTag("food");
         goal = destination.transform;
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         agent.destination = goal.position;
+        animator = GetComponent<Animator>();
+        animator.SetBool("destinationReached", false);
+        agent.stoppingDistance = destination.transform.localScale.x / 2;
     }
+
+
+    void Update()
+    {
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    //In attesa di trovare animazioni decenti
+                    //animator.SetBool("destinationReached", true);
+                }
+            }
+            else
+            {
+                //animator.SetBool("destinationReached", false);
+            }
+        }
+    }
+
+    
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    StartCoroutine(CollisionHandling());
+    //}
+
+    //private IEnumerator CollisionHandling()
+    //{
+    //    agent.isStopped = true;
+    //    yield return new WaitForSeconds(Random.Range(1, 5));
+    //    agent.isStopped = false;
+    //}
+
+    //void OnCollisionExit(Collision collision)
+    //{
+
+    //    StopCoroutine(CollisionHandling());
+
+
+    //}
 }

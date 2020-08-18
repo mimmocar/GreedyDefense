@@ -8,12 +8,17 @@ public class UpdateGUI : MonoBehaviour
     private ObjectManager om;
     [SerializeField] private Text killsText;
     [SerializeField] private Text currency;
+    [SerializeField] private Image foodStamina;
 
+    private float startFoodStamina;
+    private float speed = 2f;
     // Start is called before the first frame update
     void Start()
     {
         om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
+        startFoodStamina = om.StartFoodStamina;
         killsText.text = 0.ToString() + "/" + om.Berserk.ToString();
+        foodStamina.fillAmount = om.FoodStamina / startFoodStamina;
     }
 
     // Update is called once per frame
@@ -23,6 +28,14 @@ public class UpdateGUI : MonoBehaviour
         killsText.text = om.Kills.ToString() + "/" + om.Berserk.ToString();
         currency.text = om.Currency.ToString(); //implementare conversione a intero della currency
         //Implementare aggiornamento parti restanti dell'interfaccia
+
+        //Aggiornamento FoodStamina
+        float fS = om.FoodStamina;
+        
+        float startStam = foodStamina.fillAmount;
+        float endStam = fS / startFoodStamina;
+
+        foodStamina.fillAmount = Mathf.Lerp(startStam, endStam, speed * Time.deltaTime);
 
         //Aggiornamento barra della vita dei nemici
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -38,7 +51,7 @@ public class UpdateGUI : MonoBehaviour
                 float startH = enemy.startHealth;
                 //healthBar.fillAmount = health / startH;
 
-                float speed = 2f;
+                
                 float start = healthBar.fillAmount;
                 float end = health / startH;
 
