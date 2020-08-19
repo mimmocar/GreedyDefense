@@ -1,11 +1,8 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using System.Globalization;
-using System;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -21,9 +18,7 @@ public class WaveSpawner : MonoBehaviour
 	private SpawnState state = SpawnState.COUNTING;
 
 	[SerializeField] protected Transform[] spawnPoints;
-	//private List<Wave> waves = new List<Wave>();
 	private Dictionary<string, Wave> waves = new Dictionary<string, Wave>();
-	//private List<float> timeBetweenWaves = new List<float>();
 	private float timeBetweenWaves;
 	private int waveIndex = -1;
 	private float countDown;
@@ -35,7 +30,6 @@ public class WaveSpawner : MonoBehaviour
 
 	private void Start()
 	{
-		//GameObject enemy;
 		TextAsset data = Resources.Load<TextAsset>(filePath);   //Presuppone che il file sia in Asset/Resources
 		string[] lines = data.text.Split(NEW_LINE.ToCharArray());
 
@@ -51,15 +45,12 @@ public class WaveSpawner : MonoBehaviour
 
 			string[] row = lines[i].Split(SEMICOLON.ToCharArray());
 
-			//timeBetweenWaves.Add(float.Parse(row[0], CultureInfo.InvariantCulture));
-
 			string waveID = row[0];
 			int enemiesNum = int.Parse(row[1], CultureInfo.InvariantCulture);
 			float rate = float.Parse(row[2], CultureInfo.InvariantCulture);
 
 			for (int j = 3; j < row.Length; j++)
 			{
-				//Debug.LogError(j + " " + row[j]);
 				if (row[j].Equals("B"))
 					enemyPrefab = enemyPath + "BarbarianAI";
 				else if (row[j].Equals("D"))
@@ -74,25 +65,10 @@ public class WaveSpawner : MonoBehaviour
 				enemiesPrefabs.Add(Resources.Load<GameObject>(enemyPrefab));
 				enemyPrefab = "";
 			}
-			//string enemyType = row[3];
 
-			//if (enemyType.Equals("B"))
-			//	enemyPrefab = enemyPath + "BarbarianAI";
-			//else if (enemyType.Equals("D"))
-			//	enemyPrefab = enemyPath + "DragonSoulEaterBlueHPAI";
-			//else if (enemyType.Equals("M"))
-			//	enemyPrefab = enemyPath + "MonsterAI";
-			//else
-			//	Debug.LogError("Error reading waves file: illegal enemy prefab id");
-
-			//enemy = Resources.Load<GameObject>(enemyPrefab);
-
-			//Wave wave = new Wave(enemiesNum, rate, enemy.transform);
 			Wave wave = new Wave(enemiesNum, rate, enemiesPrefabs);
 			waves.Add(waveID, wave);
-			//waves.Add(wave);
 		}
-		//countDown = timeBetweenWaves[0];
 		StartCoroutine(RunSpawner());
 	}
 
@@ -140,65 +116,36 @@ public class WaveSpawner : MonoBehaviour
 
 	private IEnumerator SpawnWave()
 	{
-		//waveIndex++;
-		//countDown = timeBetweenWaves[waveIndex];
 		countDown = timeBetweenWaves;
 		Wave[] waveSpawnPoints = new Wave[numSpawnPoints];
-		//List<Transform> es = new List<Transform>();
-		//int maxSpCount = 0;
+		int maxSpCount = 0;
 		float waveRate = 0;
-		int num = 0;
 
 		for (int i = 0; i < numSpawnPoints; i++)
 		{
 			waveIndex++;
 			waveSpawnPoints[i] = waves.ElementAt(waveIndex).Value;
-			num = waveSpawnPoints[i].WaveCount;
-			//if (sps[i].GetEnemies().Count > maxSpCount)
-			//	maxSpCount = sps[i].GetEnemies().Count;
+			if (waveSpawnPoints[i].GetEnemies().Count > maxSpCount)
+				maxSpCount = waveSpawnPoints[i].GetEnemies().Count;
 		}
 
-		//Debug.LogError("MaxSpCount "+maxSpCount);
-
-		for (int i = 0; i < num; i++)
+		for (int i = 0; i <= maxSpCount; i++)
 		{
 			for (int j = 0; j < numSpawnPoints; j++)
 			{
-				waveRate = waveSpawnPoints[j].WaveRate;
-				Transform enemy = waveSpawnPoints[j].GetEnemies()[i];
-				SpawnEnemy(spawnPoints[j], enemy);
+				if (i >= waveSpawnPoints[j].GetEnemies().Count)
+				{
+					continue;
+				}
+				else
+				{
+					waveRate = waveSpawnPoints[j].WaveRate;
+					Transform enemy = waveSpawnPoints[j].GetEnemies()[i];
+					SpawnEnemy(spawnPoints[j], enemy);
+				}
 			}
 			yield return new WaitForSeconds(1.0f / waveRate);
 		}
-
-		//for (int i = 0; i <= maxSpCount; i++)
-		//{
-		//	for (int j = 0; j < numSpawnPoints; j++)
-		//	{
-		//		Debug.LogError("Dimension " + waveSpawnPoints[j].GetEnemies().Count);
-		//		if(i > waveSpawnPoints[j].GetEnemies().Count)
-		//		{
-		//			continue;
-		//		}
-		//		else
-		//		{
-		//			waveRate = waveSpawnPoints[j].WaveRate;
-		//			Transform enemy = waveSpawnPoints[j].GetEnemies()[i];
-		//			es.Add(enemy);
-		//			SpawnEnemy(spawnPoints[j], enemy);
-		//		}
-		//	}
-		//	yield return new WaitForSeconds(1.0f / waveRate);
-		//}
-
-		//for (int i = 0; i < wave.WaveCount; i++)
-		//{
-		//	for (int j = 0; j < spawnPoints.Length; j++)
-		//	{
-		//		SpawnEnemy(spawnPoints[j], wave.Enemy);
-		//	}
-		//	yield return new WaitForSeconds(1.0f/wave.WaveRate);
-		//}
 
 	}
 
