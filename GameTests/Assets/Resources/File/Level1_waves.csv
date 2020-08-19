@@ -1,3 +1,11 @@
-5.0;5;0.5;B;
-5.0;7;0.5;B;
-5.0;2;0.25;D;
+Waves;3;
+SpawnPoints;2;
+Countdown;5;
+TimeBetweenWaves;5;
+WaveID;NumEnemies;SpawnRate;Enemies;
+W1SP1;2;0.5;B;B;
+W1SP2;2;0.5;D;B;
+W2SP1;2;0.5;B;B;
+W2SP2;2;0.5;B;B;
+W3SP1;2;0.25;D;D;
+W3SP2;2;0.25;D;B;
