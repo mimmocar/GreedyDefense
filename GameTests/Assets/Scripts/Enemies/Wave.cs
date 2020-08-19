@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Wave {
+public class Wave
+{
 
-	private Transform enemy;
+	private List<GameObject> enemies = new List<GameObject>();
 	private int count;
 	private float rate;
 
@@ -30,27 +32,21 @@ public class Wave {
 		}
 	}
 
-	public Transform Enemy
+	public List<Transform> GetEnemies()
 	{
-		get
+		List<Transform> e = new List<Transform>();
+		foreach (GameObject item in enemies)
 		{
-			return enemy;
-		} 
-		set
-		{
-			enemy = value;
+			e.Add(item.transform);
 		}
+
+		return e;
 	}
 
-	public Wave(int c, float r, Transform e)
+	public Wave(int c, float r, List<GameObject> es)
 	{
 		WaveCount = c;
 		WaveRate = r;
-		Enemy = e;
-	}
-
-	public override string ToString()
-	{
-		return "Number of enemies: " + WaveCount + "; Enemies rate: "+ WaveRate + "; Enemy : " + Enemy.name;
+		enemies = es;
 	}
 }
