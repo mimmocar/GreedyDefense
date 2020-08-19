@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
+using DamagePackage;
 
 public enum EnemyType { Barbarian, Dragon, Monster}
 
@@ -16,13 +17,29 @@ public class Enemy : MonoBehaviour
 		[HideInInspector]
 
 		private Camera cam;
+		private Camera headCamera;
+		private Camera currentCamera;
 		public float startHealth;
 		private float health;
 		private int worth;
+		private bool countedForBerserk;
 
 
 	private int enemiesDied = 0;
 
+
+	public bool CountedForBerserk
+    {
+        get
+        {
+			return countedForBerserk;
+        }
+
+        set
+        {
+			countedForBerserk = value;
+        }
+    }
 	public int Died
 	{
 		get
@@ -35,6 +52,14 @@ public class Enemy : MonoBehaviour
 			enemiesDied = value;
 		}
 	}
+
+	public EnemyType Type
+    {
+        get
+        {
+			return type;
+        }
+    }
 
 
     // public GameObject deathEffect;
@@ -117,32 +142,32 @@ public class Enemy : MonoBehaviour
 
 
 		cam = Camera.main;
-
+		headCamera = GameObject.Find("HeadCamera").GetComponent<Camera>();
 		health = startHealth;
 
 
 
 	}
 
-		//public void TakeDamage(float amount)
-		//{
-		//	health -= amount;
+	//public void TakeDamage(float amount)
+	//{
+	//	health -= amount;
 
-		//	//healthBar.fillAmount = health / startHealth;
+	//	//healthBar.fillAmount = health / startHealth;
 
-		//	if (health <= 0 && !isDead)
-		//	{
-		//		isDead = true;
-		//		//Die();
-		//	}
-		//}
+	//	if (health <= 0 && !isDead)
+	//	{
+	//		isDead = true;
+	//		//Die();
+	//	}
+	//}
 
-		//public void Slow (float pct)
-		//{
-		//	speed = startSpeed * (1f - pct);
-		//}
+	//public void Slow (float pct)
+	//{
+	//	speed = startSpeed * (1f - pct);
+	//}
 
-	public void Die()
+	public void Die(DamageType type)
 	{
 		//isDead = true;
 
@@ -155,11 +180,20 @@ public class Enemy : MonoBehaviour
 		//Died++;
 
 		//Messenger<int>.Broadcast("Enemy died", Died);
-		Destroy(gameObject);
+		float delay = 0;
+		if(type == DamageType.Berserk)
+        {
+			delay = 2.0f;
+		}
+        
+		Destroy(gameObject, delay);
 	}
 
 	void LateUpdate()
     {
-		hbContainer.transform.LookAt(healthBar.transform.position + cam.transform.forward);
-    }
+		if(cam.enabled)
+			hbContainer.transform.LookAt(healthBar.transform.position + cam.transform.forward);
+		else
+			hbContainer.transform.LookAt(healthBar.transform.position + headCamera.transform.forward);
+	}
 }

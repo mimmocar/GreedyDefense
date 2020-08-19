@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamagePackage;
 
 public class CharacterJoystickMovement : MonoBehaviour
 {
     protected CharacterController _charController;
-    public float velocity = 5;
-    public float runBoost = 5;
-    public float turnSpeed = 1;
+    public float velocity = 5f;
+    public float runBoost;
+    public float turnSpeed = 1; //implementare lettura da file dei parametri di configurazione
     public float gravity = -9.8f;
-    protected float rotationSensitivity = 3.0f;
+    protected float rotationSensitivity = 1f;
     protected float vertSpeed = 0.0f;
+    private _Damage berserkDamage = new _Damage(DamageType.Berserk, "Berserk Attack", 0f);
     Vector2 input;
     float angle;
     Vector3 movement;
@@ -18,7 +20,7 @@ public class CharacterJoystickMovement : MonoBehaviour
     Quaternion targetRotation;
     Transform cam;
     Camera followingCamera;
-    protected GameObject weapon;
+    private GameObject weapon;
     public GameObject weaponPrefab;
 
     protected JoystickCharacterState status;
@@ -75,10 +77,14 @@ public class CharacterJoystickMovement : MonoBehaviour
         }
         else
         {
-            anim.enabled = false;
-            AlternativeMovement();
+                anim.SetBool("isShooting", false);
+                //anim.enabled = false;
+                AlternativeMovement();
+            
         }
     }
+
+    
 
     void AlternativeMovement()
     {
@@ -86,7 +92,7 @@ public class CharacterJoystickMovement : MonoBehaviour
         if (status.IsMoving)
         {
 
-            float vertMovement = status.Movement * velocity;
+            float vertMovement = status.Movement * (velocity + runBoost);
 
             movement.z = vertMovement * Time.deltaTime;
 
@@ -104,7 +110,18 @@ public class CharacterJoystickMovement : MonoBehaviour
 
     }
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
 
+        if (status.IsBerserkOn)
+        {
+            if(hit.gameObject.tag == "Enemy")
+            {
+                Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE,hit.gameObject, berserkDamage); //la quantità non è rilevante in questo caso
+            }
+        }
+        
+    }
 
     void GetInput()
     {

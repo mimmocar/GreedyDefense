@@ -18,9 +18,19 @@ namespace CameraSpace
 
         protected int currentCamera;
 
-        
 
 
+        void Awake()
+        {
+            Messenger.AddListener(GameEvent.BERSERK_ON, OnChangeCamera);
+            Messenger.AddListener(GameEvent.BERSERK_OFF, OnChangeCamera);
+        }
+
+        void OnDestroy()
+        {
+            Messenger.RemoveListener(GameEvent.BERSERK_ON, OnChangeCamera);
+            Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnChangeCamera);
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -76,8 +86,9 @@ namespace CameraSpace
             //transform.rotation=Quaternion.RotateTowards(transform.rotation, targetRotation, sharpness);
         }
 
-        public void OnChangeCamera(InputAction.CallbackContext context)
+        public void OnChangeCamera()
         {
+            Debug.Log("Camera Changed");
             int oldCamera = currentCamera;
             currentCamera++;
             if (currentCamera > cameras.Length - 1)
