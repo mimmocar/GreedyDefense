@@ -44,6 +44,7 @@ public static class GameEvent
 	public const string STOP_SHOOTING = "STOP";
 	public const string PAUSE = "PAUSE";
 	public const string CHANGE_SCENE = "CHANGE SCENE";
+	public const string HANDLE_FOOD_ATTACK = "FOOD ATTACK";
 }
 static internal class MessengerInternal
 {

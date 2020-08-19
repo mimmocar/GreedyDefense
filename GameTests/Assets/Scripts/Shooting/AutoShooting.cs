@@ -31,7 +31,7 @@ public class AutoShooting : MonoBehaviour
 
     private int weaponSelected;
     private Transform firePoint;
-
+    private GameObject rHand;
     private Vector3 handOffset = new Vector3(0.15f, 0.013f, 0.05f);
 
 
@@ -40,7 +40,7 @@ public class AutoShooting : MonoBehaviour
     void Start()
     {
         //default pari a 2 per testing
-        weaponSelected = PlayerPrefs.GetInt("weaponSelected", 1);
+        weaponSelected = PlayerPrefs.GetInt("weaponSelected", 2);
 
         weapon = weaponPrefabs[weaponSelected - 1];
         bulletPrefab = bulletPrefabs[weaponSelected - 1];
@@ -55,7 +55,7 @@ public class AutoShooting : MonoBehaviour
         range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
         fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
-        GameObject rHand = GameObject.Find("rHand");
+        rHand = GameObject.Find("rHand");
         weapon = Instantiate(weapon, rHand.transform.position, Quaternion.identity);
         weapon.transform.parent = rHand.transform;
         weapon.transform.localPosition = handOffset;
@@ -66,6 +66,8 @@ public class AutoShooting : MonoBehaviour
 
         firePoint = weapon.transform.Find("Pistol05_Imp02").gameObject.transform.Find("FirePoint");
         if (firePoint != null) Debug.Log("FIREPOINT TROVATO");
+
+        
     }
     
 
@@ -104,9 +106,15 @@ public class AutoShooting : MonoBehaviour
 
         //per risolvere il problema dell'angolazione penso bisogni aggiungere un ulteriore 
         Vector3 dir = target.position - transform.position;
+        //Vector3 dir = target.position - firePoint.transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
+        //Vector3 diff = partToRotate.forward - GameObject.Find("rForearmBend").transform.forward;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        //Vector3 diff = partToRotate.forward - GameObject.Find("rForearmBend").transform.forward;
+        //Debug.Log("DIFFERENZA: " + diff);
+        
+        
     }
 
     void Shoot()
