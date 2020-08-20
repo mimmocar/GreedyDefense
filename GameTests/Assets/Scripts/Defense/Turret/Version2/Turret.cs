@@ -3,14 +3,16 @@ using System.Collections;
 using System.IO;
 using System.Globalization;
 
+public enum TurretType { standard, missile };
 // Script attached to a Turret
 public class Turret : Features
 {
-
+	
+	public TurretType turretType;
 	private Transform target;
-	public float range;
+	private float range;
 	public GameObject bulletPrefab;
-	public float fireRate;
+	private float fireRate;
 	private float fireCountdown = 0f;
 
 	private int bulletFired = 0;
@@ -18,7 +20,7 @@ public class Turret : Features
 	public string enemyTag = "Enemy";
 
 	public Transform partToRotate;
-	public float turnSpeed ;
+	private float turnSpeed ;
 
 	public Transform firePoint;
 
@@ -27,12 +29,39 @@ public class Turret : Features
 	{
 		
 		
-		string path = "Assets/Resources/File/turretFeatures.txt";
+		string path = "Assets/Resources/File/"+turretType.ToString()+"turretFeatures.txt";
 		StreamReader sr = new StreamReader(path);
 
-		range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		turnSpeed = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		while (!sr.EndOfStream)
+		{
+			string line = sr.ReadLine();
+			string[] token = line.Split('=');
+
+			switch (token[0])
+			{
+				
+				case "range":
+					range = float.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				case "fireRate":
+					fireRate = float.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				case "turnSpeed":
+					turnSpeed = float.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				case "cost":
+					cost = int.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				default:
+					break;
+
+
+			}
+		}
+
+		//range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		//fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		//turnSpeed = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 		//cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);

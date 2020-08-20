@@ -1,0 +1,4 @@
+range=15.0
+fireRate=1.0
+turnSpeed=10.0
+cost=30

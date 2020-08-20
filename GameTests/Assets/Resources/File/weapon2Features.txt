@@ -1,4 +1,4 @@
-﻿25.0
-2.0
-25.0
-4
+﻿range=25.0
+fireRate=2.0
+damage=25.0
+price=4

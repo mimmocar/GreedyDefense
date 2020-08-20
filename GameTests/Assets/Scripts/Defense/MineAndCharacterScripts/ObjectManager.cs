@@ -135,11 +135,14 @@ public class ObjectManager : MonoBehaviour
             }
             else
             {
-                float[] damagesMultipilers = enemy.DamagesMultipliers;
+                //float[] damagesMultipilers = enemy.DamagesMultipliers;
+                Dictionary<string, float> multipliers = enemy.DamagesMultiplierDic;
                 float amount = damage.Amount;
-                int index = (int)damage.Type;
+                //int index = (int)damage.Type;
+                string key = damage.Type.ToString() + "Multiplier";
 
-                enemy.Health = enemy.Health - damagesMultipilers[index] * amount;
+                //enemy.Health = enemy.Health - damagesMultipilers[index] * amount;
+                enemy.Health = enemy.Health - multipliers[key] * amount;
             }
             
 

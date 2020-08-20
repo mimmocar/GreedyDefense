@@ -14,8 +14,8 @@ public class Enemy : MonoBehaviour
 		
 		[SerializeField] private EnemyType type;
 		private float[] damegesMultipliers;
-		[HideInInspector]
-
+	[HideInInspector]
+		private Dictionary<string, float> multiplierDict;
 		private Camera cam;
 		private Camera headCamera;
 		private Camera currentCamera;
@@ -62,7 +62,17 @@ public class Enemy : MonoBehaviour
     }
 
 
-    // public GameObject deathEffect;
+	// public GameObject deathEffect;
+
+	public Dictionary<string, float> DamagesMultiplierDic {
+
+        get
+        {
+			return multiplierDict;
+        }
+
+
+	}
 
 	public float[] DamagesMultipliers {
 
@@ -116,7 +126,7 @@ public class Enemy : MonoBehaviour
 
 	void Start()
 	{
-		
+		multiplierDict = new Dictionary<string, float>();
 		
 		string eT = type.ToString();
 		string path = "Assets/Resources/File/" + eT + "DamageMultipliers.txt";
@@ -124,24 +134,52 @@ public class Enemy : MonoBehaviour
 		StreamReader sr = new StreamReader(path);
 	    List<float> dM = new List<float>();
 
-		startHealth = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		health = startHealth;
-		worth = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-
         while (!sr.EndOfStream)
         {
-			dM.Add(float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture));
+			string line = sr.ReadLine();
+			string[] token = line.Split('=');
+
+			switch (token[0])
+            {
+				case "startHealt":
+					startHealth = float.Parse(token[1], CultureInfo.InvariantCulture);
+					health = startHealth;
+					break;
+				case "worth":
+					worth = int.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				default:
+					Debug.Log(token[0]);
+					multiplierDict.Add(token[0], float.Parse(token[1], CultureInfo.InvariantCulture));
+					break;
+
+
+			}
         }
-
-		damegesMultipliers = dM.ToArray();
-        for(int i=0;i< damegesMultipliers.Length; i++)
-        {
-			Debug.Log(i + "   " + damegesMultipliers[i]);
-
-        }
+		
 
 
-		cam = Camera.main;
+
+
+
+		//startHealth = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		//health = startHealth;
+		//worth = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+
+  //      while (!sr.EndOfStream)
+  //      {
+		//	dM.Add(float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture));
+  //      }
+
+		//damegesMultipliers = dM.ToArray();
+  //      for(int i=0;i< damegesMultipliers.Length; i++)
+  //      {
+		//	Debug.Log(i + "   " + damegesMultipliers[i]);
+
+  //      }
+
+
+		cam = GameObject.Find("FollowingCamera").GetComponent<Camera>();
 		headCamera = GameObject.Find("HeadCamera").GetComponent<Camera>();
 		health = startHealth;
 

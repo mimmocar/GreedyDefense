@@ -18,7 +18,7 @@ public class InputHandlerBerserk : MonoBehaviour
     void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.BERSERK_ON, OnBerserkOn);
-        Messenger.RemoveListener(GameEvent.BERSERK_ON, OnBerserkOff);
+        Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnBerserkOff);
     }
 
     private void OnBerserkOn()

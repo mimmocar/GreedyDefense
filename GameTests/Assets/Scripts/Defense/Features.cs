@@ -6,7 +6,7 @@ using DamagePackage;
 public class Features : MonoBehaviour
 {
 
-    [SerializeField] protected int cost;
+    protected int cost;
     //protected float range=0;
     //protected float explosionRadius=0;
     //protected float explosionPower = 0;

@@ -47,13 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 50
-  range: 0
+  turretType: 1
   bulletPrefab: {fileID: 1000012160685858, guid: 3f1299bfb9921774d9ee8c536c931f73,
     type: 3}
-  fireRate: 0
   enemyTag: Enemy
   partToRotate: {fileID: 4000012175759846}
-  turnSpeed: 0
   firePoint: {fileID: 4000011605923382}
 --- !u!208 &1034328619305656576
 NavMeshObstacle:
