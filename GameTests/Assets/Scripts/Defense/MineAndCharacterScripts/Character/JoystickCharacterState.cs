@@ -5,17 +5,26 @@ using UnityEngine;
 public class JoystickCharacterState : MonoBehaviour
 {
 
-    [SerializeField] VariableJoystick joystick;
+    [SerializeField] VariableJoystick joystick;  //gestire generalizzazione come visto a lezione
     [SerializeField] FloatingButton shootingButton;
     protected bool isMoving;
     protected bool isRotating;
     protected bool isGrounded;
-
+    protected bool isBerserkOn;
     // Temporary added for Automatic Shooting character
     protected bool isShooting;
 
     protected float movement;
     protected float rotation;
+    private int countDown;
+
+    public bool IsBerserkOn
+    {
+        get
+        {
+            return isBerserkOn;
+        }
+    }
 
     // Temporary added for Automatic Shooting character
     public bool IsShooting
@@ -64,7 +73,15 @@ public class JoystickCharacterState : MonoBehaviour
     void Start()
     {
 
+        Messenger.AddListener(GameEvent.BERSERK_ON, OnBerserkOn);
+        Messenger.AddListener(GameEvent.BERSERK_OFF, OnBerserkOff);
 
+    }
+
+    void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.BERSERK_ON, OnBerserkOn);
+        Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnBerserkOff);
     }
 
     // Update is called once per frame
@@ -101,5 +118,18 @@ public class JoystickCharacterState : MonoBehaviour
         isRotating = rotation != 0;
         isShooting = shootingButton.IsShooting;
 
+    }
+
+    private void OnBerserkOn()
+    {
+        isBerserkOn = true;
+        GetComponent<AutoShooting>().enabled = false;
+        isShooting = false;
+    }
+
+    private void OnBerserkOff()
+    {
+        isBerserkOn = false;
+        GetComponent<AutoShooting>().enabled = true; ;
     }
 }

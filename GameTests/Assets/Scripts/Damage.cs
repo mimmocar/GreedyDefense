@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DamagePackage
 {
-    public enum DamageType { Fire, Impact, Missile, Bullet}
+    public enum DamageType { Fire, Impact, Missile, Bullet, Berserk}
 
     public class _Damage
     {

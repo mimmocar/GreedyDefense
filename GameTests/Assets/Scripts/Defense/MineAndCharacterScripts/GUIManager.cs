@@ -22,6 +22,11 @@ public class GUIManager : MonoBehaviour
     private Vector3 worldPosition;
     private bool shooting = false;
 
+    public int TEMP
+    {
+        get { return 1; }
+        
+    }
 
     void Start()
     {

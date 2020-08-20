@@ -38,6 +38,7 @@ public class Button : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         handle.anchorMax = center;
         handle.pivot = center;
         handle.anchoredPosition = Vector2.zero;
+        
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
