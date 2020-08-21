@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
-    private bool paused;
+    private bool paused, over, won;
 
     [SerializeField] VariableJoystick joystick;
     [SerializeField] FloatingButton shootingButton;
     [SerializeField] GameObject character;
+
+    [SerializeField] GameObject gameOverUI;
+    [SerializeField] GameObject levelWonUI;
+
     private ObjectManager om;
     [SerializeField] private Texture2D mineTexture, missileTurrTexture, torretTexture;
     private Vector2 touchPositionStart;
@@ -36,12 +40,18 @@ public class GUIManager : MonoBehaviour
         torretCost = om.GetCost(2);
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
+
+        Messenger.AddListener(GameEvent.GAME_OVER, OnHandleGameOver);
+        Messenger<int>.AddListener(GameEvent.LEVEL_WON, OnHandleLevelWon);
     }
 
     void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.RemoveListener(GameEvent.STOP_SHOOTING, OnShootingStop);
+
+        Messenger.RemoveListener(GameEvent.GAME_OVER, OnHandleGameOver);
+        Messenger<int>.RemoveListener(GameEvent.LEVEL_WON, OnHandleLevelWon);
     }
 
 
@@ -113,7 +123,10 @@ public class GUIManager : MonoBehaviour
         
 
         paused = GameControl.IsGamePaused();
-        if (!paused) { 
+        over = GameControl.IsGameOver();
+        won = GameControl.HasPlayerWon();
+
+        if (!paused && !over && !won) { 
        
             if (display)
             {
@@ -186,6 +199,47 @@ public class GUIManager : MonoBehaviour
             GameControl.PauseGame();
             PauseMenu.Show();
         }
+    }
+
+    public void OnHandleGameOver()
+    {
+        _GameState gameState = GameControl.GetGameState();
+        if (gameState == _GameState.Over)
+        {
+            gameOverUI.SetActive(true);
+        }
+        else
+        {
+            gameOverUI.SetActive(false);
+            return;
+        }
+    }
+
+    public void OnHandleLevelWon(int score)
+    {
+
+        _GameState gameState = GameControl.GetGameState();
+
+        if (gameState == _GameState.Won)
+        {
+            levelWonUI.SetActive(true);
+            for (int i = 0; i < 3; i++)
+            {
+                if (i + 1 <= score)
+                {
+                    Transform border = levelWonUI.transform.GetChild(i + 4);
+                    Transform starImage = border.GetChild(0);
+                    starImage.gameObject.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            levelWonUI.SetActive(false);
+            return;
+        }
+
+       
     }
 
 }

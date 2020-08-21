@@ -6,6 +6,7 @@ using System.Globalization;
 
 public class WaveSpawner : MonoBehaviour
 {
+	private ObjectManager om;
 
 	private const string NEW_LINE = "\n";
 	private const string SEMICOLON = ";";
@@ -28,8 +29,12 @@ public class WaveSpawner : MonoBehaviour
 	private int numWaves;
 	private int numSpawnPoints;
 
+	private int currentLevel;
+
 	private void Start()
 	{
+		om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
+
 		TextAsset data = Resources.Load<TextAsset>(filePath);   //Presuppone che il file sia in Asset/Resources
 		string[] lines = data.text.Split(NEW_LINE.ToCharArray());
 
@@ -69,6 +74,7 @@ public class WaveSpawner : MonoBehaviour
 			Wave wave = new Wave(enemiesNum, rate, enemiesPrefabs);
 			waves.Add(waveID, wave);
 		}
+		currentLevel = GameControl.LevelReached();
 		StartCoroutine(RunSpawner());
 	}
 
@@ -94,6 +100,33 @@ public class WaveSpawner : MonoBehaviour
 			if (waveIndex == waves.Count - 1)
 			{
 				Debug.Log("LEVEL FINISHED");
+
+				// IMPLEMENTARE PUSH TO DATA
+				float finalCurrency = om.Currency;
+				int score = 0;
+				if (finalCurrency < 100)
+				{
+					score = 1;
+					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				}
+				else if (finalCurrency >= 100 && finalCurrency < 200)
+				{
+					score = 2;
+					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				}
+				else if (finalCurrency >= 200)
+				{
+					score = 3;
+					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				}
+				else
+					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+
+				PlayerPrefs.SetInt("levelReached", currentLevel++);
+
+				GameControl.SetGameStateWon();
+				Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
+
 				StopCoroutine(RunSpawner());
 				break;
 			}

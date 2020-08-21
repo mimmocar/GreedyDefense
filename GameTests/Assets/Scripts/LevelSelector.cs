@@ -41,13 +41,13 @@ public class LevelSelector : MonoBehaviour
 
     public void Select(string levelName)
     {
-        SceneManager.LoadScene(levelName);
+        GameControl.Load(levelName);
     }
 
     public void SelectWeapon()
     {
         PlayerPrefs.SetString("previousScene", SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("WeaponSelection");
+        GameControl.Load("WeaponSelection");
 
     }
 }
