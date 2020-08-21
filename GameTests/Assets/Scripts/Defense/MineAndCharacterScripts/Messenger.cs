@@ -47,6 +47,8 @@ public static class GameEvent
 	public const string HANDLE_FOOD_ATTACK = "FOOD ATTACK";
 	public const string BERSERK_ON = "BERSERK ON";
 	public const string BERSERK_OFF = "BERSERK OFF";
+	public const string GAME_OVER = "GAME_OVER";
+	public const string LEVEL_WON = "LEVEL_WON";
 }
 static internal class MessengerInternal
 {

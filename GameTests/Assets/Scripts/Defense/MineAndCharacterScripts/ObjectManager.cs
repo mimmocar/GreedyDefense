@@ -20,6 +20,19 @@ public class ObjectManager : MonoBehaviour
     private float foodStamina;
     private int countDown;
 
+    private bool gameEnded;
+    public bool GameIsOver
+    {
+        get
+        {
+            return gameEnded;
+        }
+
+        set
+        {
+            gameEnded = value;
+        }
+    }
 
     public int CountDown
     {
@@ -93,12 +106,25 @@ public class ObjectManager : MonoBehaviour
         Messenger<GameObject, _Damage>.RemoveListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
     }
 
-
+    private void Start()
+    {
+        GameIsOver = false;
+    }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (GameIsOver)
+            return;
+        if (this.FoodStamina <= 0)
+            EndGame();
+    }
+    void EndGame()
+    {
+        GameIsOver = true;
+        GameControl.SetGameStateOver();
+        Debug.Log("Game Over");
+        Messenger.Broadcast(GameEvent.GAME_OVER);
     }
 
     public void OnSpawnObject(Vector3 position, int i)
