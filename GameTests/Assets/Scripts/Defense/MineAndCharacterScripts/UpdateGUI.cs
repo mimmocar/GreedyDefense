@@ -11,6 +11,8 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] private Text currency;
     [SerializeField] private Image foodStamina;
     [SerializeField] private GameObject berserkText;
+    [SerializeField] private Text waveCountdown; //*
+    [SerializeField] private Text waveCounter; //*
     private Text berserkTxt;
     private float startFoodStamina;
     private float speed = 2f;
@@ -22,6 +24,7 @@ public class UpdateGUI : MonoBehaviour
         startFoodStamina = om.StartFoodStamina;
         killsText.text = 0.ToString() + "/" + om.Berserk.ToString();
         foodStamina.fillAmount = om.FoodStamina / startFoodStamina;
+        waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
         Messenger.AddListener(GameEvent.BERSERK_ON, OnBerserkOn);
         Messenger.AddListener(GameEvent.BERSERK_OFF, OnBerserkOff);
     }
@@ -49,6 +52,17 @@ public class UpdateGUI : MonoBehaviour
         killsText.text = om.Kills.ToString() + "/" + om.Berserk.ToString();
         currency.text = om.Currency.ToString(); //implementare conversione a intero della currency
         //Implementare aggiornamento parti restanti dell'interfaccia
+        waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
+
+        if(om.WaveCountdown < 1)
+        {
+            waveCountdown.gameObject.SetActive(false);
+        }
+        else
+        {
+            waveCountdown.gameObject.SetActive(true);
+        }
+        waveCountdown.text = "Next wave in " + om.WaveCountdown.ToString();
 
         //Aggiornamento FoodStamina
         float fS = om.FoodStamina;

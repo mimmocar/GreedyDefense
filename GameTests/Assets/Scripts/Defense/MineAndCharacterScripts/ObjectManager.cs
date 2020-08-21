@@ -20,7 +20,50 @@ public class ObjectManager : MonoBehaviour
     private float foodStamina;
     private int countDown;
 
+    private float waveCountdown; //*
+    private int waves;
+    private int currentWave;
+
+
+    private int currentLevel;
+
     private bool gameEnded;
+
+    public int WavesNum
+    {
+        get
+        {
+            return waves;
+        }
+        set
+        {
+            waves = value;
+        }
+    }
+
+    public int CurrentWave
+    {
+        get
+        {
+            return currentWave;
+        }
+        set
+        {
+            currentWave = value;
+        }
+    }
+
+    public float WaveCountdown
+    {
+        get
+        {
+            return waveCountdown;
+        }
+        set
+        {
+            waveCountdown = value;
+        }
+    }
     public bool GameIsOver
     {
         get
@@ -109,6 +152,7 @@ public class ObjectManager : MonoBehaviour
     private void Start()
     {
         GameIsOver = false;
+        currentLevel = GameControl.LevelReached();
     }
 
     // Update is called once per frame
@@ -118,13 +162,44 @@ public class ObjectManager : MonoBehaviour
             return;
         if (this.FoodStamina <= 0)
             EndGame();
+
+        if (GameControl.HasPlayerWon())
+            WonGame();
     }
+
     void EndGame()
     {
         GameIsOver = true;
         GameControl.SetGameStateOver();
         Debug.Log("Game Over");
         Messenger.Broadcast(GameEvent.GAME_OVER);
+    }
+    
+    void WonGame()
+    {
+        int score = 0;
+        float finalStamina = this.FoodStamina / this.StartFoodStamina;
+        if (finalStamina < 0.5)
+        {
+            score = 1;
+            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+        }
+        else if (finalStamina >= 0.5 && finalStamina < 0.75)
+        {
+            score = 2;
+            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+        }
+        else if (finalStamina >= 0.75)
+        {
+            score = 3;
+            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+        }
+        else
+            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+
+        PlayerPrefs.SetInt("levelReached", currentLevel++);
+
+        Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
     }
 
     public void OnSpawnObject(Vector3 position, int i)
