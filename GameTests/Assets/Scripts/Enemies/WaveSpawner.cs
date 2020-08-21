@@ -29,7 +29,9 @@ public class WaveSpawner : MonoBehaviour
 	private int numWaves;
 	private int numSpawnPoints;
 
-	private int currentLevel;
+
+	private int currentWave = 1;
+	//private int currentLevel;
 
 	private void Start()
 	{
@@ -74,7 +76,8 @@ public class WaveSpawner : MonoBehaviour
 			Wave wave = new Wave(enemiesNum, rate, enemiesPrefabs);
 			waves.Add(waveID, wave);
 		}
-		currentLevel = GameControl.LevelReached();
+		//currentLevel = GameControl.LevelReached();
+		om.WavesNum = numWaves;
 		StartCoroutine(RunSpawner());
 	}
 
@@ -82,7 +85,13 @@ public class WaveSpawner : MonoBehaviour
 	private IEnumerator RunSpawner()
 	{
 		// First time waiting
-		yield return new WaitForSeconds(countDown);
+		while (countDown >= 0)
+		{
+			om.WaveCountdown = countDown;
+			yield return new WaitForSeconds(1);
+			countDown -= 1;
+		}
+		//yield return new WaitForSeconds(countDown);
 
 		while (true)
 		{
@@ -92,6 +101,7 @@ public class WaveSpawner : MonoBehaviour
 			yield return SpawnWave();
 
 			state = SpawnState.WAITING;
+			currentWave++;
 
 			// Wait until all enemies died (are destroyed)
 			yield return new WaitWhile(EnemyIsAlive);
@@ -101,31 +111,31 @@ public class WaveSpawner : MonoBehaviour
 			{
 				Debug.Log("LEVEL FINISHED");
 
-				// IMPLEMENTARE PUSH TO DATA
-				float finalCurrency = om.Currency;
-				int score = 0;
-				if (finalCurrency < 100)
-				{
-					score = 1;
-					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-				}
-				else if (finalCurrency >= 100 && finalCurrency < 200)
-				{
-					score = 2;
-					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-				}
-				else if (finalCurrency >= 200)
-				{
-					score = 3;
-					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-				}
-				else
-					PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				//// IMPLEMENTARE PUSH TO DATA
+				//float finalCurrency = om.Currency;
+				//int score = 0;
+				//if (finalCurrency < 100)
+				//{
+				//	score = 1;
+				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				//}
+				//else if (finalCurrency >= 100 && finalCurrency < 200)
+				//{
+				//	score = 2;
+				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				//}
+				//else if (finalCurrency >= 200)
+				//{
+				//	score = 3;
+				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+				//}
+				//else
+				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
 
-				PlayerPrefs.SetInt("levelReached", currentLevel++);
+				//PlayerPrefs.SetInt("levelReached", currentLevel++);
 
 				GameControl.SetGameStateWon();
-				Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
+				//Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
 
 				StopCoroutine(RunSpawner());
 				break;
@@ -135,7 +145,13 @@ public class WaveSpawner : MonoBehaviour
 			state = SpawnState.COUNTING;
 
 			// Wait next wave
-			yield return new WaitForSeconds(countDown);
+			while (countDown >= 0)
+			{
+				om.WaveCountdown = countDown;
+				yield return new WaitForSeconds(1);
+				countDown -= 1;
+			}
+			//yield return new WaitForSeconds(countDown);
 		}
 	}
 
@@ -149,6 +165,7 @@ public class WaveSpawner : MonoBehaviour
 
 	private IEnumerator SpawnWave()
 	{
+		om.CurrentWave = currentWave;
 		countDown = timeBetweenWaves;
 		Wave[] waveSpawnPoints = new Wave[numSpawnPoints];
 		int maxSpCount = 0;

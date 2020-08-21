@@ -16,4 +16,10 @@ public class GameOver : MonoBehaviour
 		UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 	}
 
+	public void SelectWeapon()
+	{
+		GameControl.ResumeGame();
+		GameControl.Load("WeaponSelection");
+	}
+
 }
