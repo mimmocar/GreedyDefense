@@ -15,6 +15,9 @@ namespace DamagePackage
         private string description;
         private float amount;
 
+        public _Damage() {
+        }
+
         public _Damage(DamageType type, string description, float amount)
         {
             this.type = type;
@@ -29,10 +32,10 @@ namespace DamagePackage
                 return description;
             }
 
-            //set
-            //{
-            //    this.description = value;
-            //}
+            set
+            {
+                this.description = value;
+            }
         }
 
         public DamageType Type
@@ -42,10 +45,10 @@ namespace DamagePackage
                 return type;
             }
 
-            //set
-            //{
-            //    this.type = value;
-            //}
+            set
+            {
+                this.type = value;
+            }
         }
 
         public float Amount
@@ -63,11 +66,13 @@ namespace DamagePackage
 
         public static _Damage ReadDamage(string path)
         {
+
+            
             StreamReader sr = new StreamReader(path);
 
-            DamageType type = (DamageType) Enum.Parse(typeof(DamageType),sr.ReadLine());
-            string description = sr.ReadLine();
-            float amount = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture); //ipotizzo formattazione del file e contenuto singolo
+            DamageType type = (DamageType) Enum.Parse(typeof(DamageType), sr.ReadLine().Split('=')[1]);
+            string description = sr.ReadLine().Split('=')[1];
+            float amount = float.Parse(sr.ReadLine().Split('=')[1], CultureInfo.InvariantCulture); //ipotizzo formattazione del file e contenuto singolo
 
             return new _Damage(type, description, amount);
 

@@ -1,6 +1,6 @@
-180.0
-50
-0.0
-0.0
-1.0
-0.7
+startHealth=180.0
+worth=50
+FireMultiplier=0.0
+ImpactMultiplier=0.0
+MissileMultiplier=1.0
+BulletMultiplier=0.7

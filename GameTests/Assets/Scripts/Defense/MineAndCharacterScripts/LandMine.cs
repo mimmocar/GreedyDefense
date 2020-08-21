@@ -23,13 +23,48 @@ public class LandMine : Features
         string path = "Assets/Resources/File/landMineFeatures.txt";
         StreamReader sr = new StreamReader(path);
 
-        DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());
-        string descr = sr.ReadLine();
-        float amount = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        damage = new _Damage();
 
-        damage = new _Damage(type, descr, amount);
-        explosionRadius = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-        explosionPower = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        while (!sr.EndOfStream)
+        {
+            string line = sr.ReadLine();
+            string[] token = line.Split('=');
+
+            switch (token[0])
+            {
+                case "type":
+                    damage.Type = (DamageType)Enum.Parse(typeof(DamageType), token[1]);
+                    break;
+                case "description":
+                    damage.Description = token[1];
+                    break;
+                case "amount":
+                    damage.Amount = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "explosionRadius":
+                    explosionRadius = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "explosionPower":
+                    explosionPower = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "cost":
+                    cost = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                default:
+                    break;
+
+
+            }
+        }
+
+
+        //DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());
+        //string descr = sr.ReadLine();
+        //float amount = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+
+        ////damage = new _Damage(type, descr, amount);
+        //explosionRadius = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        //explosionPower = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
         //cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
         explosionPosition = transform.position;

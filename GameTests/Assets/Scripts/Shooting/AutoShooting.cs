@@ -52,8 +52,28 @@ public class AutoShooting : MonoBehaviour
         string path = "Assets/Resources/File/weapon" + weaponSelected + "Features.txt";
         StreamReader sr = new StreamReader(path);
 
-        range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-        fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+
+        while (!sr.EndOfStream)
+        {
+            string line = sr.ReadLine();
+            string[] token = line.Split('=');
+
+            switch (token[0])
+            {
+                case "range":
+                    range = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "fireRate":
+                    fireRate = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                default:
+                    break;
+
+
+            }
+        }
+        //range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        //fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
         rHand = GameObject.Find("rHand");
         weapon = Instantiate(weapon, rHand.transform.position, Quaternion.identity);

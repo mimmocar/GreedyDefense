@@ -1,5 +1,6 @@
-Impact
-Land Mine 
-25.0
-10.0
-1000.0
+type=Impact
+description=Land Mine 
+amount=25.0
+explosionRadius=10.0
+explosionPower=1000.0
+cost=25

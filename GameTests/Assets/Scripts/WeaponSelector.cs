@@ -37,21 +37,51 @@ public class WeaponSelector : MonoBehaviour
             string path = "Assets/Resources/File/weapon"+(i+1)+"Features.txt";
             StreamReader sr = new StreamReader(path);
 
-            float range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-            float fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-            float damage = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-            int price = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-            prices[i] = price;
+            //float range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            //float fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            //float damage = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            //int price = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+            //prices[i] = price;
 
             Image rangeIm = levelButtons[i].transform.Find("RangePanel").Find("RangeFront").GetComponent<Image>();
             Image fireIm = levelButtons[i].transform.Find("FireRatePanel").Find("FireFront").GetComponent<Image>();
             Image damageIm = levelButtons[i].transform.Find("DamagePanel").Find("DamageFront").GetComponent<Image>();
 
-          
 
-            rangeIm.fillAmount = range / MAX_RANGE;
-            fireIm.fillAmount = fireRate / MAX_RATE;
-            damageIm.fillAmount = damage / MAX_DAMAGE;
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                string[] token = line.Split('=');
+
+                switch (token[0])
+                {
+                    case "range":
+                        float range = float.Parse(token[1], CultureInfo.InvariantCulture);
+                        rangeIm.fillAmount = range / MAX_RANGE;
+                        break;
+                    case "fireRate":
+                        float fireRate = float.Parse(token[1], CultureInfo.InvariantCulture);
+                        fireIm.fillAmount = fireRate / MAX_RATE;
+                        break;
+                    case "damage":
+                        float damage = float.Parse(token[1], CultureInfo.InvariantCulture);
+                        damageIm.fillAmount = damage / MAX_DAMAGE;
+                        break;
+                    case "price":
+                        int price = int.Parse(token[1], CultureInfo.InvariantCulture);
+                        prices[i] = price;
+                        break;
+                    default:
+                        break;
+
+
+                }
+            }
+
+
+            //rangeIm.fillAmount = range / MAX_RANGE;
+            //fireIm.fillAmount = fireRate / MAX_RATE;
+            //damageIm.fillAmount = damage / MAX_DAMAGE;
 
             
 
@@ -80,7 +110,7 @@ public class WeaponSelector : MonoBehaviour
                 {
                     unlockedWeapons[i] = "false";
                     GameObject pricePanel = levelButtons[i].transform.Find("PricePanel").gameObject;
-                    pricePanel.transform.Find("Value").GetComponent<Text>().text = "" + price;
+                    pricePanel.transform.Find("Value").GetComponent<Text>().text = "" + prices[i];
                     pricePanel.SetActive(true);
 
                 }
