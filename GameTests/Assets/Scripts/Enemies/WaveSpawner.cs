@@ -11,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
 	private const string NEW_LINE = "\n";
 	private const string SEMICOLON = ";";
 
-	private string filePath = "File/Level1_waves";
+	private string filePath = "File/Level1_waves"; //test
 	private string enemyPath = "EnemiesPrefab/";
 
 	private enum SpawnState { SPAWNING, WAITING, COUNTING };
@@ -29,14 +29,26 @@ public class WaveSpawner : MonoBehaviour
 	private int numWaves;
 	private int numSpawnPoints;
 
-
+	private bool hasPlayerWon = false;
 	private int currentWave = 1;
-	//private int currentLevel;
+	
+
+	public bool HasPlayerWon
+    {
+        get
+        {
+			return hasPlayerWon;
+        }
+    }
 
 	private void Start()
 	{
 		om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
 
+		int currentLevel = GameControl.CurrenteLevel;
+		
+		filePath = "File/Level"+currentLevel+"_waves";
+		Debug.Log("CURRENT LEVEL: " +filePath);
 		TextAsset data = Resources.Load<TextAsset>(filePath);   //Presuppone che il file sia in Asset/Resources
 		string[] lines = data.text.Split(NEW_LINE.ToCharArray());
 
@@ -76,7 +88,7 @@ public class WaveSpawner : MonoBehaviour
 			Wave wave = new Wave(enemiesNum, rate, enemiesPrefabs);
 			waves.Add(waveID, wave);
 		}
-		//currentLevel = GameControl.LevelReached();
+		
 		om.WavesNum = numWaves;
 		StartCoroutine(RunSpawner());
 	}
@@ -111,31 +123,9 @@ public class WaveSpawner : MonoBehaviour
 			{
 				Debug.Log("LEVEL FINISHED");
 
-				//// IMPLEMENTARE PUSH TO DATA
-				//float finalCurrency = om.Currency;
-				//int score = 0;
-				//if (finalCurrency < 100)
-				//{
-				//	score = 1;
-				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-				//}
-				//else if (finalCurrency >= 100 && finalCurrency < 200)
-				//{
-				//	score = 2;
-				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-				//}
-				//else if (finalCurrency >= 200)
-				//{
-				//	score = 3;
-				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-				//}
-				//else
-				//	PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-
-				//PlayerPrefs.SetInt("levelReached", currentLevel++);
-
-				GameControl.SetGameStateWon();
-				//Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
+				
+				hasPlayerWon = true;
+				
 
 				StopCoroutine(RunSpawner());
 				break;

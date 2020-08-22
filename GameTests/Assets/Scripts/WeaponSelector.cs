@@ -182,8 +182,7 @@ public class WeaponSelector : MonoBehaviour
     public void BackButton()
     {
 
-        //Debug.Log("Back pressed");
-        string previousScene = PlayerPrefs.GetString("previousScene");
-        SceneManager.LoadScene(previousScene);
+        Debug.Log("Back pressed");
+        GameControl.Load("LevelSelector");
     }
 }

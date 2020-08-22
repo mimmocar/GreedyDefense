@@ -17,7 +17,7 @@ public class LevelSelector : MonoBehaviour
                 levelButtons[i].interactable = false;
             else
             {
-                int score = PlayerPrefs.GetInt("starForLevel" + i + 1, 0);
+                int score = PlayerPrefs.GetInt("starForLevel" + (i + 1), 0);
 
                 //Image[] borders = levelButtons[i].GetComponentsInChildren<Image>();
                 //Debug.Log("Number of borders found : "+ borders.Length);
@@ -48,6 +48,7 @@ public class LevelSelector : MonoBehaviour
     {
         PlayerPrefs.SetString("previousScene", SceneManager.GetActiveScene().name);
         GameControl.Load("WeaponSelection");
+        //SceneManager.LoadScene("WeaponSelection", LoadSceneMode.Additive);
 
     }
 }

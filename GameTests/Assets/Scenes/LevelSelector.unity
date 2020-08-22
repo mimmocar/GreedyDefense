@@ -358,6 +358,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3837092566629892591, guid: c8588b6aecbb5438b85b80a8c25bce0b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2113955747}
+    - target: {fileID: 3837092566629892591, guid: c8588b6aecbb5438b85b80a8c25bce0b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Select
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837092566629892591, guid: c8588b6aecbb5438b85b80a8c25bce0b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Level2
+      objectReference: {fileID: 0}
     - target: {fileID: 3837092568437068291, guid: c8588b6aecbb5438b85b80a8c25bce0b,
         type: 3}
       propertyPath: m_Text

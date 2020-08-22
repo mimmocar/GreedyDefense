@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UpdateGUI : MonoBehaviour
 {
     private ObjectManager om;
-    
+    public Canvas canvas;
     [SerializeField] private Text killsText;
     [SerializeField] private Text currency;
     [SerializeField] private Image foodStamina;
@@ -27,16 +27,32 @@ public class UpdateGUI : MonoBehaviour
         waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
         Messenger.AddListener(GameEvent.BERSERK_ON, OnBerserkOn);
         Messenger.AddListener(GameEvent.BERSERK_OFF, OnBerserkOff);
+        Messenger.AddListener(GameEvent.LOAD_WEAPON_SELECTOR, OnLoadWeapon);
+        Messenger.AddListener(GameEvent.UNLOAD_WEAPON_SELECTOR, OnUnLoadWeapon);
     }
     void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.BERSERK_ON, OnBerserkOn);
         Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnBerserkOff);
+        Messenger.RemoveListener(GameEvent.LOAD_WEAPON_SELECTOR, OnLoadWeapon);
+        Messenger.RemoveListener(GameEvent.UNLOAD_WEAPON_SELECTOR, OnUnLoadWeapon);
+    }
+
+    public void OnLoadWeapon()
+    {
+
+        canvas.enabled = false;
+
+    }
+
+    public void OnUnLoadWeapon()
+    {
+        canvas.enabled = true;
     }
 
     private void OnBerserkOn()
     {
-        berserkText.SetActive(true);
+        berserkText.SetActive(true);  //verificare con riferimento all stato?
         berserkTxt.text = "";
     }
 

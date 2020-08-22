@@ -49,6 +49,8 @@ public static class GameEvent
 	public const string BERSERK_OFF = "BERSERK OFF";
 	public const string GAME_OVER = "GAME_OVER";
 	public const string LEVEL_WON = "LEVEL_WON";
+	public const string LOAD_WEAPON_SELECTOR = "LOAD_WEAPON_SELECTOR";
+	public const string UNLOAD_WEAPON_SELECTOR = "UNLOAD_WEAPON_SELECTOR";
 }
 static internal class MessengerInternal
 {
