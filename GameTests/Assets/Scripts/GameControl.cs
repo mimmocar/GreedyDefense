@@ -1,26 +1,39 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Globalization;
 
 public enum _GameState { Play, Pause, Over, Won }
 public class GameControl : MonoBehaviour
 {
     public static GameControl instance;
     private ObjectManager om;
-
+    private WaveSpawner spawner;
     private bool gameStarted = false;
     private float playerLife;
     public _GameState gameState = _GameState.Play;
-    private string nextScene = "SampleScene";
-    private string mainMenu = "MainMenuScene";
-
+    //private string nextScene = "SampleScene";
+    //private string mainMenu = "MainMenuScene";
+    public int currentLevel=1; //test
+    private float firstTH, secondTH;
     private int levelReached;
 
-    public static int LevelReached()
+    //public static int LevelReached()
+    //{
+    //    instance.levelReached = PlayerPrefs.GetInt("levelReached", 1);
+    //    return instance.levelReached;
+    //}
+
+    public static int CurrenteLevel
     {
-        instance.levelReached = PlayerPrefs.GetInt("levelReached", 1);
-        return instance.levelReached;
+        get
+        {
+            return instance.currentLevel;
+        }
     }
+
     public static bool IsGameStarted() { 
         return instance.gameStarted; 
     }
@@ -50,18 +63,16 @@ public class GameControl : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public static void LoadNextScene() { 
-        if (instance.nextScene != "") 
-            Load(instance.nextScene); 
-    }
-    public static void LoadMainMenu() { 
-        if (instance.mainMenu != "") 
-            Load(instance.mainMenu); 
+    
+    public static void LoadMainMenu()
+    {   
+            Load("MainMenuScene");
     }
     public static void Load(string levelName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);
+        SceneManager.LoadScene(levelName);
     }
+
     void Awake()
     {
         instance = this;
@@ -72,6 +83,17 @@ public class GameControl : MonoBehaviour
     void Start()
     {
         om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //* implementare singleton
+        spawner = GetComponent<WaveSpawner>();
+        levelReached = PlayerPrefs.GetInt("levelReached", 1);
+
+        string path = "Assets/Resources/File/Level" + currentLevel + "Thresholds.txt";
+        StreamReader sr = new StreamReader(path);
+
+        firstTH =float.Parse(sr.ReadLine().Split('=')[1], CultureInfo.InvariantCulture); //ipotizzo formattazione del file e contenuto singolo)
+        secondTH = float.Parse(sr.ReadLine().Split('=')[1], CultureInfo.InvariantCulture); //ipotizzo formattazione del file e contenuto singolo)
+
+
+
 
         StartGame();
     }
@@ -80,6 +102,12 @@ public class GameControl : MonoBehaviour
     void Update()
     {
         playerLife = om.FoodStamina;
+
+        if (playerLife <= 0)
+            EndGame();
+        else if (spawner.HasPlayerWon)
+            WonGame();
+              
     }
 
 
@@ -100,5 +128,75 @@ public class GameControl : MonoBehaviour
     }
 
 
-    
+    void EndGame()
+    {
+        
+        SetGameStateOver();
+        Debug.Log("Game Over");
+        Messenger.Broadcast(GameEvent.GAME_OVER);
+    }
+
+    void WonGame()
+    {
+        SetGameStateWon();
+        int score = 0;
+        float finalStamina = om.FoodStamina;
+        float startStamina = om.StartFoodStamina;
+        float finalStaminaPercentage = finalStamina / startStamina;
+        if (finalStaminaPercentage < firstTH)
+        {
+            score = 1;
+        }
+        else if (finalStaminaPercentage >= firstTH && finalStaminaPercentage < secondTH)
+        {
+            score = 2;
+        }
+        else if (finalStaminaPercentage >= secondTH)
+        {
+            score = 3;
+        }
+        
+
+        int bestScore = PlayerPrefs.GetInt("starForLevel" + currentLevel, 0);
+
+        if(score > bestScore)
+            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
+
+
+        if (currentLevel == levelReached)
+        { //aggiorno il livello raggiunto solo se quello che è terminato è proprio l'ultimo livello raggiunto. I livelli si possono rigiocare
+            levelReached += 1;
+            PlayerPrefs.SetInt("levelReached", levelReached);
+        }
+        Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
+    }
+
+
+
+    public void SelectLevel()
+    {
+        ResumeGame();
+        Load("LevelSelector");
+    }
+    public void Retry()
+    {
+        ResumeGame();
+        SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void Continue()
+    {
+        ResumeGame();
+        Load("Level"+(currentLevel+1));
+    }
+
+    public void SelectWeapon()
+    {
+        ResumeGame();
+        GameControl.Load("WeaponSelection");
+        
+    }
+
+
+
 }

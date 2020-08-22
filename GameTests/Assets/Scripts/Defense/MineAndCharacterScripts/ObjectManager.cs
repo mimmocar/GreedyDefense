@@ -16,7 +16,7 @@ public class ObjectManager : MonoBehaviour
     private int hit = 0, kills = 0, berserk = 100;  //inizializzazione all'inizio del livello
     [SerializeField] GameObject[] prefab;
 
-    private float startFoodStamina = 100; //valore di inizializzazione costante
+    private float startFoodStamina = 10; //valore di inizializzazione costante
     private float foodStamina;
     private int countDown;
 
@@ -28,6 +28,8 @@ public class ObjectManager : MonoBehaviour
     private int currentLevel;
 
     private bool gameEnded;
+
+   
 
     public int WavesNum
     {
@@ -139,7 +141,7 @@ public class ObjectManager : MonoBehaviour
         Debug.Log("LETTURA FEATURES COST "+prefab[0].GetComponent<Features>().Cost);
 
 
-        //Aggiunto per motivi di testin
+        //Aggiunto per motivi di testing
         kills = 97;
     }
 
@@ -151,56 +153,10 @@ public class ObjectManager : MonoBehaviour
 
     private void Start()
     {
-        GameIsOver = false;
-        currentLevel = GameControl.LevelReached();
+        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (GameIsOver)
-            return;
-        if (this.FoodStamina <= 0)
-            EndGame();
-
-        if (GameControl.HasPlayerWon())
-            WonGame();
-    }
-
-    void EndGame()
-    {
-        GameIsOver = true;
-        GameControl.SetGameStateOver();
-        Debug.Log("Game Over");
-        Messenger.Broadcast(GameEvent.GAME_OVER);
-    }
     
-    void WonGame()
-    {
-        int score = 0;
-        float finalStamina = this.FoodStamina / this.StartFoodStamina;
-        if (finalStamina < 0.5)
-        {
-            score = 1;
-            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-        }
-        else if (finalStamina >= 0.5 && finalStamina < 0.75)
-        {
-            score = 2;
-            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-        }
-        else if (finalStamina >= 0.75)
-        {
-            score = 3;
-            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-        }
-        else
-            PlayerPrefs.SetInt("starForLevel" + currentLevel, score);
-
-        PlayerPrefs.SetInt("levelReached", currentLevel++);
-
-        Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
-    }
 
     public void OnSpawnObject(Vector3 position, int i)
     {
@@ -236,13 +192,13 @@ public class ObjectManager : MonoBehaviour
             }
             else
             {
-                //float[] damagesMultipilers = enemy.DamagesMultipliers;
+                
                 Dictionary<string, float> multipliers = enemy.DamagesMultiplierDic;
                 float amount = damage.Amount;
-                //int index = (int)damage.Type;
+                
                 string key = damage.Type.ToString() + "Multiplier";
 
-                //enemy.Health = enemy.Health - damagesMultipilers[index] * amount;
+
                 enemy.Health = enemy.Health - multipliers[key] * amount;
             }
             
@@ -289,6 +245,8 @@ public class ObjectManager : MonoBehaviour
         float amount = Time.deltaTime * 1; //possibile estendere con un danno connesso all'attaccante
         foodStamina -= amount;
     }
+
+
 
     IEnumerator BerserkHandle()
     {
