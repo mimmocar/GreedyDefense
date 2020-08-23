@@ -11,8 +11,8 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] private Text currency;
     [SerializeField] private Image foodStamina;
     [SerializeField] private GameObject berserkText;
-    [SerializeField] private Text waveCountdown; //*
-    [SerializeField] private Text waveCounter; //*
+    [SerializeField] private Text waveCountdown; 
+    [SerializeField] private Text waveCounter; 
     private Text berserkTxt;
     private float startFoodStamina;
     private float speed = 2f;

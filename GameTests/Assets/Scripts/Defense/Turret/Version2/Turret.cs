@@ -7,7 +7,9 @@ public enum TurretType { standard, missile };
 // Script attached to a Turret
 public class Turret : Features
 {
-	
+	private const char NEW_LINE = '\n';
+	private const char EQUALS = '=';
+
 	public TurretType turretType;
 	private Transform target;
 	private float range;
@@ -20,26 +22,26 @@ public class Turret : Features
 	public string enemyTag = "Enemy";
 
 	public Transform partToRotate;
-	private float turnSpeed ;
+	private float turnSpeed;
 
 	public Transform firePoint;
 
 	// Use this for initialization
 	protected override void Start()
 	{
-		
-		
-		string path = "Assets/Resources/File/"+turretType.ToString()+"turretFeatures.txt";
-		StreamReader sr = new StreamReader(path);
+		string filePath = "File/" + turretType.ToString() + "turretFeatures";
 
-		while (!sr.EndOfStream)
+		TextAsset data = Resources.Load<TextAsset>(filePath);
+		string[] lines = data.text.Split(NEW_LINE);
+
+		for (int i = 0; i < lines.Length; i++)
 		{
-			string line = sr.ReadLine();
-			string[] token = line.Split('=');
+			string line = lines[i];
+			string[] token = line.Split(EQUALS);
 
 			switch (token[0])
 			{
-				
+
 				case "range":
 					range = float.Parse(token[1], CultureInfo.InvariantCulture);
 					break;
@@ -54,8 +56,6 @@ public class Turret : Features
 					break;
 				default:
 					break;
-
-
 			}
 		}
 
@@ -94,7 +94,7 @@ public class Turret : Features
 	}
 
 	// Update is called once per frame
-	 void Update()
+	void Update()
 	{
 		if (target == null)
 		{

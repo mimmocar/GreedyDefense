@@ -8,8 +8,8 @@ public class WaveSpawner : MonoBehaviour
 {
 	private ObjectManager om;
 
-	private const string NEW_LINE = "\n";
-	private const string SEMICOLON = ";";
+	private const char NEW_LINE = '\n';
+	private const char SEMICOLON = ';';
 
 	private string filePath = "File/Level1_waves"; //test
 	private string enemyPath = "EnemiesPrefab/";
@@ -31,38 +31,38 @@ public class WaveSpawner : MonoBehaviour
 
 	private bool hasPlayerWon = false;
 	private int currentWave = 1;
-	
+
 
 	public bool HasPlayerWon
-    {
-        get
-        {
+	{
+		get
+		{
 			return hasPlayerWon;
-        }
-    }
+		}
+	}
 
 	private void Start()
 	{
 		om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
 
-		int currentLevel = GameControl.CurrenteLevel;
-		
-		filePath = "File/Level"+currentLevel+"_waves";
-		Debug.Log("CURRENT LEVEL: " +filePath);
-		TextAsset data = Resources.Load<TextAsset>(filePath);   //Presuppone che il file sia in Asset/Resources
-		string[] lines = data.text.Split(NEW_LINE.ToCharArray());
+		int currentLevel = GameControl.CurrentLevel;
 
-		numWaves = int.Parse(lines[0].Split(SEMICOLON.ToCharArray())[1], CultureInfo.InvariantCulture);
-		numSpawnPoints = int.Parse(lines[1].Split(SEMICOLON.ToCharArray())[1], CultureInfo.InvariantCulture);
-		countDown = float.Parse(lines[2].Split(SEMICOLON.ToCharArray())[1], CultureInfo.InvariantCulture);
-		timeBetweenWaves = float.Parse(lines[3].Split(SEMICOLON.ToCharArray())[1], CultureInfo.InvariantCulture);
+		filePath = "File/Level" + currentLevel + "_waves";
+		Debug.Log("CURRENT LEVEL: " + filePath);
+		TextAsset data = Resources.Load<TextAsset>(filePath);   //Presuppone che il file sia in Asset/Resources
+		string[] lines = data.text.Split(NEW_LINE);
+
+		numWaves = int.Parse(lines[0].Split(SEMICOLON)[1], CultureInfo.InvariantCulture);
+		numSpawnPoints = int.Parse(lines[1].Split(SEMICOLON)[1], CultureInfo.InvariantCulture);
+		countDown = float.Parse(lines[2].Split(SEMICOLON)[1], CultureInfo.InvariantCulture);
+		timeBetweenWaves = float.Parse(lines[3].Split(SEMICOLON)[1], CultureInfo.InvariantCulture);
 
 		for (int i = 5; i < lines.Length; i++)
 		{
 			List<GameObject> enemiesPrefabs = new List<GameObject>();
 			string enemyPrefab = "";
 
-			string[] row = lines[i].Split(SEMICOLON.ToCharArray());
+			string[] row = lines[i].Split(SEMICOLON);
 
 			string waveID = row[0];
 			int enemiesNum = int.Parse(row[1], CultureInfo.InvariantCulture);
@@ -78,7 +78,7 @@ public class WaveSpawner : MonoBehaviour
 					enemyPrefab = enemyPath + "MonsterAI";
 				else if (!row[j].Equals("B") && !row[j].Equals("M") && !row[j].Equals("D"))
 				{
-					Debug.LogError("Error reading waves file: illegal enemy prefab id " + row[j]);
+					//Debug.LogError("Error reading waves file: illegal enemy prefab id " + row[j]);
 					continue;
 				}
 				enemiesPrefabs.Add(Resources.Load<GameObject>(enemyPrefab));
@@ -88,7 +88,7 @@ public class WaveSpawner : MonoBehaviour
 			Wave wave = new Wave(enemiesNum, rate, enemiesPrefabs);
 			waves.Add(waveID, wave);
 		}
-		
+
 		om.WavesNum = numWaves;
 		StartCoroutine(RunSpawner());
 	}
@@ -123,9 +123,9 @@ public class WaveSpawner : MonoBehaviour
 			{
 				Debug.Log("LEVEL FINISHED");
 
-				
+
 				hasPlayerWon = true;
-				
+
 
 				StopCoroutine(RunSpawner());
 				break;

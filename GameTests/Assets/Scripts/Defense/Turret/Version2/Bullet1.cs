@@ -6,7 +6,7 @@ using System;
 using DamagePackage;
 
 // Script placed to a Bullet
-public enum BulletType {bullet1,bullet2, missile }
+public enum BulletType { bullet1, bullet2, missile }
 
 public class Bullet1 : MonoBehaviour
 {
@@ -16,15 +16,15 @@ public class Bullet1 : MonoBehaviour
 	public GameObject impactEffect;
 	private _Damage damage;
 
-    private void Awake()
-    {
-		
+	private void Awake()
+	{
+
 		Debug.Log(type.ToString());
-		damage = _Damage.ReadDamage("Assets/Resources/File/"+type.ToString()+"Features.txt");
-    }
+		damage = _Damage.ReadDamage("File/" + type.ToString() + "Features");
+	}
 
 
-    public void Seek(Transform _target)
+	public void Seek(Transform _target)
 	{
 		target = _target;
 	}
@@ -59,13 +59,13 @@ public class Bullet1 : MonoBehaviour
 		Destroy(effectIns, 5f);
 
 		Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, target.gameObject, damage);
-		
+
 		Destroy(gameObject);
 	}
 
-    void OnDrawGizmosSelected()
+	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.red;
-		
+
 	}
 }

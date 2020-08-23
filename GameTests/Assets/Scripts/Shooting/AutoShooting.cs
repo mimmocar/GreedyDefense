@@ -6,6 +6,9 @@ using System.IO;
 
 public class AutoShooting : MonoBehaviour
 {
+    private const char NEW_LINE = '\n';
+    private const char EQUALS = '=';
+
     //public GameObject character;
     protected JoystickCharacterState status;
     Animator anim;
@@ -35,7 +38,7 @@ public class AutoShooting : MonoBehaviour
     private Vector3 handOffset = new Vector3(0.15f, 0.013f, 0.05f);
 
 
-    
+
 
     void Start()
     {
@@ -49,14 +52,15 @@ public class AutoShooting : MonoBehaviour
         status = GetComponent<JoystickCharacterState>();
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
 
-        string path = "Assets/Resources/File/weapon" + weaponSelected + "Features.txt";
-        StreamReader sr = new StreamReader(path);
+        string filePath = "File/weapon" + weaponSelected + "Features";
 
+        TextAsset data = Resources.Load<TextAsset>(filePath);
+        string[] lines = data.text.Split(NEW_LINE);
 
-        while (!sr.EndOfStream)
+        for (int i = 0; i < lines.Length; i++)
         {
-            string line = sr.ReadLine();
-            string[] token = line.Split('=');
+            string line = lines[i];
+            string[] token = line.Split(EQUALS);
 
             switch (token[0])
             {
@@ -68,7 +72,6 @@ public class AutoShooting : MonoBehaviour
                     break;
                 default:
                     break;
-
 
             }
         }
@@ -87,9 +90,9 @@ public class AutoShooting : MonoBehaviour
         firePoint = weapon.transform.Find("Pistol05_Imp02").gameObject.transform.Find("FirePoint");
         if (firePoint != null) Debug.Log("FIREPOINT TROVATO");
 
-        
+
     }
-    
+
 
 
     void Update()
@@ -133,8 +136,8 @@ public class AutoShooting : MonoBehaviour
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
         //Vector3 diff = partToRotate.forward - GameObject.Find("rForearmBend").transform.forward;
         //Debug.Log("DIFFERENZA: " + diff);
-        
-        
+
+
     }
 
     void Shoot()
