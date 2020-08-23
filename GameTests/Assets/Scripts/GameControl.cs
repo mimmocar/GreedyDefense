@@ -14,7 +14,7 @@ public class GameControl : MonoBehaviour
     private bool gameStarted = false;
     private float playerLife;
     public _GameState gameState = _GameState.Play;
-    //private string nextScene = "SampleScene";
+    //private string nextScene = "Level1";
     //private string mainMenu = "MainMenuScene";
     public int currentLevel=1; //test
     private float firstTH, secondTH;
@@ -26,7 +26,7 @@ public class GameControl : MonoBehaviour
     //    return instance.levelReached;
     //}
 
-    public static int CurrenteLevel
+    public static int CurrentLevel
     {
         get
         {

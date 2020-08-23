@@ -1,0 +1,2 @@
+﻿firstTH=0.5
+secondTH=0.75

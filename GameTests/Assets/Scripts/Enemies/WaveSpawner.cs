@@ -45,7 +45,7 @@ public class WaveSpawner : MonoBehaviour
 	{
 		om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
 
-		int currentLevel = GameControl.CurrenteLevel;
+		int currentLevel = GameControl.CurrentLevel;
 		
 		filePath = "File/Level"+currentLevel+"_waves";
 		Debug.Log("CURRENT LEVEL: " +filePath);
@@ -78,7 +78,7 @@ public class WaveSpawner : MonoBehaviour
 					enemyPrefab = enemyPath + "MonsterAI";
 				else if (!row[j].Equals("B") && !row[j].Equals("M") && !row[j].Equals("D"))
 				{
-					Debug.LogError("Error reading waves file: illegal enemy prefab id " + row[j]);
+					//Debug.LogError("Error reading waves file: illegal enemy prefab id " + row[j]);
 					continue;
 				}
 				enemiesPrefabs.Add(Resources.Load<GameObject>(enemyPrefab));

@@ -203,14 +203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3562ae874c1fb2247b43896a20fe7e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 30
-  range: 0
+  turretType: 0
   bulletPrefab: {fileID: 8328437907177306254, guid: c474cc856c5c64d6da6e073b52e42b43,
     type: 3}
-  fireRate: 0
   enemyTag: Enemy
   partToRotate: {fileID: 454316}
-  turnSpeed: 0
   firePoint: {fileID: 482280}
 --- !u!208 &3258743777957882445
 NavMeshObstacle:
@@ -222,7 +219,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 4, y: 1.5, z: 2.5}
+  m_Extents: {x: 2.5, y: 1.5, z: 2.5}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1

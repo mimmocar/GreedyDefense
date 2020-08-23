@@ -14,6 +14,6 @@ public class ChangeSceneManager : MonoBehaviour
 
     void ChangeScene()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level1");
     }
 }
