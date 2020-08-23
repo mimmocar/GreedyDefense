@@ -7,15 +7,19 @@ using UnityEngine;
 
 namespace DamagePackage
 {
-    public enum DamageType { Fire, Impact, Missile, Bullet, Berserk}
+    public enum DamageType { Fire, Impact, Missile, Bullet, Berserk }
 
     public class _Damage
     {
+        private const char NEW_LINE = '\n';
+        private const char EQUALS = '=';
+
         private DamageType type;
         private string description;
         private float amount;
 
-        public _Damage() {
+        public _Damage()
+        {
         }
 
         public _Damage(DamageType type, string description, float amount)
@@ -64,16 +68,37 @@ namespace DamagePackage
             }
         }
 
-        public static _Damage ReadDamage(string path)
+        public static _Damage ReadDamage(string filePath)
         {
+            DamageType type = DamageType.Bullet;
+            string description = "";
+            float amount = 0;
 
-            
-            StreamReader sr = new StreamReader(path);
+            TextAsset data = Resources.Load<TextAsset>(filePath);
+            string[] lines = data.text.Split(NEW_LINE);
 
-            DamageType type = (DamageType) Enum.Parse(typeof(DamageType), sr.ReadLine().Split('=')[1]);
-            string description = sr.ReadLine().Split('=')[1];
-            float amount = float.Parse(sr.ReadLine().Split('=')[1], CultureInfo.InvariantCulture); //ipotizzo formattazione del file e contenuto singolo
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string[] token = line.Split(EQUALS);
 
+                //ipotizzo formattazione del file e contenuto singolo
+                switch (token[0])
+                {
+                    case "type":
+                        type = (DamageType)Enum.Parse(typeof(DamageType), token[1]);
+                        break;
+                    case "description":
+                        description = token[1];
+                        break;
+                    case "amount":
+                        amount = float.Parse(token[1], CultureInfo.InvariantCulture);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
             return new _Damage(type, description, amount);
 
         }

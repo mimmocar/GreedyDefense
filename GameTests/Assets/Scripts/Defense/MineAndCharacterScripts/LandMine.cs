@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -8,10 +8,12 @@ using System.Globalization;
 
 public class LandMine : Features
 {
+    private const char NEW_LINE = '\n';
+    private const char EQUALS = '=';
 
     public GameObject explosionPrefab;
     private Vector3 explosionPosition;
-    
+
     private _Damage damage;
     private float explosionRadius = 10.0f;
     private float explosionPower = 1000.0f;
@@ -20,15 +22,17 @@ public class LandMine : Features
     // Start is called before the first frame update
     void Awake()
     {
-        string path = "Assets/Resources/File/landMineFeatures.txt";
-        StreamReader sr = new StreamReader(path);
+        string filePath = "File/landMineFeatures";
+
+        TextAsset data = Resources.Load<TextAsset>(filePath);
+        string[] lines = data.text.Split(NEW_LINE);
 
         damage = new _Damage();
 
-        while (!sr.EndOfStream)
+        for (int i = 0; i < lines.Length; i++)
         {
-            string line = sr.ReadLine();
-            string[] token = line.Split('=');
+            string line = lines[i];
+            string[] token = line.Split(EQUALS);
 
             switch (token[0])
             {
@@ -53,10 +57,9 @@ public class LandMine : Features
                 default:
                     break;
 
-
             }
-        }
 
+        }
 
         //DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());
         //string descr = sr.ReadLine();
@@ -75,7 +78,7 @@ public class LandMine : Features
         //Debug.Log("Tranform Esplosione: " + explosionPrefab.transform.position);
     }
 
-    
+
 
     private void OnTriggerEnter(Collider other)
     {

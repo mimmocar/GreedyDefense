@@ -20,7 +20,7 @@ public class ObjectManager : MonoBehaviour
     private float foodStamina;
     private int countDown;
 
-    private float waveCountdown; //*
+    private float waveCountdown;
     private int waves;
     private int currentWave;
 
@@ -142,7 +142,7 @@ public class ObjectManager : MonoBehaviour
 
 
         //Aggiunto per motivi di testing
-        kills = 0;
+        kills = 94;
     }
 
     void OnDestroy()

@@ -6,6 +6,9 @@ using System.Globalization;
 
 public class WeaponSelector : MonoBehaviour
 {
+    private const char NEW_LINE = '\n';
+    private const char EQUALS = '=';
+
     public UnityEngine.UI.Button[] levelButtons;
     private string[] unlockedWeapons;
     private int[] prices;
@@ -34,8 +37,7 @@ public class WeaponSelector : MonoBehaviour
         weaponSelected = PlayerPrefs.GetInt("weaponSelected", 1);
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            string path = "Assets/Resources/File/weapon"+(i+1)+"Features.txt";
-            StreamReader sr = new StreamReader(path);
+            string filePath = "File/weapon" + (i + 1) + "Features";
 
             //float range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
             //float fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
@@ -47,11 +49,13 @@ public class WeaponSelector : MonoBehaviour
             Image fireIm = levelButtons[i].transform.Find("FireRatePanel").Find("FireFront").GetComponent<Image>();
             Image damageIm = levelButtons[i].transform.Find("DamagePanel").Find("DamageFront").GetComponent<Image>();
 
+            TextAsset data = Resources.Load<TextAsset>(filePath);
+            string[] lines = data.text.Split(NEW_LINE);
 
-            while (!sr.EndOfStream)
+            for (int j = 0; j < lines.Length; j++)
             {
-                string line = sr.ReadLine();
-                string[] token = line.Split('=');
+                string line = lines[j];
+                string[] token = line.Split(EQUALS);
 
                 switch (token[0])
                 {
@@ -83,14 +87,14 @@ public class WeaponSelector : MonoBehaviour
             //fireIm.fillAmount = fireRate / MAX_RATE;
             //damageIm.fillAmount = damage / MAX_DAMAGE;
 
-            
+
 
             if ((i + 1) == weaponSelected)
             {
                 unlockedWeapons[i] = "true";
                 levelButtons[i].transform.Find("SelectPanel").gameObject.SetActive(true);
                 levelButtons[i].transform.Find("LockPanel").gameObject.SetActive(false);
-                
+
             }
             else
             {
@@ -99,12 +103,12 @@ public class WeaponSelector : MonoBehaviour
                 if (i == 0)
                     isAvailable = "true";
 
-                
+
                 if (isAvailable == "true")
                 {
                     unlockedWeapons[i] = "true";
                     levelButtons[i].transform.Find("LockPanel").gameObject.SetActive(false);
-                    
+
                 }
                 else
                 {
@@ -119,20 +123,20 @@ public class WeaponSelector : MonoBehaviour
         }
     }
 
-    public void Select(int  i)
+    public void Select(int i)
     {
         if (unlockedWeapons[i - 1] == "true")
             SelectWeapon(i - 1);
         else
         {
-            UnlockWeapon(i - 1); 
+            UnlockWeapon(i - 1);
         }
     }
 
 
     private void SelectWeapon(int index)
     {
-        levelButtons[weaponSelected-1].transform.Find("SelectPanel").gameObject.SetActive(false);
+        levelButtons[weaponSelected - 1].transform.Find("SelectPanel").gameObject.SetActive(false);
         levelButtons[index].transform.Find("SelectPanel").gameObject.SetActive(true);
 
         weaponSelected = index + 1;
@@ -151,7 +155,7 @@ public class WeaponSelector : MonoBehaviour
 
     public void Confirm()
     {
-        if(skullsCurrency >= prices[weaponToUnlock])
+        if (skullsCurrency >= prices[weaponToUnlock])
         {
             skullsCurrency -= prices[weaponToUnlock];
             PlayerPrefs.SetInt("skullsCurrency", skullsCurrency);

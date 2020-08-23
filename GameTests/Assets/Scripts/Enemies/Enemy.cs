@@ -6,40 +6,42 @@ using System.Collections.Generic;
 using System.Globalization;
 using DamagePackage;
 
-public enum EnemyType { Barbarian, Dragon, Monster}
+public enum EnemyType { Barbarian, Dragon, Monster }
 
 
-public class Enemy : MonoBehaviour 
+public class Enemy : MonoBehaviour
 {
-		
-		[SerializeField] private EnemyType type;
-		private float[] damegesMultipliers;
+	private const char NEW_LINE = '\n';
+	private const char EQUALS = '=';
+
+	[SerializeField] private EnemyType type;
+	private float[] damegesMultipliers;
 	[HideInInspector]
-		private Dictionary<string, float> multiplierDict;
-		private Camera cam;
-		private Camera headCamera;
-		private Camera currentCamera;
-		public float startHealth;
-		private float health;
-		private int worth;
-		private bool countedForBerserk;
+	private Dictionary<string, float> multiplierDict;
+	private Camera cam;
+	private Camera headCamera;
+	private Camera currentCamera;
+	public float startHealth;
+	private float health;
+	private int worth;
+	private bool countedForBerserk;
 
 
 	private int enemiesDied = 0;
 
 
 	public bool CountedForBerserk
-    {
-        get
-        {
+	{
+		get
+		{
 			return countedForBerserk;
-        }
+		}
 
-        set
-        {
+		set
+		{
 			countedForBerserk = value;
-        }
-    }
+		}
+	}
 	public int Died
 	{
 		get
@@ -54,43 +56,45 @@ public class Enemy : MonoBehaviour
 	}
 
 	public EnemyType Type
-    {
-        get
-        {
+	{
+		get
+		{
 			return type;
-        }
-    }
+		}
+	}
 
 
 	// public GameObject deathEffect;
 
-	public Dictionary<string, float> DamagesMultiplierDic {
+	public Dictionary<string, float> DamagesMultiplierDic
+	{
 
-        get
-        {
+		get
+		{
 			return multiplierDict;
-        }
+		}
 
 
 	}
 
-	public float[] DamagesMultipliers {
+	public float[] DamagesMultipliers
+	{
 
 		get
 		{
-		  return damegesMultipliers;
+			return damegesMultipliers;
 		}
 
 
 	}
 
 	public int Worth
-    {
-        get
-        {
+	{
+		get
+		{
 			return worth;
-        }
-    }
+		}
+	}
 
 
 	[Header("Unity Stuff")]
@@ -104,10 +108,10 @@ public class Enemy : MonoBehaviour
 		{
 			return health <= 0;
 		}
-			//set
-			//{
-			//	isDead = value;
-			//}
+		//set
+		//{
+		//	isDead = value;
+		//}
 	}
 
 	public float Health
@@ -127,20 +131,22 @@ public class Enemy : MonoBehaviour
 	void Start()
 	{
 		multiplierDict = new Dictionary<string, float>();
-		
+
 		string eT = type.ToString();
 		string path = "Assets/Resources/File/" + eT + "DamageMultipliers.txt";
-		Debug.Log("PATH LETTO PER IL NEMICO "+eT+": "+path);
-		StreamReader sr = new StreamReader(path);
-	    List<float> dM = new List<float>();
+		string filePath = "File/" + eT + "DamageMultipliers";
+		List<float> dM = new List<float>();
 
-        while (!sr.EndOfStream)
-        {
-			string line = sr.ReadLine();
-			string[] token = line.Split('=');
+		TextAsset data = Resources.Load<TextAsset>(filePath);
+		string[] lines = data.text.Split(NEW_LINE);
+
+		for (int i = 0; i < lines.Length; i++)
+		{
+			string line = lines[i];
+			string[] token = line.Split(EQUALS);
 
 			switch (token[0])
-            {
+			{
 				case "startHealt":
 					startHealth = float.Parse(token[1], CultureInfo.InvariantCulture);
 					health = startHealth;
@@ -152,31 +158,24 @@ public class Enemy : MonoBehaviour
 					Debug.Log(token[0]);
 					multiplierDict.Add(token[0], float.Parse(token[1], CultureInfo.InvariantCulture));
 					break;
-
-
 			}
-        }
-		
-
-
-
-
+		}
 
 		//startHealth = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 		//health = startHealth;
 		//worth = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 
-  //      while (!sr.EndOfStream)
-  //      {
+		//      while (!sr.EndOfStream)
+		//      {
 		//	dM.Add(float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture));
-  //      }
+		//      }
 
 		//damegesMultipliers = dM.ToArray();
-  //      for(int i=0;i< damegesMultipliers.Length; i++)
-  //      {
+		//      for(int i=0;i< damegesMultipliers.Length; i++)
+		//      {
 		//	Debug.Log(i + "   " + damegesMultipliers[i]);
 
-  //      }
+		//      }
 
 
 		cam = GameObject.Find("FollowingCamera").GetComponent<Camera>();
@@ -219,17 +218,17 @@ public class Enemy : MonoBehaviour
 
 		//Messenger<int>.Broadcast("Enemy died", Died);
 		float delay = 0;
-		if(type == DamageType.Berserk)
-        {
+		if (type == DamageType.Berserk)
+		{
 			delay = 2.0f;
 		}
-        
+
 		Destroy(gameObject, delay);
 	}
 
 	void LateUpdate()
-    {
-		if(cam.enabled)
+	{
+		if (cam.enabled)
 			hbContainer.transform.LookAt(healthBar.transform.position + cam.transform.forward);
 		else
 			hbContainer.transform.LookAt(healthBar.transform.position + headCamera.transform.forward);
