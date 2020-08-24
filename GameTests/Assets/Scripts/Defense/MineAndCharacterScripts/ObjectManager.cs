@@ -128,13 +128,26 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    public int Skulls
+    {
+        get
+        {
+            return currentSkulls;
+        }
+    }
+
 
     void Awake()
     {
         currentCurrency = startCurrency;
         foodStamina = startFoodStamina;
-        currentSkulls = startSkulls;
+        currentSkulls = startSkulls;   //per il momento lasciamo anche startSkulls, a seconda di come valutare il punteggio
 
+
+        for (int i = 0; i < prefab.Length; i++)
+        {
+            prefab[i].GetComponent<Features>().Awake();
+        }
         Messenger<Vector3, int>.AddListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
         Messenger<GameObject, _Damage>.AddListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
         Messenger.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);

@@ -999,6 +999,7 @@ MonoBehaviour:
   canvas: {fileID: 2087750569}
   killsText: {fileID: 968387963}
   currency: {fileID: 1136026371}
+  skulls: {fileID: 520143923}
   foodStamina: {fileID: 505346034}
   berserkText: {fileID: 1851218027}
   waveCountdown: {fileID: 927399551}

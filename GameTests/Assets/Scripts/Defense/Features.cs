@@ -21,6 +21,11 @@ public class Features : MonoBehaviour
         
     }
 
+    public virtual void Awake()
+    {
+
+    }
+
     
 
     public int Cost

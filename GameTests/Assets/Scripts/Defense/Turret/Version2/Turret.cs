@@ -27,7 +27,7 @@ public class Turret : Features
 	public Transform firePoint;
 
 	// Use this for initialization
-	protected override void Start()
+	public override void Awake()
 	{
 		string filePath = "File/" + turretType.ToString() + "turretFeatures";
 
@@ -53,6 +53,7 @@ public class Turret : Features
 					break;
 				case "cost":
 					cost = int.Parse(token[1], CultureInfo.InvariantCulture);
+					Debug.Log("COSTO ASSET LETTO: " + cost);
 					break;
 				default:
 					break;
