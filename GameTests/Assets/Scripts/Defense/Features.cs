@@ -16,10 +16,7 @@ public class Features : MonoBehaviour
     //protected _Damage damage = null;
 
     // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        
-    }
+   
 
     public virtual void Awake()
     {

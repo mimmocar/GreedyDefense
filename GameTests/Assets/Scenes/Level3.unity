@@ -718,8 +718,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105582024}
-  m_LocalRotation: {x: -0.05636116, y: 0.9377465, z: -0.29039708, w: -0.18200125}
-  m_LocalPosition: {x: 53.099895, y: 28.989304, z: 118.15925}
+  m_LocalRotation: {x: 0.29864, y: 0.63513, z: -0.29190585, w: 0.64978087}
+  m_LocalPosition: {x: 16.057756, y: 35.862907, z: 111.076645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1109,11 +1109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b343845c4d54c45a7693b264f49fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystick: {fileID: 0}
-  shootingButton: {fileID: 0}
+  joystick: {fileID: 621778283}
+  shootingButton: {fileID: 1783223196}
   character: {fileID: 871991578}
-  gameOverUI: {fileID: 0}
-  levelWonUI: {fileID: 0}
+  gameOverUI: {fileID: 1907244475}
+  levelWonUI: {fileID: 1265113732}
   mineTexture: {fileID: 2800000, guid: d30848abc501d4f6f93be69820f82f3e, type: 3}
   missileTurrTexture: {fileID: 2800000, guid: 38870017ecc3f4dffb0af78afb1acc1c, type: 3}
   torretTexture: {fileID: 2800000, guid: 17528ed70866a43a6bafaa2a97a41416, type: 3}
@@ -6075,7 +6075,7 @@ PrefabInstance:
     - target: {fileID: 8922937275081808571, guid: 041be8ed1087d6848a00de4df5e5c0b6,
         type: 3}
       propertyPath: m_TagString
-      value: food
+      value: floor
       objectReference: {fileID: 0}
     - target: {fileID: 8922937275083736187, guid: 041be8ed1087d6848a00de4df5e5c0b6,
         type: 3}

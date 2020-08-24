@@ -455,7 +455,7 @@ PrefabInstance:
     - target: {fileID: 4524508430732923686, guid: 6322f5d8ba2654348a62f7f999413991,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.1
+      value: 13.23
       objectReference: {fileID: 0}
     - target: {fileID: 4524508430732923686, guid: 6322f5d8ba2654348a62f7f999413991,
         type: 3}
@@ -1128,7 +1128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485008, guid: 160da3a4ea1a8fb408844aace652fee0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.5
+      value: 20.75
       objectReference: {fileID: 0}
     - target: {fileID: 485008, guid: 160da3a4ea1a8fb408844aace652fee0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4093,8 +4093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b343845c4d54c45a7693b264f49fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystick: {fileID: 0}
-  shootingButton: {fileID: 0}
+  joystick: {fileID: 1087840252}
+  shootingButton: {fileID: 771395818}
   character: {fileID: 2015958252}
   gameOverUI: {fileID: 1774541467}
   levelWonUI: {fileID: 1101128435}
