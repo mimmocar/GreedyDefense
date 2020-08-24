@@ -20,7 +20,7 @@ public class LandMine : Features
     private bool explosion = false;
 
     // Start is called before the first frame update
-    void Awake()
+    public override void Awake()
     {
         string filePath = "File/landMineFeatures";
 
@@ -53,6 +53,7 @@ public class LandMine : Features
                     break;
                 case "cost":
                     cost = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    Debug.Log("COSTO ASSET LETTO: " + cost);
                     break;
                 default:
                     break;
@@ -61,21 +62,12 @@ public class LandMine : Features
 
         }
 
-        //DamageType type = (DamageType)Enum.Parse(typeof(DamageType), sr.ReadLine());
-        //string descr = sr.ReadLine();
-        //float amount = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-
-        ////damage = new _Damage(type, descr, amount);
-        //explosionRadius = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-        //explosionPower = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-        //cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-
+        
         explosionPosition = transform.position;
         explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);
         explosionPrefab.SetActive(false);
 
-        //Debug.Log("Tranform Mina: " + transform.position);
-        //Debug.Log("Tranform Esplosione: " + explosionPrefab.transform.position);
+        
     }
 
 

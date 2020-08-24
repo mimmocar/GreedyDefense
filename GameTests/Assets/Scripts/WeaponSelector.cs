@@ -31,7 +31,7 @@ public class WeaponSelector : MonoBehaviour
         //skullsCurrency = PlayerPrefs.GetInt("skullsCurrency", 0);
 
         //Istruzione per testing
-        skullsCurrency = PlayerPrefs.GetInt("skullsCurrency", 10);
+        skullsCurrency = PlayerPrefs.GetInt("skullsCurrency", 0);
 
         currentCurrency.text = "" + skullsCurrency;
         weaponSelected = PlayerPrefs.GetInt("weaponSelected", 1);

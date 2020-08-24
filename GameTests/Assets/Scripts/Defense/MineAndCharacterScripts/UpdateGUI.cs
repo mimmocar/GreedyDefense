@@ -9,6 +9,7 @@ public class UpdateGUI : MonoBehaviour
     public Canvas canvas;
     [SerializeField] private Text killsText;
     [SerializeField] private Text currency;
+    [SerializeField] private Text skulls;
     [SerializeField] private Image foodStamina;
     [SerializeField] private GameObject berserkText;
     [SerializeField] private Text waveCountdown; 
@@ -24,6 +25,7 @@ public class UpdateGUI : MonoBehaviour
         startFoodStamina = om.StartFoodStamina;
         killsText.text = 0.ToString() + "/" + om.Berserk.ToString();
         foodStamina.fillAmount = om.FoodStamina / startFoodStamina;
+        skulls.text = om.Skulls.ToString(); 
         waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
         Messenger.AddListener(GameEvent.BERSERK_ON, OnBerserkOn);
         Messenger.AddListener(GameEvent.BERSERK_OFF, OnBerserkOff);
@@ -69,7 +71,7 @@ public class UpdateGUI : MonoBehaviour
         currency.text = om.Currency.ToString(); //implementare conversione a intero della currency
         //Implementare aggiornamento parti restanti dell'interfaccia
         waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
-
+        skulls.text = om.Skulls.ToString();
         if(om.WaveCountdown < 1)
         {
             waveCountdown.gameObject.SetActive(false);

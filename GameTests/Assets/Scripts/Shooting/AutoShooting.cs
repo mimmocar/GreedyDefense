@@ -43,7 +43,7 @@ public class AutoShooting : MonoBehaviour
     void Start()
     {
         //default pari a 2 per testing
-        weaponSelected = PlayerPrefs.GetInt("weaponSelected", 2);
+        weaponSelected = PlayerPrefs.GetInt("weaponSelected", 1);
 
         weapon = weaponPrefabs[weaponSelected - 1];
         bulletPrefab = bulletPrefabs[weaponSelected - 1];

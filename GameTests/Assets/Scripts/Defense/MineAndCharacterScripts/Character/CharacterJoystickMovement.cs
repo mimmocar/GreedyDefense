@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Globalization;
 using UnityEngine;
 using DamagePackage;
 
 public class CharacterJoystickMovement : MonoBehaviour
 {
     protected CharacterController _charController;
-    public float velocity = 5f;
-    public float runBoost;
-    public float turnSpeed = 1; //implementare lettura da file dei parametri di configurazione
-    public float gravity = -9.8f;
+    private float velocity = 5f;
+    private float runBoost;
+    private float turnSpeed = 1; //implementare lettura da file dei parametri di configurazione
+    private float gravity = -9.8f;
     protected float rotationSensitivity = 1f;
     protected float vertSpeed = 0.0f;
     private _Damage berserkDamage = new _Damage(DamageType.Berserk, "Berserk Attack", 0f);
@@ -20,8 +19,7 @@ public class CharacterJoystickMovement : MonoBehaviour
     Quaternion targetRotation;
     Transform cam;
     Camera followingCamera;
-    private GameObject weapon;
-    public GameObject weaponPrefab;
+
 
     protected JoystickCharacterState status;
     private void Awake()
@@ -35,6 +33,36 @@ public class CharacterJoystickMovement : MonoBehaviour
         cam = GameObject.Find("FollowingCamera").transform;
         status = GetComponent<JoystickCharacterState>();
         _charController = GetComponent<CharacterController>();
+
+
+        TextAsset data = Resources.Load<TextAsset>("File/characterFeatures");
+        string[] lines = data.text.Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            string[] token = line.Split('=');
+
+            switch (token[0])
+            {
+                case "velocity":
+                    velocity = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "runBoost":
+                    runBoost = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "turnSpeed":
+                    turnSpeed = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rotationSensitivity":
+                    rotationSensitivity = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    Debug.Log("ROTATION: " + rotationSensitivity);
+                    break;
+                default:
+                    //possibile implementare come per enemy un dizionario di boost possibili
+                    break;
+            }
+        }
 
     }
 
