@@ -63,11 +63,19 @@ public class LandMine : Features
         }
 
         
+        //explosionPosition = transform.position;
+        //explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);
+        //explosionPrefab.SetActive(false);
+
+        
+    }
+
+
+    void Start()
+    {
         explosionPosition = transform.position;
         explosionPrefab = Instantiate(explosionPrefab, transform.position, transform.rotation);
         explosionPrefab.SetActive(false);
-
-        
     }
 
 

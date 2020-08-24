@@ -148,6 +148,7 @@ public class ObjectManager : MonoBehaviour
         {
             prefab[i].GetComponent<Features>().Awake();
         }
+
         Messenger<Vector3, int>.AddListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
         Messenger<GameObject, _Damage>.AddListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
         Messenger.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);
@@ -176,7 +177,7 @@ public class ObjectManager : MonoBehaviour
         float cost = prefab[i].GetComponent<Features>().Cost;
         if (currentCurrency >= cost)
         {
-            position += new Vector3(0, prefab[i].transform.localScale.y / 2, 0);
+            //position += new Vector3(0, prefab[i].transform.localScale.y / 2, 0);
             currentCurrency -= prefab[i].GetComponent<Features>().Cost;
             Instantiate(prefab[i], position, new Quaternion(0, 0, 0, 0));
         }
