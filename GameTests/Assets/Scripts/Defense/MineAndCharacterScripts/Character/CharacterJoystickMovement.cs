@@ -116,25 +116,30 @@ public class CharacterJoystickMovement : MonoBehaviour
 
     void AlternativeMovement()
     {
-        Vector3 movement = new Vector3(0, 0, 0);
+        anim.SetBool("isMoving", false);
+        anim.SetBool("rotation", false);
+
+        Vector3 movementD = new Vector3(0, 0, 0);
         if (status.IsMoving)
         {
 
             float vertMovement = status.Movement * (velocity + runBoost);
 
-            movement.z = vertMovement * Time.deltaTime;
+            movementD.z = vertMovement * Time.deltaTime;
 
         }
 
-        movement = transform.TransformDirection(movement);
+        movementD = transform.TransformDirection(movementD);
 
-        _charController.Move(movement);
+        _charController.Move(movementD);
 
         if (status.IsRotating)
         {
 
             transform.Rotate(0, status.Rotation * rotationSensitivity, 0);
         }
+
+        Debug.Log("MOVIMENTO : " + movementD);
 
     }
 

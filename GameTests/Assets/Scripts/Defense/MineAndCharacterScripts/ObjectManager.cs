@@ -228,13 +228,18 @@ public class ObjectManager : MonoBehaviour
                 {
                     currentCurrency += enemy.Worth; //implementare lettura valore nemico
                     enemy.CountedForBerserk = true;
+
+                    if (enemy.Type == EnemyType.Dragon)
+                    {
+                        currentSkulls += 1;
+                    }
                 }
                 
 
-                if(enemy.Type == EnemyType.Dragon)
-                {
-                    currentSkulls += 1;
-                }
+                //if(enemy.Type == EnemyType.Dragon)
+                //{
+                //    currentSkulls += 1;
+                //}
 
                 if(damage.Type != DamageType.Berserk)
                     kills++;

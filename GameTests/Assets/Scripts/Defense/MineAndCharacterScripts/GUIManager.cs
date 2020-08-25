@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     private bool paused, over, won;
-
+    [SerializeField] GameObject joystickGO;
+    [SerializeField] GameObject buttonGO;
     [SerializeField] VariableJoystick joystick;
     [SerializeField] FloatingButton shootingButton;
     [SerializeField] GameObject character;
@@ -207,10 +208,14 @@ public class GUIManager : MonoBehaviour
         if (gameState == _GameState.Over)
         {
             gameOverUI.SetActive(true);
+            joystickGO.SetActive(false);
+            buttonGO.SetActive(false);
         }
         else
         {
             gameOverUI.SetActive(false);
+            joystickGO.SetActive(true);
+            buttonGO.SetActive(true);
             return;
         }
     }
@@ -223,6 +228,8 @@ public class GUIManager : MonoBehaviour
         if (gameState == _GameState.Won)
         {
             levelWonUI.SetActive(true);
+            joystickGO.SetActive(false);
+            buttonGO.SetActive(false);
             for (int i = 0; i < 3; i++)
             {
                 if (i + 1 <= score)
@@ -236,6 +243,8 @@ public class GUIManager : MonoBehaviour
         else
         {
             levelWonUI.SetActive(false);
+            joystickGO.SetActive(true);
+            buttonGO.SetActive(true);
             return;
         }
 
