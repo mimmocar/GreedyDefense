@@ -4849,6 +4849,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FG3D_Ogre
       objectReference: {fileID: 0}
+    - target: {fileID: 4313652152875760581, guid: 8fd188c55c38e1945990a3627667cbfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6547310701649415690, guid: 8fd188c55c38e1945990a3627667cbfe,
         type: 3}
       propertyPath: m_Name

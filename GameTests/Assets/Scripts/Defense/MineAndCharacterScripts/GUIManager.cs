@@ -27,6 +27,7 @@ public class GUIManager : MonoBehaviour
     private Vector3 worldPosition;
     private bool shooting = false;
 
+    private JoystickCharacterState playerStatus;
     public int TEMP
     {
         get { return 1; }
@@ -44,6 +45,8 @@ public class GUIManager : MonoBehaviour
 
         Messenger.AddListener(GameEvent.GAME_OVER, OnHandleGameOver);
         Messenger<int>.AddListener(GameEvent.LEVEL_WON, OnHandleLevelWon);
+
+        playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<JoystickCharacterState>();
     }
 
     void OnDestroy()
@@ -77,7 +80,7 @@ public class GUIManager : MonoBehaviour
                     position.y = Screen.height - position.y;
                     Debug.Log("Touch Position: " + position);
                     Debug.Log("Rect Position: " + (position.y - 50));
-                    if (!joystick.isActive && !shootingButton.IsShooting)
+                    if (!playerStatus.IsMoving && !playerStatus.IsRotating && !playerStatus.IsShooting)
                     {
                         display = true;
                     }
@@ -91,7 +94,7 @@ public class GUIManager : MonoBehaviour
                     display = false;
                 }
             }
-            else if (joystick.isActive || shootingButton.IsShooting)  //controllare che l'accesso allo stato sia consentito
+            else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting)  //controllare che l'accesso allo stato sia consentito
             {
                 display = false;
             }

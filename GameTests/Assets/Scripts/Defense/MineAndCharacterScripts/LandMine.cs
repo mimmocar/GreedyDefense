@@ -100,11 +100,13 @@ public class LandMine : Features
                 if (hit.GetComponent<Rigidbody>())
                 { // if it's a rigidbody, add explosion force:
                     Debug.Log("Explosion with RigidBody");
+                  
                     explosionPrefab.SetActive(true);
                     hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, 0.0f, ForceMode.Force);
                     //Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
                     Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, hit.gameObject, damage);
                     Debug.Log(hit);
+
                     explosion = true;
                 }
                 else
