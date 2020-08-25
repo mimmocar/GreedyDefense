@@ -125,6 +125,8 @@ public class JoystickCharacterState : MonoBehaviour
         isBerserkOn = true;
         GetComponent<AutoShooting>().enabled = false;
         isShooting = false;
+        //movement = 0;
+        //rotation = 0;
     }
 
     private void OnBerserkOff()

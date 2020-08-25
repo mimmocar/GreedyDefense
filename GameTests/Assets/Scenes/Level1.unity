@@ -862,6 +862,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b343845c4d54c45a7693b264f49fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joystickGO: {fileID: 1578295897}
+  buttonGO: {fileID: 407569379}
   joystick: {fileID: 1176019326}
   shootingButton: {fileID: 987594352}
   character: {fileID: 871991578}
@@ -3588,7 +3590,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 101377756}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1578295897}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42844a4fccbd54746b90cade4ff70f73, type: 3}
@@ -5014,6 +5016,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569289673}
   m_CullTransparentMesh: 0
+--- !u!1 &1578295897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3881087803549984437, guid: ec536a7718376554185e4a856d5ae230,
+    type: 3}
+  m_PrefabInstance: {fileID: 101377756}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1666569361
 GameObject:
   m_ObjectHideFlags: 0

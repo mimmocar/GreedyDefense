@@ -9,6 +9,12 @@ public class FloatingJoystick : Joystick
     {
         base.Start();
         background.gameObject.SetActive(false);
+        
+    }
+
+    void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.BERSERK_ON, OnPointerUp);
     }
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -22,5 +28,11 @@ public class FloatingJoystick : Joystick
     {
         background.gameObject.SetActive(false);
         base.OnPointerUp(eventData);
+    }
+
+    public void OnPointerUp()
+    {
+        
+        base.OnPointerUp(null); //il metodo serve solo a resettare lo stato iniziale del bottone
     }
 }
