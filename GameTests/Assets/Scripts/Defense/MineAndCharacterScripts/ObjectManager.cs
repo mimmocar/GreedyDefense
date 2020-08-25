@@ -15,6 +15,7 @@ public class ObjectManager : MonoBehaviour
     private int currentSkulls;
     private int hit = 0, kills = 0, berserk = 100;  //inizializzazione all'inizio del livello
     [SerializeField] GameObject[] prefab;
+    
 
     private float startFoodStamina = 10; //valore di inizializzazione costante
     private float foodStamina;
@@ -156,7 +157,7 @@ public class ObjectManager : MonoBehaviour
 
 
         //Aggiunto per motivi di testing
-        kills = 94;
+        kills = 97;
     }
 
     void OnDestroy()

@@ -1,4 +1,4 @@
 ﻿velocity=5.0
 runBoost=25.0
 turnSpeed= 10.0
-rotationSensitivity=1.0
+rotationSensitivity=2.5
