@@ -13,7 +13,8 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] private Image foodStamina;
     [SerializeField] private GameObject berserkText;
     [SerializeField] private Text waveCountdown; 
-    [SerializeField] private Text waveCounter; 
+    [SerializeField] private Text waveCounter;
+    private JoystickCharacterState playerStatus;
     private Text berserkTxt;
     private float startFoodStamina;
     private float speed = 2f;
@@ -21,21 +22,20 @@ public class UpdateGUI : MonoBehaviour
     void Start()
     {
         om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
+        playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<JoystickCharacterState>();
         berserkTxt = berserkText.GetComponent<Text>();
         startFoodStamina = om.StartFoodStamina;
         killsText.text = 0.ToString() + "/" + om.Berserk.ToString();
         foodStamina.fillAmount = om.FoodStamina / startFoodStamina;
         skulls.text = om.Skulls.ToString(); 
         waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
-        Messenger.AddListener(GameEvent.BERSERK_ON, OnBerserkOn);
-        Messenger.AddListener(GameEvent.BERSERK_OFF, OnBerserkOff);
+        
         Messenger.AddListener(GameEvent.LOAD_WEAPON_SELECTOR, OnLoadWeapon);
         Messenger.AddListener(GameEvent.UNLOAD_WEAPON_SELECTOR, OnUnLoadWeapon);
     }
     void OnDestroy()
     {
-        Messenger.RemoveListener(GameEvent.BERSERK_ON, OnBerserkOn);
-        Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnBerserkOff);
+        
         Messenger.RemoveListener(GameEvent.LOAD_WEAPON_SELECTOR, OnLoadWeapon);
         Messenger.RemoveListener(GameEvent.UNLOAD_WEAPON_SELECTOR, OnUnLoadWeapon);
     }
@@ -52,17 +52,7 @@ public class UpdateGUI : MonoBehaviour
         canvas.enabled = true;
     }
 
-    private void OnBerserkOn()
-    {
-        berserkText.SetActive(true);  //verificare con riferimento all stato?
-        berserkTxt.text = "";
-    }
-
-    private void OnBerserkOff()
-    {
-        berserkText.SetActive(false);
-        
-    }
+    
     // Update is called once per frame
     void Update()
     {
@@ -90,9 +80,15 @@ public class UpdateGUI : MonoBehaviour
 
         foodStamina.fillAmount = Mathf.Lerp(startStam, endStam, speed * Time.deltaTime);
 
-        if (berserkText.activeSelf)
+        if (playerStatus.IsBerserkOn)
+
         {
+            berserkText.SetActive(true);
             berserkTxt.text = ""+om.CountDown.ToString();
+        }
+        else
+        {
+            berserkText.SetActive(false);
         }
         //Aggiornamento barra della vita dei nemici
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

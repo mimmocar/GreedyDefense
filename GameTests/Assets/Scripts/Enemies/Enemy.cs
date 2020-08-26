@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
 	private Camera headCamera;
 	private Camera currentCamera;
 	public float startHealth;
+	private JoystickCharacterState playerStatus;
+	private Rigidbody rigidbody;
 	private float health;
 	private int worth;
 	private bool countedForBerserk;
@@ -181,30 +183,49 @@ public class Enemy : MonoBehaviour
 		cam = GameObject.Find("FollowingCamera").GetComponent<Camera>();
 		headCamera = GameObject.Find("HeadCamera").GetComponent<Camera>();
 		health = startHealth;
-
+		playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<JoystickCharacterState>();
+		rigidbody = GetComponent<Rigidbody>();
 
 
 	}
 
-	//public void TakeDamage(float amount)
-	//{
-	//	health -= amount;
+    //public void TakeDamage(float amount)
+    //{
+    //	health -= amount;
 
-	//	//healthBar.fillAmount = health / startHealth;
+    //	//healthBar.fillAmount = health / startHealth;
 
-	//	if (health <= 0 && !isDead)
-	//	{
-	//		isDead = true;
-	//		//Die();
-	//	}
-	//}
+    //	if (health <= 0 && !isDead)
+    //	{
+    //		isDead = true;
+    //		//Die();
+    //	}
+    //}
 
-	//public void Slow (float pct)
-	//{
-	//	speed = startSpeed * (1f - pct);
-	//}
+    //public void Slow (float pct)
+    //{
+    //	speed = startSpeed * (1f - pct);
+    //}
 
-	public void Die(DamageType type)
+	
+    void OnCollisionEnter(Collision collision)
+    {
+        if(!playerStatus.IsBerserkOn && collision.gameObject.tag == "Player")
+        {
+			Debug.Log("HIT BY PLAYER");
+			rigidbody.isKinematic = true;
+        }
+    }
+    void OnCollisionStay(Collision collision)
+    {
+		if (!playerStatus.IsBerserkOn && !rigidbody.isKinematic)
+			rigidbody.isKinematic = true;
+    }
+    void OnCollisionExit(Collision collision)
+    {
+		rigidbody.isKinematic = false;
+	}
+    public void Die(DamageType type)
 	{
 		//isDead = true;
 
