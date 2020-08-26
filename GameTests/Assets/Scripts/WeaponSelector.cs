@@ -98,7 +98,7 @@ public class WeaponSelector : MonoBehaviour
             }
             else
             {
-                string isAvailable = isAvailable = PlayerPrefs.GetString("isWeapon" + (i + 1) + "Unlocked", "false");
+                string isAvailable = PlayerPrefs.GetString("isWeapon" + (i + 1) + "Unlocked", "false");
 
                 if (i == 0)
                     isAvailable = "true";
@@ -116,6 +116,8 @@ public class WeaponSelector : MonoBehaviour
                     GameObject pricePanel = levelButtons[i].transform.Find("PricePanel").gameObject;
                     pricePanel.transform.Find("Value").GetComponent<Text>().text = "" + prices[i];
                     pricePanel.SetActive(true);
+                    if(prices[i]>skullsCurrency)
+                        levelButtons[i].interactable = false;
 
                 }
 
@@ -187,6 +189,7 @@ public class WeaponSelector : MonoBehaviour
     {
 
         Debug.Log("Back pressed");
-        GameControl.Load("LevelSelector");
+        //GameControl.Load("LevelSelector");
+        GameControl.UnloadWeapon();
     }
 }

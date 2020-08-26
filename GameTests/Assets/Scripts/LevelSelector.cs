@@ -47,7 +47,8 @@ public class LevelSelector : MonoBehaviour
     public void SelectWeapon()
     {
         PlayerPrefs.SetString("previousScene", SceneManager.GetActiveScene().name);
-        GameControl.Load("WeaponSelection");
+        //GameControl.Load("WeaponSelection");
+        GameControl.LoadWeapon();
         //SceneManager.LoadScene("WeaponSelection", LoadSceneMode.Additive);
 
     }
