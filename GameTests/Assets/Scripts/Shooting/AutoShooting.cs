@@ -17,7 +17,7 @@ public class AutoShooting : MonoBehaviour
     public GameObject[] weaponPrefabs;
     public GameObject[] bulletPrefabs;
     private Transform target;
-
+    private PoolManager poolManager;
     private float range = 15f;
 
     private GameObject weapon;
@@ -91,6 +91,9 @@ public class AutoShooting : MonoBehaviour
         if (firePoint != null) Debug.Log("FIREPOINT TROVATO");
 
 
+        poolManager = GetComponent<PoolManager>();
+        poolManager.CreatePool(bulletPrefab, 10); // da leggere da file
+
     }
 
 
@@ -142,11 +145,12 @@ public class AutoShooting : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
+        //GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        //Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
 
-        if (bullet != null)
-            bullet.Seek(target);
+        //if (bullet != null)
+        //    bullet.Seek(target);
+        poolManager.ReuseObject(bulletPrefab, firePoint.position, firePoint.rotation, target);
     }
 
     void UpdateTarget()
