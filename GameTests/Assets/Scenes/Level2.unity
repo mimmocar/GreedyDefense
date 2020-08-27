@@ -109,7 +109,7 @@ NavMeshSettings:
     agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 1
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -1158,7 +1158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485008, guid: 160da3a4ea1a8fb408844aace652fee0, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 485008, guid: 160da3a4ea1a8fb408844aace652fee0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4145,6 +4145,7 @@ MonoBehaviour:
   berserkText: {fileID: 1851971798}
   waveCountdown: {fileID: 1784006393}
   waveCounter: {fileID: 813321740}
+  waveSignal: {fileID: 0}
   joystickGO: {fileID: 0}
   buttonGO: {fileID: 0}
   joystick: {fileID: 0}

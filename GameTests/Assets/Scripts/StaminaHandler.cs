@@ -14,19 +14,31 @@ public class StaminaHandler : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-
-        var emission = attack.emission;
-        emission.enabled = true;
+        if(collision.gameObject.tag == "Enemy")
+        {
+            var emission = attack.emission;
+            emission.enabled = true;
+        }
+        
     }
 
     void OnCollisionStay(Collision collision)
     {
-        Messenger.Broadcast(GameEvent.HANDLE_FOOD_ATTACK);    
+        if (collision.gameObject.tag == "Enemy")
+        {
+
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            Dictionary<string, float> multDic = enemy.DamagesMultiplierDic;
+            Messenger<float>.Broadcast(GameEvent.HANDLE_FOOD_ATTACK,multDic["foodAttackMultiplier"]);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        var emission = attack.emission;
-        emission.enabled = false;
+        if (collision.gameObject.tag == "Enemy")
+        {
+            var emission = attack.emission;
+            emission.enabled = false;
+        }
     }
 }

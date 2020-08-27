@@ -229,6 +229,8 @@ public class GameControl : MonoBehaviour
             PlayerPrefs.SetInt("levelReached", levelReached);
         }
 
+        PlayerPrefs.SetInt("skullsCurrency", om.Skulls);
+
         //Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
     }
 
