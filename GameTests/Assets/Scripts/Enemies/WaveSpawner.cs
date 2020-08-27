@@ -19,6 +19,7 @@ public class WaveSpawner : MonoBehaviour
 	private SpawnState state = SpawnState.COUNTING;
 
 	[SerializeField] protected Transform[] spawnPoints;
+
 	private Dictionary<string, Wave> waves = new Dictionary<string, Wave>();
 	private float timeBetweenWaves;
 	private int waveIndex = -1;
@@ -31,7 +32,6 @@ public class WaveSpawner : MonoBehaviour
 
 	private bool hasPlayerWon = false;
 	private int currentWave = 1;
-
 
 	public bool HasPlayerWon
 	{
@@ -90,6 +90,7 @@ public class WaveSpawner : MonoBehaviour
 		}
 
 		om.WavesNum = numWaves;
+		om.Highliner(countDown);
 		StartCoroutine(RunSpawner());
 	}
 
