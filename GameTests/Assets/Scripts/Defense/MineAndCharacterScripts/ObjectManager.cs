@@ -15,7 +15,8 @@ public class ObjectManager : MonoBehaviour
     private int currentSkulls;
     private int hit = 0, kills = 0, berserk = 100;  //inizializzazione all'inizio del livello
     [SerializeField] GameObject[] prefab;
-    
+    [SerializeField] protected GameObject enterEffect;
+    private float timeEffect;
 
     private float startFoodStamina = 10; //valore di inizializzazione costante
     private float foodStamina;
@@ -30,7 +31,6 @@ public class ObjectManager : MonoBehaviour
 
     private bool gameEnded;
 
-   
 
     public int WavesNum
     {
@@ -267,8 +267,6 @@ public class ObjectManager : MonoBehaviour
 
     }
 
-
-
     IEnumerator BerserkHandle()
     {
         Debug.Log("Head Camera Activated");
@@ -281,5 +279,14 @@ public class ObjectManager : MonoBehaviour
 
         Messenger.Broadcast(GameEvent.BERSERK_OFF);
         Debug.Log("Head Camera Deactivated");
+    }
+
+    public void Highliner(float time)
+    {
+        GameObject food = GameObject.FindGameObjectWithTag("food");
+        timeEffect = time;
+        GameObject effect = (GameObject)Instantiate(enterEffect, food.transform.position, food.transform.rotation);
+        Destroy(effect, timeEffect);
+
     }
 }
