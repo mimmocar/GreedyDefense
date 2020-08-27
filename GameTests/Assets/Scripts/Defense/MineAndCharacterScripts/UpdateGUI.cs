@@ -15,6 +15,7 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] private GameObject berserkText;
     [SerializeField] private Text waveCountdown; 
     [SerializeField] private Text waveCounter;
+    [SerializeField] private Image waveSignal;
     [SerializeField] GameObject joystickGO;
     [SerializeField] GameObject buttonGO;
     [SerializeField] VariableJoystick joystick;
@@ -71,10 +72,13 @@ public class UpdateGUI : MonoBehaviour
             if (om.WaveCountdown < 1)
             {
                 waveCountdown.gameObject.SetActive(false);
+                waveSignal.gameObject.SetActive(false);
+                
             }
             else
             {
                 waveCountdown.gameObject.SetActive(true);
+                waveSignal.gameObject.SetActive(true);
             }
             waveCountdown.text = "Next wave in " + om.WaveCountdown.ToString();
 

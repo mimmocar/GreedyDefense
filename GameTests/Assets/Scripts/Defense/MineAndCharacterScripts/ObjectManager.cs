@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DamagePackage;
+using UnityEngine.AI;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class ObjectManager : MonoBehaviour
 
     private int startCurrency = 70; //implementare lettura da file/PlayerPrefs
     private int currentCurrency;
-    private int startSkulls = 0; //implementare lettura da file/PlayerPrefs
+    private int startSkulls; //implementare lettura da file/PlayerPrefs
     private int currentSkulls;
     private int hit = 0, kills = 0, berserk = 100;  //inizializzazione all'inizio del livello
     [SerializeField] GameObject[] prefab;
@@ -140,6 +141,7 @@ public class ObjectManager : MonoBehaviour
 
     void Awake()
     {
+        startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
         currentCurrency = startCurrency;
         foodStamina = startFoodStamina;
         currentSkulls = startSkulls;   //per il momento lasciamo anche startSkulls, a seconda di come valutare il punteggio
@@ -152,7 +154,7 @@ public class ObjectManager : MonoBehaviour
 
         Messenger<Vector3, int>.AddListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
         Messenger<GameObject, _Damage>.AddListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
-        Messenger.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);
+        Messenger<float>.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);
         Debug.Log("LETTURA FEATURES COST "+prefab[0].GetComponent<Features>().Cost);
 
 
@@ -224,7 +226,8 @@ public class ObjectManager : MonoBehaviour
             if (enemy.Dead)
             {
 
-                enemy.Die(damage.Type);
+                //enemy.Die(damage.Type);
+                //StartCoroutine(Die(enemy));
                 if (!enemy.CountedForBerserk)
                 {
                     currentCurrency += enemy.Worth; //implementare lettura valore nemico
@@ -251,6 +254,8 @@ public class ObjectManager : MonoBehaviour
                     StartCoroutine(BerserkHandle());
                     kills = 0;
                 }
+
+                StartCoroutine(Die(enemy.gameObject));
                 //kills++;
             }
         }
@@ -258,11 +263,27 @@ public class ObjectManager : MonoBehaviour
     }
 
 
-    
-    public void OnHandleFoodAttack()
+    IEnumerator Die(GameObject enemy)
+    {
+        enemy.GetComponent<NavMeshAgent>().enabled=false;
+        enemy.GetComponent<MoveDestination>().enabled = false;
+        Animator anim = enemy.GetComponent<Animator>();
+        anim.SetBool("isDead",true);
+
+        var animController = anim.runtimeAnimatorController;
+        var clip = animController.animationClips[1];
+        //while (anim.GetCurrentAnimatorStateInfo(0).IsName("BarbarianDie")){
+        //    yield return new WaitForSeconds(Time.deltaTime);
+        //}
+        //yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(clip.length);
+        //yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0). - anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        Destroy(enemy);
+    }
+    public void OnHandleFoodAttack(float damageMult)
     {
         //riduazione costante della stamina
-        float amount = Time.deltaTime * 1; //possibile estendere con un danno connesso all'attaccante
+        float amount = Time.deltaTime * damageMult; //possibile estendere con un danno connesso all'attaccante
         foodStamina -= amount;
 
     }
