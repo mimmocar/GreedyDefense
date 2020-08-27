@@ -157,7 +157,7 @@ public class ObjectManager : MonoBehaviour
 
 
         //Aggiunto per motivi di testing
-        kills = 97;
+        kills = 90;
     }
 
     void OnDestroy()
@@ -264,6 +264,7 @@ public class ObjectManager : MonoBehaviour
         //riduazione costante della stamina
         float amount = Time.deltaTime * 1; //possibile estendere con un danno connesso all'attaccante
         foodStamina -= amount;
+
     }
 
 

@@ -22,13 +22,35 @@ public class GameControl : MonoBehaviour
     public int currentLevel = 1; //test
     private float firstTH, secondTH;
     private int levelReached;
+    private int score = 0;
 
     //public static int LevelReached()
     //{
     //    instance.levelReached = PlayerPrefs.GetInt("levelReached", 1);
     //    return instance.levelReached;
     //}
+    public static float FirstTh
+    {
+        get
+        {
+            return instance.firstTH;
+        }
+    }
 
+    public static float SecondTH
+    {
+        get
+        {
+            return instance.secondTH;
+        }
+    }
+    public static int Score
+    {
+        get
+        {
+            return instance.score;
+        }
+    }
     public static int CurrentLevel
     {
         get
@@ -156,13 +178,13 @@ public class GameControl : MonoBehaviour
 
         SetGameStateOver();
         Debug.Log("Game Over");
-        Messenger.Broadcast(GameEvent.GAME_OVER);
+        //Messenger.Broadcast(GameEvent.GAME_OVER);
     }
 
     void WonGame()
     {
         SetGameStateWon();
-        int score = 0;
+        //int score = 0;
         float finalStamina = om.FoodStamina;
         float startStamina = om.StartFoodStamina;
         float finalStaminaPercentage = finalStamina / startStamina;
@@ -191,7 +213,8 @@ public class GameControl : MonoBehaviour
             levelReached += 1;
             PlayerPrefs.SetInt("levelReached", levelReached);
         }
-        Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
+
+        //Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
     }
 
 
@@ -216,8 +239,19 @@ public class GameControl : MonoBehaviour
     public void SelectWeapon()
     {
         ResumeGame();
-        GameControl.Load("WeaponSelection");
+        //GameControl.Load("WeaponSelection");
+        LoadWeapon();
 
+    }
+
+    public static void LoadWeapon()
+    {
+        SceneManager.LoadScene("WeaponSelection", LoadSceneMode.Additive);
+    }
+
+    public static void UnloadWeapon()
+    {
+        SceneManager.UnloadScene("WeaponSelection");
     }
 
 
