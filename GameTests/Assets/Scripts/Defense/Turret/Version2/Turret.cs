@@ -18,7 +18,7 @@ public class Turret : Features
 	private float fireCountdown = 0f;
 
 	private int bulletFired = 0;
-
+	private PoolManager poolManager;
 	public string enemyTag = "Enemy";
 
 	public Transform partToRotate;
@@ -64,11 +64,19 @@ public class Turret : Features
 		//fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 		//turnSpeed = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
 		//cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+		//poolManager = GetComponent<PoolManager>();
+		//poolManager.CreatePool(bulletPrefab, 10); //da leggere da file
+		//InvokeRepeating("UpdateTarget", 0f, 0.5f);
+	}
 
+	void Start()
+    {
+		poolManager = GetComponent<PoolManager>();
+		poolManager.CreatePool(bulletPrefab, 10); //da leggere da file
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}
 
-	void UpdateTarget()
+    void UpdateTarget()
 	{
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 		float shortestDistance = Mathf.Infinity;
@@ -126,11 +134,12 @@ public class Turret : Features
 
 	void Shoot()
 	{
-		GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-		Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
+		//GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+		//Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
 
-		if (bullet != null)
-			bullet.Seek(target);
+		//if (bullet != null)
+		//	bullet.Seek(target);
+		poolManager.ReuseObject(bulletPrefab,firePoint.position, firePoint.rotation, target);
 	}
 
 	void OnDrawGizmosSelected()

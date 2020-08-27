@@ -3563,6 +3563,7 @@ GameObject:
   - component: {fileID: 4313652152875760578}
   - component: {fileID: 4313652152875760579}
   - component: {fileID: 4313652152875760576}
+  - component: {fileID: 3849973573197542543}
   m_Layer: 0
   m_Name: FG3D_Ogre
   m_TagString: Untagged
@@ -3582,6 +3583,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 3450438004371689809}
+  - {fileID: 120624797099537288}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3669,11 +3671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb916fcf0a2e4fbfbd2b02a787f19d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 5
-  runBoost: 5
-  turnSpeed: 10
-  gravity: -9.8
-  weaponPrefab: {fileID: 0}
 --- !u!114 &4313652152875760579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3698,6 +3695,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21c0fe42630684ea495aa986e25e0856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3849973573197542543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4313652152875760581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43691f7f335ef4a3091d902df1b8eda4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4315695268313704091
@@ -7539,6 +7548,36 @@ Transform:
   - {fileID: 7541076970211131422}
   m_Father: {fileID: 510973842005360875}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8620026160715297184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 120624797099537288}
+  m_Layer: 0
+  m_Name: RoundsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &120624797099537288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8620026160715297184}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1351016696997756995}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8739781519000702096
 GameObject:

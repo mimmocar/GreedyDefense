@@ -98,8 +98,8 @@ public class ShootingManager : MonoBehaviour
         GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
 
-        if (bullet != null)
-            bullet.Seek(target);
+        //if (bullet != null)
+        //    bullet.Seek(target);
     }
 
     void UpdateTarget()
