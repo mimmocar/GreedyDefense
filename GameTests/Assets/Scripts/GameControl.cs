@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 public enum _GameState { Play, Pause, Over, Won }
 public class GameControl : MonoBehaviour
@@ -23,6 +24,20 @@ public class GameControl : MonoBehaviour
     private float firstTH, secondTH;
     private int levelReached;
     private int score = 0;
+
+    //private float initialWaveCountdown;
+
+    //public static float InitialWaveCountdown
+    //{
+    //    get
+    //    {
+    //        return instance.initialWaveCountdown;
+    //    }
+    //    set
+    //    {
+    //        instance.initialWaveCountdown = value;
+    //    }
+    //}
 
     //public static int LevelReached()
     //{
