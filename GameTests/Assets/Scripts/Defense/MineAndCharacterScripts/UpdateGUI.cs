@@ -13,6 +13,7 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] private Image foodStamina;
     [SerializeField] private Image foodStaminaScore;
     [SerializeField] private GameObject berserkText;
+    [SerializeField] private GameObject berserkSignal;
     [SerializeField] private Text waveCountdown; 
     [SerializeField] private Text waveCounter;
     [SerializeField] private Image waveSignal;
@@ -93,11 +94,13 @@ public class UpdateGUI : MonoBehaviour
             if (playerStatus.IsBerserkOn)
 
             {
+                berserkSignal.SetActive(true);
                 berserkText.SetActive(true);
                 berserkTxt.text = "" + om.CountDown.ToString();
             }
             else
             {
+                berserkSignal.SetActive(false);
                 berserkText.SetActive(false);
             }
             //Aggiornamento barra della vita dei nemici
@@ -134,6 +137,7 @@ public class UpdateGUI : MonoBehaviour
                 joystickGO.SetActive(false);
                 buttonGO.SetActive(false);
             }
+
                 
         }
         else if(gameState == _GameState.Over)
@@ -141,6 +145,8 @@ public class UpdateGUI : MonoBehaviour
             gameOverUI.SetActive(true);
             joystickGO.SetActive(false);
             buttonGO.SetActive(false);
+            berserkText.SetActive(false);
+            berserkSignal.SetActive(false);
         }
         else if(gameState == _GameState.Won){
             StartCoroutine(LevelWon());
@@ -158,6 +164,7 @@ public class UpdateGUI : MonoBehaviour
         levelWonUI.SetActive(true);
         joystickGO.SetActive(false);
         buttonGO.SetActive(false);
+        berserkText.SetActive(false);
 
         yield return new WaitForSecondsRealtime(2f);
 
