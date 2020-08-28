@@ -159,7 +159,7 @@ public class ObjectManager : MonoBehaviour
 
 
         //Aggiunto per motivi di testing
-        kills = 90;
+        kills = 98;
     }
 
     void OnDestroy()
