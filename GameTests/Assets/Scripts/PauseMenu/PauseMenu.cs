@@ -22,7 +22,7 @@ public class PauseMenu : MonoBehaviour
 	}
 	public void OnResumeButton()
 	{
-		Hide();
+		//Hide();
 		GameControl.ResumeGame();
 	}
 	public void OnMainMenuButton()

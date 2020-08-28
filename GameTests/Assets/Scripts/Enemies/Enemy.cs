@@ -26,22 +26,22 @@ public class Enemy : MonoBehaviour
 	private Rigidbody rigidbody;
 	private float health;
 	private int worth;
-	private bool countedForBerserk;
+	private bool deathCounted;
 
 
 	private int enemiesDied = 0;
 
 
-	public bool CountedForBerserk
+	public bool DeathCounted
 	{
 		get
 		{
-			return countedForBerserk;
+			return deathCounted;
 		}
 
 		set
 		{
-			countedForBerserk = value;
+			deathCounted = value;
 		}
 	}
 	public int Died

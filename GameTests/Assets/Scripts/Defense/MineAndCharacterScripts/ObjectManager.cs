@@ -228,25 +228,20 @@ public class ObjectManager : MonoBehaviour
 
                 //enemy.Die(damage.Type);
                 //StartCoroutine(Die(enemy));
-                if (!enemy.CountedForBerserk)
+                if (!enemy.DeathCounted)
                 {
                     currentCurrency += enemy.Worth; //implementare lettura valore nemico
-                    enemy.CountedForBerserk = true;
 
                     if (enemy.Type == EnemyType.Dragon)
                     {
                         currentSkulls += 1;
                     }
+
+                    if (damage.Type != DamageType.Berserk)
+                        kills++;
                 }
                 
 
-                //if(enemy.Type == EnemyType.Dragon)
-                //{
-                //    currentSkulls += 1;
-                //}
-
-                if(damage.Type != DamageType.Berserk)
-                    kills++;
 
                 if (kills >= berserk)
                 {
@@ -255,7 +250,12 @@ public class ObjectManager : MonoBehaviour
                     kills = 0;
                 }
 
-                StartCoroutine(Die(enemy.gameObject));
+                if (!enemy.DeathCounted)
+                {
+                    enemy.DeathCounted = true;
+                    StartCoroutine(Die(enemy.gameObject));
+                }
+                    
                 //kills++;
             }
         }
@@ -265,22 +265,25 @@ public class ObjectManager : MonoBehaviour
 
     IEnumerator Die(GameObject enemy)
     {
-        enemy.GetComponent<NavMeshAgent>().enabled=false;
-        enemy.GetComponent<MoveDestination>().enabled = false;
-        Animator anim = enemy.GetComponent<Animator>();
-        anim.SetBool("isDead",true);
+        
+            enemy.GetComponent<NavMeshAgent>().enabled = false;
+            enemy.GetComponent<MoveDestination>().enabled = false;
+            Animator anim = enemy.GetComponent<Animator>();
+            anim.SetBool("isDead", true);
 
-        var animController = anim.runtimeAnimatorController;
-        var clip = animController.animationClips[1];
-        //while (anim.GetCurrentAnimatorStateInfo(0).IsName("BarbarianDie")){
-        //    yield return new WaitForSeconds(Time.deltaTime);
-        //}
-        //yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
-        yield return new WaitForSeconds(clip.length);
-        //yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0). - anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        enemy.transform.position = new Vector3(-1000, -1000, -1000);
-        yield return new WaitForEndOfFrame();
-        Destroy(enemy);
+            var animController = anim.runtimeAnimatorController;
+            var clip = animController.animationClips[1];
+
+            yield return new WaitForSeconds(clip.length);
+
+            if(enemy != null)
+                enemy.transform.position = new Vector3(-1000, -1000, -1000);
+            yield return new WaitForEndOfFrame();
+
+
+            Destroy(enemy);
+        
+
     }
     public void OnHandleFoodAttack(float damageMult)
     {

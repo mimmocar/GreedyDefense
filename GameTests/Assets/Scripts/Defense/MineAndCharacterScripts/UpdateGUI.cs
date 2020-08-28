@@ -60,7 +60,8 @@ public class UpdateGUI : MonoBehaviour
             {
                 PauseMenu.Hide();
                 joystickGO.SetActive(true);
-                buttonGO.SetActive(true);
+                if(!playerStatus.IsBerserkOn)
+                    buttonGO.SetActive(true);
 
             }
                 
