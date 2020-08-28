@@ -25,25 +25,7 @@ public class GameControl : MonoBehaviour
     private int levelReached;
     private int score = 0;
 
-    //private float initialWaveCountdown;
-
-    //public static float InitialWaveCountdown
-    //{
-    //    get
-    //    {
-    //        return instance.initialWaveCountdown;
-    //    }
-    //    set
-    //    {
-    //        instance.initialWaveCountdown = value;
-    //    }
-    //}
-
-    //public static int LevelReached()
-    //{
-    //    instance.levelReached = PlayerPrefs.GetInt("levelReached", 1);
-    //    return instance.levelReached;
-    //}
+    
     public static float FirstTh
     {
         get
@@ -229,13 +211,19 @@ public class GameControl : MonoBehaviour
             PlayerPrefs.SetInt("levelReached", levelReached);
         }
 
-        PlayerPrefs.SetInt("skullsCurrency", om.Skulls);
+        //PlayerPrefs.SetInt("skullsCurrency", om.Skulls);
 
         //Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
     }
 
+
+    private void StoreSkulls()
+    {
+        PlayerPrefs.SetInt("skullsCurrency", om.Skulls);
+    }
     public void SelectLevel()
     {
+        StoreSkulls();
         ResumeGame();
         Load("LevelSelector");
     }
@@ -247,13 +235,14 @@ public class GameControl : MonoBehaviour
 
     public void Continue()
     {
+        StoreSkulls();
         ResumeGame();
         Load("Level" + (currentLevel + 1));
     }
 
     public void SelectWeapon()
     {
-        ResumeGame();
+        //ResumeGame();
         LoadWeapon();
 
     }
