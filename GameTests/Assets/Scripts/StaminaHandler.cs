@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class StaminaHandler : MonoBehaviour
 {
-    private GameObject food;
-    private ParticleSystem attack;
     
+    private ParticleSystem attack;
+    private Collider coll;
     private void Start()
     {
-        food = GameObject.FindGameObjectWithTag("food");
-        attack = food.GetComponent<ParticleSystem>();
+
+        attack = GetComponent<ParticleSystem>();
+        var emission = attack.emission;
+        emission.enabled = false;
+        coll = GetComponent<Collider>();
+        
     }
-    private void OnCollisionEnter(Collision collision)
+
+
+    
+    void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
+            
             var emission = attack.emission;
             emission.enabled = true;
+            
         }
-        
+
     }
 
     void OnCollisionStay(Collision collision)
@@ -33,12 +42,14 @@ public class StaminaHandler : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            Debug.Log("COLLISION EXIT");
             var emission = attack.emission;
             emission.enabled = false;
+            
         }
     }
 }

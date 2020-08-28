@@ -278,6 +278,8 @@ public class ObjectManager : MonoBehaviour
         //yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         yield return new WaitForSeconds(clip.length);
         //yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0). - anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        enemy.transform.position = new Vector3(-1000, -1000, -1000);
+        yield return new WaitForEndOfFrame();
         Destroy(enemy);
     }
     public void OnHandleFoodAttack(float damageMult)

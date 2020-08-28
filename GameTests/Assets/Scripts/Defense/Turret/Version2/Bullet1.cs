@@ -28,7 +28,7 @@ public class Bullet1 : PoolObject
     void Start()
     {
 		effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
-		effectIns.transform.parent = transform.parent;
+		//effectIns.transform.parent = transform.parent;
 		effectIns.SetActive(false);
 	}
 

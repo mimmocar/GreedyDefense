@@ -1436,6 +1436,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1876892111506000691, guid: eaf61f4c558df6243b9d39a1991215d4,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876892111506000691, guid: eaf61f4c558df6243b9d39a1991215d4,
+        type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876892111506000691, guid: eaf61f4c558df6243b9d39a1991215d4,
+        type: 3}
+      propertyPath: stopAction
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf61f4c558df6243b9d39a1991215d4, type: 3}
 --- !u!1 &467998156
@@ -4237,7 +4252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.42850253, y: 0.22900002}
   m_AnchorMax: {x: 0.57, y: 0.29659086}
-  m_AnchoredPosition: {x: 0.2250061, y: 0.99998474}
+  m_AnchoredPosition: {x: 0.2250061, y: 1}
   m_SizeDelta: {x: -0.4499998, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1469024023
@@ -8358,7 +8373,7 @@ PrefabInstance:
     - target: {fileID: 2952234056564869909, guid: d74080a5af0923c4e8285dd180a8f56b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8059571116672557840, guid: d74080a5af0923c4e8285dd180a8f56b,
         type: 3}
