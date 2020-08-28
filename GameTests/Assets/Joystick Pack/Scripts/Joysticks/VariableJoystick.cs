@@ -10,6 +10,7 @@ public class VariableJoystick : Joystick
     [SerializeField] private float moveThreshold = 1;
     [SerializeField] private JoystickType joystickType = JoystickType.Fixed;
     private bool active;
+    private bool pressed = false;
 
 
     public Vector2 fixedPosition = Vector2.zero;
@@ -19,6 +20,14 @@ public class VariableJoystick : Joystick
         get
         {
             return Horizontal!=0 || Vertical!=0;
+        }
+    }
+
+    public bool isPressed
+    {
+        get
+        {
+            return pressed;
         }
     }
 
@@ -44,6 +53,7 @@ public class VariableJoystick : Joystick
 
     public override void OnPointerDown(PointerEventData eventData)
     {
+        pressed = true;
         if(joystickType != JoystickType.Fixed)
         {
             background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
@@ -54,6 +64,7 @@ public class VariableJoystick : Joystick
 
     public override void OnPointerUp(PointerEventData eventData)
     {
+        pressed = false;
         if(joystickType != JoystickType.Fixed)
             background.gameObject.SetActive(false);
 

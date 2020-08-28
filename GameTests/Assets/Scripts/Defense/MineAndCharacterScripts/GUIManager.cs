@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
@@ -67,7 +68,6 @@ public class GUIManager : MonoBehaviour
             Touch theTouch = Input.GetTouch(0);
             if (theTouch.phase == TouchPhase.Began)
             {
-
                 touchPositionStart = theTouch.position;
                 Ray ray = Camera.main.ScreenPointToRay(touchPositionStart);
                 RaycastHit hit;
@@ -80,7 +80,7 @@ public class GUIManager : MonoBehaviour
                     position.y = Screen.height - position.y;
                     Debug.Log("Touch Position: " + position);
                     Debug.Log("Rect Position: " + (position.y - 50));
-                    if (!playerStatus.IsMoving && !playerStatus.IsRotating && !playerStatus.IsShooting)
+                    if (!playerStatus.IsMoving && !playerStatus.IsRotating && !playerStatus.IsShooting && !playerStatus.IsStanding)
                     {
                         display = true;
                     }
@@ -94,7 +94,7 @@ public class GUIManager : MonoBehaviour
                     display = false;
                 }
             }
-            else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting)  //controllare che l'accesso allo stato sia consentito
+            else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting || playerStatus.IsStanding)  //controllare che l'accesso allo stato sia consentito
             {
                 display = false;
             }
