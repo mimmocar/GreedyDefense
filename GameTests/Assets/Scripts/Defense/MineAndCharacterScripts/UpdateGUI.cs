@@ -159,6 +159,8 @@ public class UpdateGUI : MonoBehaviour
         joystickGO.SetActive(false);
         buttonGO.SetActive(false);
 
+        yield return new WaitForSecondsRealtime(2f);
+
         float firstTH = GameControl.FirstTh;
         float secondTH = GameControl.SecondTH;
         GameObject[] starBorders = GameObject.FindGameObjectsWithTag("score");

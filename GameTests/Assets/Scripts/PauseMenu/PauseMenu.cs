@@ -32,7 +32,7 @@ public class PauseMenu : MonoBehaviour
 	}
 	public void OnRestartButton()
 	{
-		UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+		GameControl.Load(SceneManager.GetActiveScene().name);
 	}
 
 	public static void Hide() { instance._Hide(); }

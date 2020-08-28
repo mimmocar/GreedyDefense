@@ -234,8 +234,6 @@ public class GameControl : MonoBehaviour
         //Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
     }
 
-
-
     public void SelectLevel()
     {
         ResumeGame();
@@ -244,7 +242,7 @@ public class GameControl : MonoBehaviour
     public void Retry()
     {
         ResumeGame();
-        SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        Load(SceneManager.GetActiveScene().name);
     }
 
     public void Continue()
@@ -256,7 +254,6 @@ public class GameControl : MonoBehaviour
     public void SelectWeapon()
     {
         ResumeGame();
-        //GameControl.Load("WeaponSelection");
         LoadWeapon();
 
     }

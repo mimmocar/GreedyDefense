@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour
@@ -13,7 +14,7 @@ public class GameOver : MonoBehaviour
 	public void Retry()
 	{
 		GameControl.ResumeGame();
-		UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+		GameControl.Load(SceneManager.GetActiveScene().name);
 	}
 
 	public void SelectWeapon()
