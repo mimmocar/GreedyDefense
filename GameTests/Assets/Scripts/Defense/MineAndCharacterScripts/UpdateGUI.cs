@@ -166,6 +166,7 @@ public class UpdateGUI : MonoBehaviour
         joystickGO.SetActive(false);
         buttonGO.SetActive(false);
         berserkText.SetActive(false);
+        berserkSignal.SetActive(false);
 
         yield return new WaitForSecondsRealtime(2f);
 
