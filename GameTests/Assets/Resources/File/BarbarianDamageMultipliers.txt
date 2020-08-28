@@ -4,4 +4,4 @@ FireMultiplier=1.0
 ImpactMultiplier=1.0
 MissileMultiplier=1.0
 BulletMultiplier=1.0
-foodAttackMultiplier=0.0
+foodAttackMultiplier=1.0
