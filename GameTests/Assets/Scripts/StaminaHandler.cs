@@ -38,7 +38,8 @@ public class StaminaHandler : MonoBehaviour
 
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             Dictionary<string, float> multDic = enemy.DamagesMultiplierDic;
-            Messenger<float>.Broadcast(GameEvent.HANDLE_FOOD_ATTACK,multDic["foodAttackMultiplier"]);
+            if(!enemy.DeathCounted)
+                Messenger<float>.Broadcast(GameEvent.HANDLE_FOOD_ATTACK,multDic["foodAttackMultiplier"]);
         }
     }
 
