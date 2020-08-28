@@ -98,8 +98,9 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+    
 
-	[Header("Unity Stuff")]
+    [Header("Unity Stuff")]
 	public Image hbContainer;
 	public Image healthBar;
 
@@ -129,7 +130,7 @@ public class Enemy : MonoBehaviour
 			health = value;
 		}
 	}
-
+	
 	void Start()
 	{
 		multiplierDict = new Dictionary<string, float>();
