@@ -18,6 +18,16 @@ public class JoystickCharacterState : MonoBehaviour
     protected float rotation;
     private int countDown;
 
+    protected bool isStanding;
+
+    public bool IsStanding
+    {
+        get
+        {
+            return isStanding;
+        }
+    }
+
     public bool IsBerserkOn
     {
         get
@@ -117,6 +127,9 @@ public class JoystickCharacterState : MonoBehaviour
         isMoving = movement != 0;
         isRotating = rotation != 0;
         isShooting = shootingButton.IsShooting;
+        if (isMoving == false && isRotating == false && joystick.isPressed)
+            isStanding = true;
+        else isStanding = false;
 
     }
 
