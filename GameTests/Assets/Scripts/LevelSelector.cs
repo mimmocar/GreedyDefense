@@ -18,6 +18,7 @@ public class LevelSelector : MonoBehaviour
             else
             {
                 int score = PlayerPrefs.GetInt("starForLevel" + (i + 1), 0);
+                
 
                 //Image[] borders = levelButtons[i].GetComponentsInChildren<Image>();
                 //Debug.Log("Number of borders found : "+ borders.Length);
@@ -25,10 +26,10 @@ public class LevelSelector : MonoBehaviour
                 {
                     if (j + 1 <= score)
                     {
-                        Transform border = levelButtons[i].transform.GetChild(j + 1);
+                        Transform border = levelButtons[i].transform.Find("Border"+(j + 1));
                         if (border != null)
                             Debug.Log("Border found : " + border);
-                        Transform starImage = border.GetChild(0);
+                        Transform starImage = border.Find("Filling");
                         Debug.Log("Border found : " + starImage);
                         starImage.gameObject.SetActive(true);
                     }

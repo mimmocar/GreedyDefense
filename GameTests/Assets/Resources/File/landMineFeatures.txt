@@ -4,3 +4,4 @@ amount=25.0
 explosionRadius=10.0
 explosionPower=1000.0
 cost=25
+upwardMod=0.0

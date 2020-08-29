@@ -5,11 +5,12 @@ using DamagePackage;
 public class CharacterJoystickMovement : MonoBehaviour
 {
     protected CharacterController _charController;
-    private float velocity = 5f;
+    private GameControl gameControl;
+    private float velocity;
     private float runBoost;
-    private float turnSpeed = 1; //implementare lettura da file dei parametri di configurazione
-    private float gravity = -9.8f;
-    protected float rotationSensitivity = 1f;
+    private float turnSpeed; //implementare lettura da file dei parametri di configurazione
+    private float gravity;
+    protected float rotationSensitivity;
     protected float vertSpeed = 0.0f;
     private _Damage berserkDamage = new _Damage(DamageType.Berserk, "Berserk Attack", 0f);
     Vector2 input;
@@ -31,9 +32,10 @@ public class CharacterJoystickMovement : MonoBehaviour
     {
         followingCamera = Camera.main;
         cam = GameObject.Find("FollowingCamera").transform;
+        gameControl = GameControl.Instance();
         status = GetComponent<JoystickCharacterState>();
         _charController = GetComponent<CharacterController>();
-
+        gravity = status.Gravity;
 
         TextAsset data = Resources.Load<TextAsset>("File/characterFeatures");
         string[] lines = data.text.Split('\n');
@@ -69,7 +71,8 @@ public class CharacterJoystickMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        _GameState gS = gameControl.GetGameState();
+        if (gS == _GameState.Over || gS == _GameState.Won) return;
         if (!status.IsGrounded)
         {
 
@@ -106,7 +109,6 @@ public class CharacterJoystickMovement : MonoBehaviour
         else
         {
                 anim.SetBool("isShooting", false);
-                //anim.enabled = false;
                 AlternativeMovement();
             
         }
@@ -180,12 +182,8 @@ public class CharacterJoystickMovement : MonoBehaviour
     }
     private void Move()
     {
-        //transform.position += transform.forward * velocity * Time.deltaTime;
-
-
-
+        
         movement = transform.forward * velocity * Time.deltaTime;
-        //movement.y += vertSpeed * Time.deltaTime;
         _charController.Move(movement);
         anim.SetBool("isMoving", true);
 

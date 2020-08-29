@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class JoystickCharacterState : MonoBehaviour
@@ -11,7 +12,6 @@ public class JoystickCharacterState : MonoBehaviour
     protected bool isRotating;
     protected bool isGrounded;
     protected bool isBerserkOn;
-    // Temporary added for Automatic Shooting character
     protected bool isShooting;
 
     protected float movement;
@@ -19,7 +19,17 @@ public class JoystickCharacterState : MonoBehaviour
     private int countDown;
 
     protected bool isStanding;
+    private float gravity;
+    private float minimumDistance;
 
+
+    public float Gravity
+    {
+        get
+        {
+            return gravity;
+        }
+    }
     public bool IsStanding
     {
         get
@@ -36,7 +46,6 @@ public class JoystickCharacterState : MonoBehaviour
         }
     }
 
-    // Temporary added for Automatic Shooting character
     public bool IsShooting
     {
         get { return isShooting; }
@@ -79,12 +88,39 @@ public class JoystickCharacterState : MonoBehaviour
             return rotation;
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    void Awake()
+    {
+        string filePath = "File/playerFeatures";
+
+        TextAsset data = Resources.Load<TextAsset>(filePath);
+        string[] lines = data.text.Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            string[] token = line.Split('=');
+
+            switch (token[0])
+            {
+                case "gravity":
+                    gravity = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "minimumDistance":
+                    minimumDistance = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                default:   //aggiungere alla lettura  e handOffset, scaleWeapon e rotation params, bulletPoolSize  
+                    break;
+
+            }
+        }
+    }
+
+    void Start()
+    { 
         Messenger.AddListener(GameEvent.BERSERK_ON, OnBerserkOn);
         Messenger.AddListener(GameEvent.BERSERK_OFF, OnBerserkOff);
+        
 
     }
 
@@ -92,6 +128,7 @@ public class JoystickCharacterState : MonoBehaviour
     {
         Messenger.RemoveListener(GameEvent.BERSERK_ON, OnBerserkOn);
         Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnBerserkOff);
+        
     }
 
     // Update is called once per frame
@@ -106,9 +143,8 @@ public class JoystickCharacterState : MonoBehaviour
     {
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position,
-            transform.TransformDirection(Vector3.down), out hit, 0.1f)
-                && hit.collider.tag == "floor")
+        //if (Physics.Raycast(transform.position,transform.TransformDirection(Vector3.down), out hit, 0.1f) && hit.collider.tag == "floor")
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, minimumDistance) && hit.collider.tag == "floor")
         {
             isGrounded = true;
         }
@@ -138,8 +174,7 @@ public class JoystickCharacterState : MonoBehaviour
         isBerserkOn = true;
         GetComponent<AutoShooting>().enabled = false;
         isShooting = false;
-        //movement = 0;
-        //rotation = 0;
+        
     }
 
     private void OnBerserkOff()
@@ -147,4 +182,6 @@ public class JoystickCharacterState : MonoBehaviour
         isBerserkOn = false;
         GetComponent<AutoShooting>().enabled = true; ;
     }
+
+    
 }

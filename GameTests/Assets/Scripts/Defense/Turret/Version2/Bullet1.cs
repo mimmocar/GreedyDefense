@@ -22,13 +22,12 @@ public class Bullet1 : PoolObject
 	{
 
 		Debug.Log(type.ToString());
-		damage = _Damage.ReadDamage("File/" + type.ToString() + "Features");
+		damage = _Damage.ReadDamage("File/" + type.ToString() + "Features");//riaggiustare  mettendo la lettura della speed;
 	}
 
     void Start()
     {
 		effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
-		//effectIns.transform.parent = transform.parent;
 		effectIns.SetActive(false);
 	}
 
@@ -50,12 +49,13 @@ public class Bullet1 : PoolObject
 
 		if (target == null)
 		{
-			//Destroy(gameObject);
+			
 			Destroy();
 			return;
 		}
 
 		Vector3 dir = target.position - transform.position;
+		dir.y += target.transform.localScale.y / 2;
 		float distanceThisFrame = speed * Time.deltaTime;
 
 		if (dir.magnitude <= distanceThisFrame)
@@ -69,30 +69,63 @@ public class Bullet1 : PoolObject
 
 	}
 
-	void HitTarget()
-	{
-		//GameObject effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
+	private void ActiveEffect()
+    {
+
 		effectIns.transform.position = transform.position;
 		effectIns.transform.rotation = transform.rotation;
 		effectIns.SetActive(true);
 		Animation anim;
-		ParticleSystem ps = effectIns.GetComponent<ParticleSystem>() ;
+		ParticleSystem ps = effectIns.GetComponent<ParticleSystem>();
 		if (ps != null) ps.Play();
-        if (effectIns.GetComponent<Animation>() != null)
-        {
-            Debug.Log("ANIM FOUND");
-            anim = effectIns.GetComponent<Animation>();
-            anim.Play();
-        }
-        Debug.Log("EFFETTO ATTIVO " + effectIns.transform.position);
+		if (effectIns.GetComponent<Animation>() != null)
+		{
+			Debug.Log("ANIM FOUND");
+			anim = effectIns.GetComponent<Animation>();
+			anim.Play();
+		}
+		Debug.Log("EFFETTO ATTIVO " + effectIns.transform.position);
 
-		//Destroy(effectIns, 5f);
+
 		StartCoroutine(DestroyEffect());
+	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+		if (other.gameObject.tag != "Enemy")
+	     {
+			ActiveEffect();
+			Debug.Log("BULLET DESTROYED because of: "+ other.gameObject.tag);
+			Destroy();
+	     }
+	}
+	
+
+	void HitTarget()
+	{
+
+		//effectIns.transform.position = transform.position;
+		//effectIns.transform.rotation = transform.rotation;
+		//effectIns.SetActive(true);
+		//Animation anim;
+		//ParticleSystem ps = effectIns.GetComponent<ParticleSystem>() ;
+		//if (ps != null) ps.Play();
+		//      if (effectIns.GetComponent<Animation>() != null)
+		//      {
+		//          Debug.Log("ANIM FOUND");
+		//          anim = effectIns.GetComponent<Animation>();
+		//          anim.Play();
+		//      }
+		//      Debug.Log("EFFETTO ATTIVO " + effectIns.transform.position);
+
+
+		//StartCoroutine(DestroyEffect());
+		ActiveEffect();
 
 		Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, target.gameObject, damage);
 
 		Destroy();
-		//Destroy(gameObject);
+		
 	}
 
 	IEnumerator  DestroyEffect()

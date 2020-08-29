@@ -1,0 +1,2 @@
+﻿gravity=-9.8
+minimumDistance=0.1

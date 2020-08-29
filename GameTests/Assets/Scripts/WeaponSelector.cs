@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Globalization;
 
+
 public class WeaponSelector : MonoBehaviour
 {
     private const char NEW_LINE = '\n';
@@ -12,12 +13,12 @@ public class WeaponSelector : MonoBehaviour
     public UnityEngine.UI.Button[] levelButtons;
     private string[] unlockedWeapons;
     private int[] prices;
-
+    private Utility.Utility util;
     private int weaponToUnlock = -1;
     private int skullsCurrency;
-    public const float MAX_RANGE = 60f;
-    public const float MAX_RATE = 10f;
-    public const float MAX_DAMAGE = 99f;
+    //public const float MAX_RANGE = 60f;
+    //public const float MAX_RATE = 10f;
+    //public const float MAX_DAMAGE = 99f;
 
     public GameObject confirmationPanel;
     public Text currentCurrency;
@@ -27,8 +28,8 @@ public class WeaponSelector : MonoBehaviour
     {
         unlockedWeapons = new string[levelButtons.Length];
         prices = new int[levelButtons.Length];
-
-        //skullsCurrency = PlayerPrefs.GetInt("skullsCurrency", 0);
+        util = Utility.Utility.Instance();
+        
 
         //Istruzione per testing
         skullsCurrency = PlayerPrefs.GetInt("skullsCurrency", 0);
@@ -39,9 +40,9 @@ public class WeaponSelector : MonoBehaviour
         {
             string filePath = "File/weapon" + (i + 1) + "Features";
 
-            //float range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-            //float fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-            //float damage = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+        
+        
+        
             //int price = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
             //prices[i] = price;
 
@@ -61,15 +62,15 @@ public class WeaponSelector : MonoBehaviour
                 {
                     case "range":
                         float range = float.Parse(token[1], CultureInfo.InvariantCulture);
-                        rangeIm.fillAmount = range / MAX_RANGE;
+                        rangeIm.fillAmount = range / util.Max_Range;
                         break;
                     case "fireRate":
                         float fireRate = float.Parse(token[1], CultureInfo.InvariantCulture);
-                        fireIm.fillAmount = fireRate / MAX_RATE;
+                        fireIm.fillAmount = fireRate / util.Max_Rate;
                         break;
                     case "damage":
                         float damage = float.Parse(token[1], CultureInfo.InvariantCulture);
-                        damageIm.fillAmount = damage / MAX_DAMAGE;
+                        damageIm.fillAmount = damage / util.Max_Damage;
                         break;
                     case "price":
                         int price = int.Parse(token[1], CultureInfo.InvariantCulture);
@@ -80,6 +81,7 @@ public class WeaponSelector : MonoBehaviour
 
 
                 }
+                
             }
 
 

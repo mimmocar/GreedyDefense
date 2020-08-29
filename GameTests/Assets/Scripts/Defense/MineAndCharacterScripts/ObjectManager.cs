@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using DamagePackage;
 using UnityEngine.AI;
+using System.Globalization;
 
 public class ObjectManager : MonoBehaviour
 {
     //private delegate void OnSpawnObject(Vector3 pos, GameObject pref);
     //Start is called before the first frame update
-
-    private int startCurrency = 70; //implementare lettura da file/PlayerPrefs
+    private static ObjectManager _instance;
+    private int startCurrency; //implementare lettura da file/PlayerPrefs
     private int currentCurrency;
     private int startSkulls; //implementare lettura da file/PlayerPrefs
     private int currentSkulls;
@@ -19,10 +20,15 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] protected GameObject enterEffect;
     private float timeEffect;
 
-    private float startFoodStamina = 10; //valore di inizializzazione costante
+    private int berserkCountdown;
+    private GameControl gameControl;
+    private float startFoodStamina; //valore di inizializzazione costante
     private float foodStamina;
     private int countDown;
-
+    private float explosionPower;
+    private float explosionRadius;
+    private float upwardMod;
+    private float enemyOffset;
     private float waveCountdown;
     private int waves;
     private int currentWave;
@@ -88,8 +94,8 @@ public class ObjectManager : MonoBehaviour
             return countDown;
         }
     }
-   
-    
+
+
     public int Kills
     {
         get
@@ -139,13 +145,20 @@ public class ObjectManager : MonoBehaviour
     }
 
 
+    public static ObjectManager Instance(){
+
+        if (_instance == null)
+            _instance = FindObjectOfType<ObjectManager>();
+        return _instance;
+    }
+
     void Awake()
     {
-        startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
-        currentCurrency = startCurrency;
-        foodStamina = startFoodStamina;
-        currentSkulls = startSkulls;   //per il momento lasciamo anche startSkulls, a seconda di come valutare il punteggio
-
+        //startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
+        //currentCurrency = startCurrency;
+        //foodStamina = startFoodStamina;
+        //currentSkulls = startSkulls;   //per il momento lasciamo anche startSkulls, a seconda di come valutare il punteggio
+        
 
         for (int i = 0; i < prefab.Length; i++)
         {
@@ -157,9 +170,56 @@ public class ObjectManager : MonoBehaviour
         Messenger<float>.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);
         Debug.Log("LETTURA FEATURES COST "+prefab[0].GetComponent<Features>().Cost);
 
+        gameControl = GameControl.Instance();
+
+
+        string filePath = "File/Level" + gameControl.currentLevel + "Features";
+        TextAsset data = Resources.Load<TextAsset>(filePath);
+        string[] lines = data.text.Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            string[] token = line.Split('=');
+
+            switch (token[0])
+            {
+                case "startCurrency":
+                    startCurrency = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "startFoodStamina":
+                    startFoodStamina = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "explosionPower":
+                    explosionPower = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "explosionRadius":
+                    explosionRadius = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "upwardMod":
+                    upwardMod = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "enemyOffset":
+                    enemyOffset = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "berserk":
+                    berserk = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "berserkCountdown":
+                    berserkCountdown = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
+        currentCurrency = startCurrency;
+        foodStamina = startFoodStamina;
+        currentSkulls = startSkulls;
 
         //Aggiunto per motivi di testing
-        kills = 98;
+        kills = 0;
     }
 
     void OnDestroy()
@@ -170,7 +230,56 @@ public class ObjectManager : MonoBehaviour
 
     private void Start()
     {
-        
+        //inizializza lettura monete, vita del cibo, raggio dell'esplosione, potenza dell'esplosione, countdown bererk, upward modification Anche per LandMine
+        // anche enemyOffset
+        //gameControl = GameControl.Instance();
+
+
+        //string filePath = "File/Level"+gameControl.currentLevel+"Features";
+        //TextAsset data = Resources.Load<TextAsset>(filePath);
+        //string[] lines = data.text.Split('\n');
+
+        //for (int i = 0; i < lines.Length; i++)
+        //{
+        //    string line = lines[i];
+        //    string[] token = line.Split('=');
+
+        //    switch (token[0])
+        //    {
+        //        case "startCurrency":
+        //            startCurrency = int.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "startFoodStamina":
+        //            startFoodStamina = float.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "explosionPower":
+        //            explosionPower = float.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "explosionRadius":
+        //            explosionRadius = float.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "upwardMod":
+        //            upwardMod = float.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "enemyOffset":
+        //            enemyOffset = float.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "berserk":
+        //            berserk = int.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        case "berserkCountdown":
+        //            berserkCountdown = int.Parse(token[1], CultureInfo.InvariantCulture);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+
+        //startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
+        //currentCurrency = startCurrency;
+        //foodStamina = startFoodStamina;
+        //currentSkulls = startSkulls;
+
     }
 
     
@@ -202,7 +311,7 @@ public class ObjectManager : MonoBehaviour
             if(damage.Type == DamageType.Berserk) //evito controllo perchè il nemici hanno il rigidbody
             {
 
-                target.GetComponent<Rigidbody>().AddExplosionForce(1000.0f, target.transform.position, 10.0f, 0.0f, ForceMode.Force); //implementare lettura da file
+                target.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, target.transform.position, explosionRadius, upwardMod, ForceMode.Force); //implementare lettura da file
                 enemy.Health = 0;
                 
                 
@@ -277,7 +386,7 @@ public class ObjectManager : MonoBehaviour
             yield return new WaitForSeconds(clip.length);
 
             if(enemy != null)
-                enemy.transform.position = new Vector3(-1000, -1000, -1000);
+                enemy.transform.position = new Vector3(enemyOffset, enemyOffset, enemyOffset);
             yield return new WaitForEndOfFrame();
 
 
@@ -296,7 +405,7 @@ public class ObjectManager : MonoBehaviour
     IEnumerator BerserkHandle()
     {
         Debug.Log("Head Camera Activated");
-        countDown = 15; //15 secondi
+        countDown = berserkCountdown; //15 secondi
         while(countDown >= 0)
         {
             yield return new WaitForSeconds(1);

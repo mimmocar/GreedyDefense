@@ -2,3 +2,6 @@
 fireRate=1.0
 turnSpeed=10.0
 cost=50
+startShootingTime=0.0
+repeatShootingTime=0.5
+bulletPoolSize=10
