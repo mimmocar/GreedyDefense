@@ -1,6 +1,7 @@
-Waves;1;
+Waves;2;
 SpawnPoints;1;
 Countdown;5;
 TimeBetweenWaves;5;
 WaveID;NumEnemies;SpawnRate;Enemies;
-W1SP1;5;0.5;B;B;B;B;B;
+W1SP1;5;0.5;B;M;B;B;M;
+W2SP1;7;0.5;B;M;M;M;M;B;B;
