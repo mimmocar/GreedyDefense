@@ -5,14 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-	private GameObject thisObj;
+	private static GameObject thisObj;
 	private static PauseMenu instance;
-	public GameObject pauseMenuObj;
+	private static GameControl gameControl;
+	private bool isOn = true;
+
+	public bool IsOn
+    {
+        get
+        {
+			return isOn;
+        }
+    }
+
+	public static PauseMenu Instance()
+    {
+		if(instance == null)
+        {
+			instance = FindObjectOfType<PauseMenu>();
+			thisObj = instance.gameObject;
+			gameControl = GameControl.Instance();
+        }
+		return instance;
+    }
 
 	void Awake()
 	{
-		instance = this;
-		thisObj = gameObject;
+		//instance = this;
+		//thisObj = gameObject;
 
 	}
 	void Start()
@@ -23,7 +43,7 @@ public class PauseMenu : MonoBehaviour
 	public void OnResumeButton()
 	{
 		//Hide();
-		GameControl.ResumeGame();
+		gameControl.ResumeGame();
 	}
 	public void OnMainMenuButton()
 	{
@@ -35,10 +55,15 @@ public class PauseMenu : MonoBehaviour
 		GameControl.Load(SceneManager.GetActiveScene().name);
 	}
 
-	public static void Hide() { instance._Hide(); }
+	public void Hide() {
+		isOn = false;
+		thisObj.SetActive(isOn);
+	}
 
-	public static bool isOn = true;
-	public static void Show() { instance._Show(); }
+	public void Show() {
+		isOn = true;
+		thisObj.SetActive(isOn);
+	}
 	public void _Show()
 	{
 		isOn = true;
@@ -52,6 +77,6 @@ public class PauseMenu : MonoBehaviour
 
 	public void OnOptionBackButton()
 	{
-		pauseMenuObj.SetActive(true);
+		thisObj.SetActive(true);
 	}
 }

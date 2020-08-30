@@ -1,0 +1,2 @@
+﻿speed=5.0
+scoreSpeed=0.06

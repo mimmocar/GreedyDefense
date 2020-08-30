@@ -89,6 +89,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011103104770}
   - component: {fileID: 114000011498150162}
+  - component: {fileID: 114698606568379357}
+  - component: {fileID: 8645717845164068201}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Untagged
@@ -104,7 +106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012160685858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.152, y: 1.568, z: 0}
+  m_LocalPosition: {x: -1.152, y: 1.568, z: 0.036}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011027679858}
@@ -127,3 +129,33 @@ MonoBehaviour:
   speed: 30
   impactEffect: {fileID: 1000013060428206, guid: 5489c0257fbdab449ada93425ec206de,
     type: 3}
+--- !u!136 &114698606568379357
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012160685858}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.2991656
+  m_Height: 1.23475
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.20438838}
+--- !u!54 &8645717845164068201
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012160685858}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -12,81 +12,87 @@ public class GameControl : MonoBehaviour
     private const char NEW_LINE = '\n';
     private const char EQUALS = '=';
 
-    public static GameControl instance;
+    private static GameControl instance;
     private ObjectManager om;
     private WaveSpawner spawner;
     private bool gameStarted = false;
     private float playerLife;
     public _GameState gameState = _GameState.Play;
-    //private string nextScene = "Level1";
-    //private string mainMenu = "MainMenuScene";
-    public int currentLevel = 1; //test
+    
+    public int currentLevel; //Da testare: provare a leggere il numero del livello dal nome della scena o dall'indice
     private float firstTH, secondTH;
     private int levelReached;
     private int score = 0;
 
     
-    public static float FirstTh
+    public float FirstTh
     {
         get
         {
-            return instance.firstTH;
+            return firstTH;
         }
     }
 
-    public static float SecondTH
+    public float SecondTH
     {
         get
         {
-            return instance.secondTH;
+            return secondTH;
         }
     }
-    public static int Score
+    public int Score
     {
         get
         {
-            return instance.score;
+            return score;
         }
     }
-    public static int CurrentLevel
+    public int CurrentLevel
     {
         get
         {
-            return instance.currentLevel;
+            return currentLevel;
         }
     }
 
-    public static bool IsGameStarted()
+    public static GameControl Instance()
     {
-        return instance.gameStarted;
-    }
-    public static bool IsGameOver()
-    {
-        return instance.gameState == _GameState.Over ? true : false;
-    }
-    public static bool IsGamePaused()
-    {
-        return instance.gameState == _GameState.Pause ? true : false;
+        if (instance == null)
+            instance = FindObjectOfType<GameControl>();
+        return instance;
     }
 
-    public static float GetPlayerLife() { return instance.playerLife; }
-
-    public static _GameState GetGameState()
+    public bool IsGameStarted()
     {
-        return instance.gameState;
+        return gameStarted;
     }
-    public static void SetGameStateOver()
+    public bool IsGameOver()
     {
-        instance.gameState = _GameState.Over;
+        return gameState == _GameState.Over ? true : false;
+    }
+    public bool IsGamePaused()
+    {
+        return gameState == _GameState.Pause ? true : false;
+    }
+
+    public float GetPlayerLife() { return instance.playerLife; }
+
+    public _GameState GetGameState()
+    {
+        return gameState;
+    }
+    public void SetGameStateOver()
+    {
+        gameState = _GameState.Over;
         Time.timeScale = 0;
     }
-    public static bool HasPlayerWon()
+    public bool HasPlayerWon()
     {
-        return instance.gameState == _GameState.Won ? true : false;
+        return gameState == _GameState.Won ? true : false;
     }
-    public static void SetGameStateWon()
+    public void SetGameStateWon()
     {
-        instance.gameState = _GameState.Won;
+        gameState = _GameState.Won;
         Time.timeScale = 0;
     }
 
@@ -102,18 +108,18 @@ public class GameControl : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        //instance = this;
         Time.timeScale = 1;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //* implementare singleton
+        om = ObjectManager.Instance(); //* implementare singleton
         spawner = GetComponent<WaveSpawner>();
         levelReached = PlayerPrefs.GetInt("levelReached", 1);
 
-        string filePath = "File/Level" + currentLevel + "Thresholds";
+        string filePath = "File/Level" + currentLevel + "Features";
 
         TextAsset data = Resources.Load<TextAsset>(filePath);
         string[] lines = data.text.Split(NEW_LINE);
@@ -153,33 +159,34 @@ public class GameControl : MonoBehaviour
     }
 
 
-    public static void StartGame()
+    public void StartGame()
     {
-        instance.gameStarted = true;
+        gameStarted = true;
     }
 
-    public static void PauseGame()
+    public void PauseGame()
     {
-        instance.gameState = _GameState.Pause;
+        gameState = _GameState.Pause;
         Time.timeScale = 0;
     }
-    public static void ResumeGame()
+    public void ResumeGame()
     {
-        instance.gameState = _GameState.Play;
+        gameState = _GameState.Play;
         Time.timeScale = 1;
     }
 
 
     void EndGame()
     {
-
+        
         SetGameStateOver();
         Debug.Log("Game Over");
-        //Messenger.Broadcast(GameEvent.GAME_OVER);
+        
     }
 
     void WonGame()
     {
+        
         SetGameStateWon();
         //int score = 0;
         float finalStamina = om.FoodStamina;
@@ -211,9 +218,7 @@ public class GameControl : MonoBehaviour
             PlayerPrefs.SetInt("levelReached", levelReached);
         }
 
-        //PlayerPrefs.SetInt("skullsCurrency", om.Skulls);
-
-        //Messenger<int>.Broadcast(GameEvent.LEVEL_WON, score);
+        
     }
 
 

@@ -1,0 +1,7 @@
+﻿rectPositionOffsetX=100.0
+rectPositionOffsetY=200.0
+rectWidth=200.0
+rectHeight=150.0
+rectColorShade=0.5
+rectColorTextShade=0.0
+rectFontSize=50

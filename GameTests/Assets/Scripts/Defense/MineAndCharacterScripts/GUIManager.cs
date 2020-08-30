@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,16 +8,10 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     private bool paused, over, won;
-    //[SerializeField] GameObject joystickGO;
-    //[SerializeField] GameObject buttonGO;
-    //[SerializeField] VariableJoystick joystick;
-    //[SerializeField] FloatingButton shootingButton;
-    [SerializeField] GameObject character;
-
-    //[SerializeField] GameObject gameOverUI;
-    //[SerializeField] GameObject levelWonUI;
+    [SerializeField] GameObject character;    
 
     private ObjectManager om;
+    private GameControl gameControl;
     [SerializeField] private Texture2D mineTexture, missileTurrTexture, torretTexture;
     private Vector2 touchPositionStart;
     private Vector2 position;
@@ -28,6 +23,14 @@ public class GUIManager : MonoBehaviour
     private Vector3 worldPosition;
     private bool shooting = false;
 
+    private float rectPositionOffsetX;
+    private float rectPositionOffsetY;
+    private float rectWidth;
+    private float rectHeight;
+    private float rectColorShade;
+    private int rectFontSize;
+    private float rectColorTextShade;
+
     private JoystickCharacterState playerStatus;
     public int TEMP
     {
@@ -37,15 +40,52 @@ public class GUIManager : MonoBehaviour
 
     void Start()
     {
-        om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
+        om = ObjectManager.Instance();
+        gameControl = GameControl.Instance();
         mineCost = om.GetCost(0);
         missileTurCost = om.GetCost(1);
         torretCost = om.GetCost(2);
         Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
 
-        //Messenger.AddListener(GameEvent.GAME_OVER, OnHandleGameOver);
-        //Messenger<int>.AddListener(GameEvent.LEVEL_WON, OnHandleLevelWon);
+
+        string filePath = "File/guiManagerFeatures";
+
+        TextAsset data = Resources.Load<TextAsset>(filePath);
+        string[] lines = data.text.Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            string[] token = line.Split('=');
+
+            switch (token[0])
+            {
+                case "rectPositionOffsetX":
+                    rectPositionOffsetX = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rectPositionOffsetY":
+                    rectPositionOffsetY = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rectWidth":
+                    rectWidth = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rectHeight":
+                    rectHeight = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rectColorShade":
+                    rectColorShade = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rectColorTextShade":
+                    rectColorTextShade = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "rectFontSize":
+                    rectFontSize = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<JoystickCharacterState>();
     }
@@ -55,8 +95,6 @@ public class GUIManager : MonoBehaviour
         Messenger.RemoveListener(GameEvent.SHOOTING, OnShootingStart);
         Messenger.RemoveListener(GameEvent.STOP_SHOOTING, OnShootingStop);
 
-        //Messenger.RemoveListener(GameEvent.GAME_OVER, OnHandleGameOver);
-        //Messenger<int>.RemoveListener(GameEvent.LEVEL_WON, OnHandleLevelWon);
     }
 
 
@@ -79,7 +117,7 @@ public class GUIManager : MonoBehaviour
                     position = touchPositionStart;
                     position.y = Screen.height - position.y;
                     Debug.Log("Touch Position: " + position);
-                    Debug.Log("Rect Position: " + (position.y - 50));
+                    
                     if (!playerStatus.IsMoving && !playerStatus.IsRotating && !playerStatus.IsShooting && !playerStatus.IsStanding)
                     {
                         display = true;
@@ -126,9 +164,9 @@ public class GUIManager : MonoBehaviour
     {
         
 
-        paused = GameControl.IsGamePaused();
-        over = GameControl.IsGameOver();
-        won = GameControl.HasPlayerWon();
+        paused = gameControl.IsGamePaused();
+        over = gameControl.IsGameOver();
+        won = gameControl.HasPlayerWon();
 
         if (!paused && !over && !won) { 
        
@@ -136,22 +174,37 @@ public class GUIManager : MonoBehaviour
             {
 
                 GUIStyle textStyle = new GUIStyle();
-                textStyle.fontSize = 50;
+                //textStyle.fontSize = 50;
+                textStyle.fontSize = rectFontSize;
                 textStyle.alignment = TextAnchor.LowerRight;
-                textStyle.normal.textColor = Color.black;
-                textStyle.hover.textColor = Color.black;
+                textStyle.normal.textColor = Color.white;
+                //textStyle.hover.textColor = Color.black;
+                textStyle.hover.textColor = Color.yellow;
+                Debug.Log("GUI FETURE- RECT POS X" + rectPositionOffsetX);
+                Debug.Log("GUI FETURE- RECT POS Y" + rectPositionOffsetY);
+                Debug.Log("GUI FETURE- RECT POS X+ WIDTH" + (rectPositionOffsetX + rectWidth));
+                Debug.Log("GUI FETURE- WIDTH" + rectWidth);
+                Debug.Log("GUI FETURE- HEIGHT" + rectHeight);
 
-                mine = new Rect(position.x - 300, position.y - 200, 200, 150);
-                missileTur = new Rect(position.x - 100, position.y - 200, 200, 150);
-                torret = new Rect(position.x + 100, position.y - 200, 200, 150);
 
-                GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+                //mine = new Rect(position.x - 300, position.y - 200, 200, 150);
+                mine = new Rect(position.x - (rectPositionOffsetX+rectWidth), position.y - rectPositionOffsetY, rectWidth, rectHeight);
+                //missileTur = new Rect(position.x - 100, position.y - 200, 200, 150);
+                missileTur = new Rect(position.x - rectPositionOffsetX, position.y - rectPositionOffsetY, rectWidth, rectHeight);
+                //torret = new Rect(position.x + 100, position.y - 200, 200, 150);
+                torret = new Rect(position.x + rectPositionOffsetX, position.y - rectPositionOffsetY, rectWidth, rectHeight);
+
+                //GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                GUI.backgroundColor = new Color(rectColorShade, rectColorShade, rectColorShade);
                 GUI.Box(mine, mineTexture);
                 GUI.Box(missileTur, missileTurrTexture);
                 GUI.Box(torret, torretTexture);
 
-                GUI.backgroundColor = new Color(0, 0, 0, 0);
-                
+                //GUI.backgroundColor = new Color(0, 0, 0, 0);
+                GUI.backgroundColor = new Color(rectColorTextShade, rectColorTextShade, rectColorTextShade);
+
+
                 GUI.Box(mine, mineCost.ToString(), textStyle);  //convertire prezzo in int
                 GUI.Box(missileTur, missileTurCost.ToString(), textStyle);
                 GUI.Box(torret, torretCost.ToString(), textStyle);
@@ -162,19 +215,16 @@ public class GUIManager : MonoBehaviour
             {
                 if (mine.Contains(touchPositionEnd))
                 {
-                    //Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 0);
                     om.OnSpawnObject(worldPosition, 0);
                     Debug.Log("Selected arma 1");
                 }
                 else if (missileTur.Contains(touchPositionEnd))
                 {
-                    //Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 1);
                     om.OnSpawnObject(worldPosition, 1);
                     Debug.Log("Selected arma 2");
                 }
                 else if (torret.Contains(touchPositionEnd))
                 {
-                    //Messenger<Vector3, int>.Broadcast(GameEvent.SPAWN_REQUESTED, worldPosition, 2);
                     om.OnSpawnObject(worldPosition, 2);
                     Debug.Log("Selected arma 3");
                 }
@@ -189,69 +239,21 @@ public class GUIManager : MonoBehaviour
 
     public void OnPauseButton()
     {
-        _GameState gameState = GameControl.GetGameState();
+        _GameState gameState = gameControl.GetGameState();
         if (gameState == _GameState.Over) return;
 
 
         if (gameState == _GameState.Pause)
         {
-            GameControl.ResumeGame();
-            //PauseMenu.Hide();
+            gameControl.ResumeGame();
+            
         }
         else
         {
-            GameControl.PauseGame();
-            //PauseMenu.Show();
+            gameControl.PauseGame();
+            
         }
     }
 
-    //public void OnHandleGameOver()
-    //{
-    //    _GameState gameState = GameControl.GetGameState();
-    //    if (gameState == _GameState.Over)
-    //    {
-    //        gameOverUI.SetActive(true);
-    //        joystickGO.SetActive(false);
-    //        buttonGO.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        gameOverUI.SetActive(false);
-    //        joystickGO.SetActive(true);
-    //        buttonGO.SetActive(true);
-    //        return;
-    //    }
-    //}
-
-    //public void OnHandleLevelWon(int score)
-    //{
-
-    //    _GameState gameState = GameControl.GetGameState();
-
-    //    if (gameState == _GameState.Won)
-    //    {
-    //        levelWonUI.SetActive(true);
-    //        joystickGO.SetActive(false);
-    //        buttonGO.SetActive(false);
-    //        for (int i = 0; i < 3; i++)
-    //        {
-    //            if (i + 1 <= score)
-    //            {
-    //                Transform border = levelWonUI.transform.GetChild(i + 4);
-    //                Transform starImage = border.GetChild(0);
-    //                starImage.gameObject.SetActive(true);
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        levelWonUI.SetActive(false);
-    //        joystickGO.SetActive(true);
-    //        buttonGO.SetActive(true);
-    //        return;
-    //    }
-
-       
-    //}
-
+    
 }

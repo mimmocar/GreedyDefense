@@ -164,23 +164,7 @@ public class Enemy : MonoBehaviour
 			}
 		}
 
-		//startHealth = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		//health = startHealth;
-		//worth = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-
-		//      while (!sr.EndOfStream)
-		//      {
-		//	dM.Add(float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture));
-		//      }
-
-		//damegesMultipliers = dM.ToArray();
-		//      for(int i=0;i< damegesMultipliers.Length; i++)
-		//      {
-		//	Debug.Log(i + "   " + damegesMultipliers[i]);
-
-		//      }
-
-
+		
 		cam = GameObject.Find("FollowingCamera").GetComponent<Camera>();
 		headCamera = GameObject.Find("HeadCamera").GetComponent<Camera>();
 		health = startHealth;
@@ -190,23 +174,7 @@ public class Enemy : MonoBehaviour
 
 	}
 
-    //public void TakeDamage(float amount)
-    //{
-    //	health -= amount;
-
-    //	//healthBar.fillAmount = health / startHealth;
-
-    //	if (health <= 0 && !isDead)
-    //	{
-    //		isDead = true;
-    //		//Die();
-    //	}
-    //}
-
-    //public void Slow (float pct)
-    //{
-    //	speed = startSpeed * (1f - pct);
-    //}
+    
 
 	
     void OnCollisionEnter(Collision collision)
@@ -228,17 +196,7 @@ public class Enemy : MonoBehaviour
 	}
     public void Die(DamageType type)
 	{
-		//isDead = true;
-
-		// PlayerStats.Money += worth;
-
-		// GameObject effect = (GameObject)Instantiate(deathEffect, transform.position, Quaternion.identity);
-		// Destroy(effect, 5f);
-
-		//WaveSpawner1.EnemiesAlive--;
-		//Died++;
-
-		//Messenger<int>.Broadcast("Enemy died", Died);
+		
 		float delay = 0;
 		if (type == DamageType.Berserk)
 		{

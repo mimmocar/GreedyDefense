@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.7
     agentHeight: 2
     agentSlope: 45
     agentClimb: 1
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.23333333
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -1527,7 +1527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448ed49881af20542ac981dc6b041460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuObj: {fileID: 409745552}
 --- !u!1 &416657900
 GameObject:
   m_ObjectHideFlags: 0
@@ -7674,7 +7673,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.42850253, y: 0.22900002}
   m_AnchorMax: {x: 0.57, y: 0.29659086}
-  m_AnchoredPosition: {x: 0.2250061, y: 0.99998474}
+  m_AnchoredPosition: {x: 0.2250061, y: 1}
   m_SizeDelta: {x: -0.4499998, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1823515281
@@ -7869,7 +7868,7 @@ PrefabInstance:
     - target: {fileID: 2154992155778537215, guid: d74080a5af0923c4e8285dd180a8f56b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2661843763221211397, guid: d74080a5af0923c4e8285dd180a8f56b,
         type: 3}
@@ -8078,7 +8077,7 @@ PrefabInstance:
     - target: {fileID: 8678891243315647547, guid: db9c52de304a09c4283a10b9efcaf8ea,
         type: 3}
       propertyPath: m_NavMeshLayer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8678891243315647547, guid: db9c52de304a09c4283a10b9efcaf8ea,
         type: 3}

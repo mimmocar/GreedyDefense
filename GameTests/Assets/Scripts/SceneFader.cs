@@ -8,16 +8,19 @@ public class SceneFader : MonoBehaviour
 {
     [SerializeField] protected Image fading;
     [SerializeField] protected AnimationCurve fadingCurve;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(FadeIn());
+        
     }
 
     public void FadeTo(string scene)
     {
         StartCoroutine(FadeOut(scene));
+        Debug.Log("FADING");
     }
 
     IEnumerator FadeIn()

@@ -18,11 +18,11 @@ public class AutoShooting : MonoBehaviour
     public GameObject[] bulletPrefabs;
     private Transform target;
     private PoolManager poolManager;
-    private float range = 15f;
+    private float range;
 
     private GameObject weapon;
     private GameObject bulletPrefab;
-    private float fireRate = 1f;
+    private float fireRate;
     private float fireCountdown = 0f;
 
     private int bulletFired = 0;
@@ -30,15 +30,19 @@ public class AutoShooting : MonoBehaviour
     public string enemyTag = "Enemy";
 
     public Transform partToRotate;
-    public float turnSpeed = 10f;
+    public float turnSpeed;
 
     private int weaponSelected;
     private Transform firePoint;
     private GameObject rHand;
-    private Vector3 handOffset = new Vector3(0.15f, 0.013f, 0.05f);
+    //private Vector3 handOffset = new Vector3(0.15f, 0.013f, 0.05f);
+    //private Quaternion weaponRotation;
 
-
-
+    
+    private float startShootingTime;
+    private float repeatShootingTime;
+    private int bulletPoolSize;
+    //private float scaleWeapon;
 
     void Start()
     {
@@ -50,7 +54,7 @@ public class AutoShooting : MonoBehaviour
 
         anim = GetComponent<Animator>();
         status = GetComponent<JoystickCharacterState>();
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+      //  InvokeRepeating("UpdateTarget", 0f, 0.5f); //nuovi parametri sono startShooting  time e repeatShootingTime
 
         string filePath = "File/weapon" + weaponSelected + "Features";
 
@@ -70,20 +74,71 @@ public class AutoShooting : MonoBehaviour
                 case "fireRate":
                     fireRate = float.Parse(token[1], CultureInfo.InvariantCulture);
                     break;
-                default:
+                default:   //aggiungere alla lettura  e handOffset, scaleWeapon e rotation params, bulletPoolSize  
                     break;
 
             }
         }
-        //range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-        //fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
+
+        //Vector3 handOffset = new Vector3(0.15f, 0.013f, 0.05f);
+        Vector3 handOffset;
+        Quaternion weaponRotation;
 
         rHand = GameObject.Find("rHand");
         weapon = Instantiate(weapon, rHand.transform.position, Quaternion.identity);
         weapon.transform.parent = rHand.transform;
-        weapon.transform.localPosition = handOffset;
-        weapon.transform.localRotation = Quaternion.Euler(-90, 0, 180);
-        weapon.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+        filePath = "File/autoshootingFeatures";
+        data = Resources.Load<TextAsset>(filePath);
+        lines = data.text.Split(NEW_LINE);
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            string[] token = line.Split(EQUALS);
+
+            switch (token[0])
+            {
+                case "turnSpeed":
+                    turnSpeed = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "startShootingTime":
+                    startShootingTime = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "repeatShootingTime":
+                    repeatShootingTime = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "bulletPoolSize":
+                    bulletPoolSize = int.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "scaleWeapon":
+                    float scaleWeapon  = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    weapon.transform.localScale = new Vector3(scaleWeapon, scaleWeapon, scaleWeapon);
+                    break;
+                case "handOffset":
+                    string[] componentsV = token[1].Split(',');
+                    float xV = float.Parse(componentsV[0], CultureInfo.InvariantCulture);
+                    float yV = float.Parse(componentsV[1], CultureInfo.InvariantCulture);
+                    float zV = float.Parse(componentsV[2], CultureInfo.InvariantCulture);
+                    handOffset = new Vector3(xV, yV, zV);
+                    weapon.transform.localPosition = handOffset;
+                    break;
+                case "weaponRotation":
+                    string[] componentsQ = token[1].Split(',');
+                    float xQ = float.Parse(componentsQ[0], CultureInfo.InvariantCulture);
+                    float yQ = float.Parse(componentsQ[1], CultureInfo.InvariantCulture);
+                    float zQ = float.Parse(componentsQ[2], CultureInfo.InvariantCulture);
+                    weaponRotation = Quaternion.Euler(xQ, yQ, zQ);
+                    weapon.transform.localRotation = weaponRotation;
+                    break;
+
+                default:   //aggiungere alla lettura turnSpeed e handOffset, scaleWeapon e rotation params, bulletPoolSize  
+                    break;
+
+            }
+        }
+
+        
 
         weapon.SetActive(true);
 
@@ -92,8 +147,9 @@ public class AutoShooting : MonoBehaviour
 
 
         poolManager = GetComponent<PoolManager>();
-        poolManager.CreatePool(bulletPrefab, 10); // da leggere da file
+        poolManager.CreatePool(bulletPrefab, bulletPoolSize); // da leggere da file
 
+        InvokeRepeating("UpdateTarget", startShootingTime, repeatShootingTime); //nuovi parametri sono startShooting  time e repeatShootingTime
     }
 
 
@@ -129,27 +185,16 @@ public class AutoShooting : MonoBehaviour
 
     void LockOnTarget()
     {
-
-        //per risolvere il problema dell'angolazione penso bisogni aggiungere un ulteriore 
+        
         Vector3 dir = target.position - transform.position;
-        //Vector3 dir = target.position - firePoint.transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
-        //Vector3 diff = partToRotate.forward - GameObject.Find("rForearmBend").transform.forward;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-        //Vector3 diff = partToRotate.forward - GameObject.Find("rForearmBend").transform.forward;
-        //Debug.Log("DIFFERENZA: " + diff);
-
 
     }
 
     void Shoot()
-    {
-        //GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        //Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
-
-        //if (bullet != null)
-        //    bullet.Seek(target);
+    {        
         poolManager.ReuseObject(bulletPrefab, firePoint.position, firePoint.rotation, target);
     }
 

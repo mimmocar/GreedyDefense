@@ -7,7 +7,7 @@ using System.Globalization;
 public class WaveSpawner : MonoBehaviour
 {
 	private ObjectManager om;
-
+	private GameControl gameControl;
 	private const char NEW_LINE = '\n';
 	private const char SEMICOLON = ';';
 
@@ -43,9 +43,9 @@ public class WaveSpawner : MonoBehaviour
 
 	private void Start()
 	{
-		om = FindObjectOfType<ObjectManager>().GetComponent<ObjectManager>(); //implementare singleton
-
-		int currentLevel = GameControl.CurrentLevel;
+		om = ObjectManager.Instance(); //implementare singleton
+		gameControl = GameControl.Instance();
+		int currentLevel = gameControl.CurrentLevel;
 
 		filePath = "File/Level" + currentLevel + "_waves";
 		Debug.Log("CURRENT LEVEL: " + filePath);

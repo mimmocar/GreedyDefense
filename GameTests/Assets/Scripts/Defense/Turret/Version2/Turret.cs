@@ -26,6 +26,9 @@ public class Turret : Features
 
 	public Transform firePoint;
 
+	private float startShootingTime;
+	private float repeatShootingTime;
+	private int bulletPoolSize;
 	// Use this for initialization
 	public override void Awake()
 	{
@@ -55,25 +58,30 @@ public class Turret : Features
 					cost = int.Parse(token[1], CultureInfo.InvariantCulture);
 					Debug.Log("COSTO ASSET LETTO: " + cost);
 					break;
+				case "startShootingTime":
+					startShootingTime = float.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				case "repeatShootingTime":
+					repeatShootingTime = float.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				case "bulletPoolSize":
+					bulletPoolSize = int.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
 				default:
 					break;
 			}
 		}
 
-		//range = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		//fireRate = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		//turnSpeed = float.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		//cost = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
-		//poolManager = GetComponent<PoolManager>();
-		//poolManager.CreatePool(bulletPrefab, 10); //da leggere da file
-		//InvokeRepeating("UpdateTarget", 0f, 0.5f);
+		
 	}
 
 	void Start()
     {
 		poolManager = GetComponent<PoolManager>();
-		poolManager.CreatePool(bulletPrefab, 10); //da leggere da file
-		InvokeRepeating("UpdateTarget", 0f, 0.5f);
+		//poolManager.CreatePool(bulletPrefab, 10); //da leggere da file
+		poolManager.CreatePool(bulletPrefab, bulletPoolSize); //da leggere da file
+		//InvokeRepeating("UpdateTarget", 0f, 0.5f);
+		InvokeRepeating("UpdateTarget", startShootingTime, repeatShootingTime);
 	}
 
     void UpdateTarget()
@@ -134,11 +142,7 @@ public class Turret : Features
 
 	void Shoot()
 	{
-		//GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-		//Bullet1 bullet = bulletGO.GetComponent<Bullet1>();
-
-		//if (bullet != null)
-		//	bullet.Seek(target);
+		
 		poolManager.ReuseObject(bulletPrefab,firePoint.position, firePoint.rotation, target);
 	}
 

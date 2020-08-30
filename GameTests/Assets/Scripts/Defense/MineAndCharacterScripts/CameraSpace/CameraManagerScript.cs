@@ -64,30 +64,10 @@ namespace CameraSpace
         protected void FollowObject(Camera followingCamera)
         {
 
-            ////////Vector3 toTarget = toFollow.transform.position-followingCamera.transform.position;
             
-            //toTarget.y = followingCamera.transform.position.y;
             Vector3 pos = toFollow.transform.position + cameraOffset;
-            //pos.x -= toTarget.x;
-            //pos.z -= toTarget.z;
-            //pos.y = toTarget.y;
-            //followingCamera.transform.Translate(toTarget.x,toTarget.y,toTarget.z,Space.World);
-
             followingCamera.transform.position = Vector3.Slerp(followingCamera.transform.position, pos, SmoothFactor);
-
-            // This constructs a rotation looking in the direction of our target,
-            ///////Quaternion targetRotation = Quaternion.LookRotation(toTarget);
-
-            // This blends the target rotation in gradually.
-            // lower values are slower/softer.
-            ///////float sharpness = 0.1f;
-            ////////followingCamera.transform.rotation = Quaternion.Lerp(followingCamera.transform.rotation, targetRotation, sharpness);
-
-            // This gives an "stretchy" damping where it moves fast when far
-            // away and slows down as it gets closer. You can also use 
-            // Quaternion.RotateTowards() to get a more consistent speed.
-
-            //transform.rotation=Quaternion.RotateTowards(transform.rotation, targetRotation, sharpness);
+ 
         }
 
         public void OnChangeCamera()
