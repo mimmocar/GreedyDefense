@@ -1,5 +1,5 @@
 startHealth=80.0
-worth=20
+worth=10
 FireMultiplier=1.0
 ImpactMultiplier=1.0
 MissileMultiplier=1.0

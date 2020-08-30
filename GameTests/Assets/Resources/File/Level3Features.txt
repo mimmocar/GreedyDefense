@@ -6,5 +6,5 @@ explosionPower=1000.0
 explosionRadius=10.0
 upwardMod=0.0
 enemyOffset=-100
-berserk=100
+berserk=10
 berserkCountdown=15
