@@ -22,6 +22,8 @@ public class JoystickCharacterState : MonoBehaviour
     private float gravity;
     private float minimumDistance;
 
+    private bool isReadyToMove;
+    
 
     public float Gravity
     {
