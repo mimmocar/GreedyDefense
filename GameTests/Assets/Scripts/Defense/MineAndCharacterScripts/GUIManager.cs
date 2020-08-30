@@ -187,13 +187,18 @@ public class GUIManager : MonoBehaviour
                 Debug.Log("GUI FETURE- HEIGHT" + rectHeight);
 
 
+                float positionY = position.y - rectPositionOffsetY;
+
+                if (positionY < 0)
+                    positionY = 0;
+
 
                 //mine = new Rect(position.x - 300, position.y - 200, 200, 150);
-                mine = new Rect(position.x - (rectPositionOffsetX+rectWidth), position.y - rectPositionOffsetY, rectWidth, rectHeight);
+                mine = new Rect(position.x - (rectPositionOffsetX + rectWidth), positionY, rectWidth, rectHeight);
                 //missileTur = new Rect(position.x - 100, position.y - 200, 200, 150);
-                missileTur = new Rect(position.x - rectPositionOffsetX, position.y - rectPositionOffsetY, rectWidth, rectHeight);
+                missileTur = new Rect(position.x - rectPositionOffsetX, positionY, rectWidth, rectHeight);
                 //torret = new Rect(position.x + 100, position.y - 200, 200, 150);
-                torret = new Rect(position.x + rectPositionOffsetX, position.y - rectPositionOffsetY, rectWidth, rectHeight);
+                torret = new Rect(position.x + rectPositionOffsetX, positionY, rectWidth, rectHeight);
 
                 //GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
                 GUI.backgroundColor = new Color(rectColorShade, rectColorShade, rectColorShade);

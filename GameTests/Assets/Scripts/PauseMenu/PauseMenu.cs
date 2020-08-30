@@ -26,17 +26,20 @@ public class PauseMenu : MonoBehaviour
 			thisObj = instance.gameObject;
 			gameControl = GameControl.Instance();
         }
+		
 		return instance;
     }
 
 	void Awake()
 	{
-		//instance = this;
-		//thisObj = gameObject;
+		instance = this;
+		thisObj = gameObject;
+		gameControl = GameControl.Instance();
 
 	}
 	void Start()
 	{
+		thisObj = gameObject;
 		OnOptionBackButton();
 		Hide();
 	}
@@ -57,26 +60,31 @@ public class PauseMenu : MonoBehaviour
 
 	public void Hide() {
 		isOn = false;
+		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 
 	public void Show() {
 		isOn = true;
+		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 	public void _Show()
 	{
 		isOn = true;
+		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 	public void _Hide()
 	{
 		isOn = false;
+		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 
 	public void OnOptionBackButton()
 	{
+		//gameObject.SetActive(false);
 		thisObj.SetActive(true);
 	}
 }
