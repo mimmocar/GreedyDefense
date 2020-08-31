@@ -5,3 +5,4 @@ cost=100
 startShootingTime=0.0
 repeatShootingTime=0.5
 bulletPoolSize=10
+initialFireCountDown=0.1

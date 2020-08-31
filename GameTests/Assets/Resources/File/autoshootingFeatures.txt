@@ -5,3 +5,4 @@ bulletPoolSize=10
 scaleWeapon=1.2
 handOffset=0.15,0.013,0.05
 weaponRotation=-90.0,0.0,180.0
+initialFireCountDown=0.1

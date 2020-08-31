@@ -11,6 +11,7 @@ TagManager:
   - turret
   - mine
   - score
+  - hand
   layers:
   - Default
   - TransparentFX
