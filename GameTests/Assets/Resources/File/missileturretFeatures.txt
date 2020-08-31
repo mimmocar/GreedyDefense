@@ -1,7 +1,7 @@
 ﻿range=40.0
-fireRate=1.0
+fireRate=0.75
 turnSpeed=10.0
-cost=50
+cost=100
 startShootingTime=0.0
 repeatShootingTime=0.5
 bulletPoolSize=10
