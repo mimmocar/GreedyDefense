@@ -23,7 +23,7 @@ public class AutoShooting : MonoBehaviour
     private GameObject weapon;
     private GameObject bulletPrefab;
     private float fireRate;
-    private float fireCountdown = 0f;
+    private float fireCountdown;
 
     private int bulletFired = 0;
 
@@ -107,6 +107,9 @@ public class AutoShooting : MonoBehaviour
                     break;
                 case "repeatShootingTime":
                     repeatShootingTime = float.Parse(token[1], CultureInfo.InvariantCulture);
+                    break;
+                case "initialFireCountDown":
+                    fireCountdown = float.Parse(token[1], CultureInfo.InvariantCulture);
                     break;
                 case "bulletPoolSize":
                     bulletPoolSize = int.Parse(token[1], CultureInfo.InvariantCulture);

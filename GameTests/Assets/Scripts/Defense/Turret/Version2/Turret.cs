@@ -15,7 +15,7 @@ public class Turret : Features
 	private float range;
 	public GameObject bulletPrefab;
 	private float fireRate;
-	private float fireCountdown = 0f;
+	private float fireCountdown;
 
 	private int bulletFired = 0;
 	private PoolManager poolManager;
@@ -63,6 +63,9 @@ public class Turret : Features
 					break;
 				case "repeatShootingTime":
 					repeatShootingTime = float.Parse(token[1], CultureInfo.InvariantCulture);
+					break;
+				case "initialFireCountDown":
+					fireCountdown = float.Parse(token[1], CultureInfo.InvariantCulture);
 					break;
 				case "bulletPoolSize":
 					bulletPoolSize = int.Parse(token[1], CultureInfo.InvariantCulture);
