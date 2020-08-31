@@ -99,10 +99,23 @@ public class CharacterJoystickMovement : MonoBehaviour
                     return;
 
                 }
-                GetInput();
-                CalculateDirection();
-                Rotate();
-                Move();
+                else
+                {
+                    GetInput();
+                    CalculateDirection();
+                    Rotate();
+                    Move();
+                }
+                //GetInput();
+                //CalculateDirection();
+                //Rotate();
+                //Move();
+            }
+            else
+            {
+                anim.SetBool("isMoving", false);
+                anim.SetBool("isRotating", false);
+                anim.SetBool("isShooting", true);
             }
 
         }
