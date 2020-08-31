@@ -14,4 +14,9 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(selectedButton);
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

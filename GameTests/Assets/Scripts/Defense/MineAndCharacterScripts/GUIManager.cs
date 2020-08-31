@@ -98,7 +98,7 @@ public class GUIManager : MonoBehaviour
     }
 
 
-    void Update()
+    void LateUpdate()
     {
         int count = Input.touchCount;
         if (count > 0)

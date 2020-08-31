@@ -8,7 +8,16 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
     public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
-    
+
+    private bool isActive;
+
+    public bool IsActive
+    {
+        get
+        {
+            return isActive;
+        }
+    }
     public float HandleRange
     {
         get { return handleRange; }
@@ -73,6 +82,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         if (eventData.position.x < position.x + radius.x && eventData.position.y < position.y + radius.y)
         //if (eventData.position.x < Screen.width/2+1000 && eventData.position.y < Screen.height/2+1000)
         {
+            isActive = true;
             input = (eventData.position - position) / (radius * canvas.scaleFactor);
             FormatInput();
             HandleInput(input.magnitude, input.normalized, radius, cam);
@@ -135,6 +145,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
+        isActive = false;
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
     }
