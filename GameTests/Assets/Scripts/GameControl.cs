@@ -229,7 +229,8 @@ public class GameControl : MonoBehaviour
     }
     public void SelectLevel()
     {
-        StoreSkulls();
+        if(gameState == _GameState.Won)
+            StoreSkulls();
         ResumeGame();
         Load("LevelSelector");
     }

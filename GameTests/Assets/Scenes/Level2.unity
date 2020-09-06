@@ -466,6 +466,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 85937851}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &85937864 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2916312783541736967, guid: 9ed6b8785e322480db21d9cba8aca7f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 85937851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &90630450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1903,7 +1915,7 @@ MonoBehaviour:
   currency: {fileID: 1806326095}
   skulls: {fileID: 900892413}
   foodStamina: {fileID: 85937853}
-  foodStaminaScore: {fileID: 85937853}
+  foodStaminaScore: {fileID: 85937864}
   berserkText: {fileID: 85937852}
   berserkSignal: {fileID: 85937854}
   waveCountdown: {fileID: 85937856}
