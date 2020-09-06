@@ -17,6 +17,7 @@ namespace Utility
 		private float MAX_RANGE;
 		private float MAX_RATE;
 		private float MAX_DAMAGE;
+        private float fadingSpeed;
 		
 
 		public static Utility Instance()
@@ -54,6 +55,14 @@ namespace Utility
             }
         }
 
+        public float FadingSpeed
+        {
+            get
+            {
+                return fadingSpeed;
+            }
+        }
+
         private Utility()
         {
 
@@ -78,6 +87,9 @@ namespace Utility
                         break;
                     case "MAX_DAMAGE":
                         MAX_DAMAGE = float.Parse(token[1], CultureInfo.InvariantCulture);
+                        break;
+                    case "fadingSpeed":
+                        fadingSpeed = float.Parse(token[1], CultureInfo.InvariantCulture);
                         break;
                     default:
                         
