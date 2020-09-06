@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class JoystickCharacterState : MonoBehaviour
 {
@@ -23,7 +24,16 @@ public class JoystickCharacterState : MonoBehaviour
     private float minimumDistance;
 
     private bool isReadyToMove;
-    
+    private bool readScreenInput = true;
+
+
+    public bool ReadScreeInput
+    {
+        get
+        {
+            return readScreenInput;
+        }
+    }
 
     public float Gravity
     {
@@ -136,7 +146,7 @@ public class JoystickCharacterState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CollectInputs();
+        if(readScreenInput) CollectInputs();
         CheckGrounded();
         Debug.Log(IsGrounded);
     }
@@ -178,6 +188,59 @@ public class JoystickCharacterState : MonoBehaviour
         isShooting = false;
         
     }
+
+    public void OnWalking(InputAction.CallbackContext context)
+    {
+        if (readScreenInput) return;
+        movement = context.ReadValue<Vector2>().y;
+        rotation = context.ReadValue<Vector2>().x;
+        if (movement != 0)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
+        if (rotation != 0)
+        {
+            isRotating = true;
+        }
+        else
+        {
+            isRotating = false;
+        }
+
+        if (isMoving == false && isRotating == false && joystick.isPressed)
+            isStanding = true;
+        else isStanding = false;
+
+        Debug.Log("Movimento: " + movement + "   " + rotation);
+    }
+
+    public void OnShooting(InputAction.CallbackContext context)
+    {
+        if (readScreenInput) return;
+        float shoot = context.ReadValue<float>();
+        isShooting = shoot > 0;
+    }
+
+    public void OnSwitch(InputAction.CallbackContext context)
+    {
+        float button = context.ReadValue<float>();
+        //Debug.Log("Cambio di comandi Screen: " + button);
+        if (button > 0 && context.performed)
+        {
+            Debug.Log("Cambio di comandi Screen: " + button);
+            //Debug.Log("Cambio di comandi");
+            readScreenInput = readScreenInput ? false: true ;
+            //Debug.Log("Cambio di comandi Screen: "+readScreenInput);
+            //joystick.gameObject.SetActive(joystick.gameObject.active ? false : true) ;
+            //shootingButton.gameObject.SetActive(joystick.gameObject.active ? false : true);
+        }
+        
+    }
+
 
     private void OnBerserkOff()
     {

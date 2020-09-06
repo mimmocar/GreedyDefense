@@ -25,21 +25,7 @@ public class MoveDestination : MonoBehaviour
 
     void Update()
     {
-        if (!agent.pathPending)
-        {
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                {
-                    //In attesa di trovare animazioni decenti
-                    //animator.SetBool("destinationReached", true);
-                }
-            }
-            else
-            {
-                //animator.SetBool("destinationReached", false);
-            }
-        }
+        //if (!agent.pathPending && agent.remainingDistance < 0.5f) ; in attesa di trovare animazioni decenti
     }
 
     

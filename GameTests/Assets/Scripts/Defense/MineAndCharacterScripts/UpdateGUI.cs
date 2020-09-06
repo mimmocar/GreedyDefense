@@ -88,12 +88,25 @@ public class UpdateGUI : MonoBehaviour
             if (pauseMenu.IsOn)
             {
                 pauseMenu.Hide();
-                joystickGO.SetActive(true);
-                if(!playerStatus.IsBerserkOn)
-                    buttonGO.SetActive(true);
+                //    joystickGO.SetActive(true);
+                //if(!playerStatus.IsBerserkOn)
+                //    buttonGO.SetActive(true);
 
             }
-                
+
+            if (playerStatus.ReadScreeInput)
+            {
+                joystickGO.SetActive(true);
+                if (!playerStatus.IsBerserkOn)
+                    buttonGO.SetActive(true);
+            }
+            else
+            {
+                joystickGO.SetActive(false);
+                buttonGO.SetActive(false);
+            }
+
+
             //Aggiornamento Kills
             killsText.text = om.Kills.ToString() + "/" + om.Berserk.ToString();
             currency.text = om.Currency.ToString(); //implementare conversione a intero della currency

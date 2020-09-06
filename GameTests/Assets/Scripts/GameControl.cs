@@ -173,6 +173,7 @@ public class GameControl : MonoBehaviour
     {
         gameState = _GameState.Play;
         Time.timeScale = 1;
+        Debug.Log("GAME RESUMED");
     }
 
 

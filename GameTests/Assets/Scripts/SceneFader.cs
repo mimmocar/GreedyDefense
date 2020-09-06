@@ -14,21 +14,22 @@ public class SceneFader : MonoBehaviour
     void Start()
     {
         StartCoroutine(FadeIn());
-        
+        Debug.Log("FADING into Scene"+ SceneManager.GetActiveScene().name);
+        //Time.timeScale = 1;
     }
 
-    public void FadeTo(string scene)
-    {
-        StartCoroutine(FadeOut(scene));
-        Debug.Log("FADING");
-    }
+    //public void FadeTo(string scene)
+    //{
+    //    StartCoroutine(FadeOut(scene));
+    //    Debug.Log("FADING");
+    //}
 
     IEnumerator FadeIn()
     {
         float t = 1f;
         while (t > 0f)
         {
-            t -= Time.deltaTime;
+            t -= Time.fixedDeltaTime;
             float a = fadingCurve.Evaluate(t);
             fading.color = new Color(0f, 0f, 0f, a);
             yield return 0;
