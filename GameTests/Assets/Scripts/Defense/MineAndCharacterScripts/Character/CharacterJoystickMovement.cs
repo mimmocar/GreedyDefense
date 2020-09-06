@@ -86,7 +86,8 @@ public class CharacterJoystickMovement : MonoBehaviour
 
         }
         _charController.Move(transform.TransformDirection(new Vector3(0, vertSpeed * Time.deltaTime, 0)));
-        if (followingCamera.enabled)
+        //if (followingCamera.enabled)
+        if(!status.IsBerserkOn)
         {
             anim.enabled = true;
 

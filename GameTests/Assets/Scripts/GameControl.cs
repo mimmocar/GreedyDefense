@@ -173,6 +173,7 @@ public class GameControl : MonoBehaviour
     {
         gameState = _GameState.Play;
         Time.timeScale = 1;
+        Debug.Log("GAME RESUMED");
     }
 
 
@@ -228,7 +229,8 @@ public class GameControl : MonoBehaviour
     }
     public void SelectLevel()
     {
-        StoreSkulls();
+        if(gameState == _GameState.Won)
+            StoreSkulls();
         ResumeGame();
         Load("LevelSelector");
     }
@@ -260,6 +262,11 @@ public class GameControl : MonoBehaviour
     public static void UnloadWeapon()
     {
         SceneManager.UnloadScene("WeaponSelection");
+    }
+
+    public static void Quit()
+    {
+        Application.Quit();
     }
 
 

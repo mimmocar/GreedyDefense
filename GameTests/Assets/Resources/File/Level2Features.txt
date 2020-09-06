@@ -1,6 +1,6 @@
 ﻿firstTH=0.5
 secondTH=0.75
-startCurrency=70
+startCurrency=170
 startFoodStamina=10
 explosionPower=1000.0
 explosionRadius=10.0

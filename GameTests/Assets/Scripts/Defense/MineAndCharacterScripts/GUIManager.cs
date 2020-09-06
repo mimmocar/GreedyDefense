@@ -30,6 +30,9 @@ public class GUIManager : MonoBehaviour
     private float rectColorShade;
     private int rectFontSize;
     private float rectColorTextShade;
+    private bool mineSelected = false;
+    private bool stTurrSelected = false;
+    private bool missileTurrSelected = false;
 
     private JoystickCharacterState playerStatus;
     public int TEMP
@@ -97,16 +100,38 @@ public class GUIManager : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        if (mineSelected)
+        {
+            om.OnSpawnObject(worldPosition, 0);
+        }
+        else if (missileTurrSelected)
+        {
+            om.OnSpawnObject(worldPosition, 1);
+        }
+        else if(stTurrSelected)
+        {
+            om.OnSpawnObject(worldPosition, 2);
+        }
 
+        mineSelected = false;
+        missileTurrSelected = false;
+        stTurrSelected = false;
+    }
     void LateUpdate()
     {
-        int count = Input.touchCount;
-        if (count > 0)
+        //int count = Input.touchCount;
+        //if (count > 0)
+        //{
+
+
+        //Touch theTouch = Input.GetTouch(0);
+        //if (theTouch.phase == TouchPhase.Began)
+        if (Input.GetMouseButtonDown(0))
         {
-            Touch theTouch = Input.GetTouch(0);
-            if (theTouch.phase == TouchPhase.Began)
-            {
-                touchPositionStart = theTouch.position;
+                //touchPositionStart = theTouch.position;
+                touchPositionStart = Input.mousePosition;
                 Ray ray = Camera.main.ScreenPointToRay(touchPositionStart);
                 RaycastHit hit;
 
@@ -132,13 +157,15 @@ public class GUIManager : MonoBehaviour
                     display = false;
                 }
             }
-            else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting || playerStatus.IsStanding)  //controllare che l'accesso allo stato sia consentito
+        else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting || playerStatus.IsStanding)  //controllare che l'accesso allo stato sia consentito
+        {
+            display = false;
+        }
+        //else if (theTouch.phase == TouchPhase.Ended)
+        else if (Input.GetMouseButtonUp(0))
             {
-                display = false;
-            }
-            else if (theTouch.phase == TouchPhase.Ended)
-            {
-                touchPositionEnd = theTouch.position;
+            //touchPositionEnd = theTouch.position;
+                touchPositionEnd = Input.mousePosition;
                 touchPositionEnd.y = Screen.height - touchPositionEnd.y;
                 if(display) evaluateSelection = true;
 
@@ -146,7 +173,7 @@ public class GUIManager : MonoBehaviour
 
 
 
-        }
+       // }
 
     }
 
@@ -188,25 +215,27 @@ public class GUIManager : MonoBehaviour
 
 
                 float positionY = position.y - rectPositionOffsetY;
-
+                float positionX = position.x - (rectPositionOffsetX + rectWidth);
                 if (positionY < 0)
                     positionY = 0;
+                if (positionX < 0)
+                    positionX = 0;
 
 
-                //mine = new Rect(position.x - 300, position.y - 200, 200, 150);
-                mine = new Rect(position.x - (rectPositionOffsetX + rectWidth), positionY, rectWidth, rectHeight);
-                //missileTur = new Rect(position.x - 100, position.y - 200, 200, 150);
-                missileTur = new Rect(position.x - rectPositionOffsetX, positionY, rectWidth, rectHeight);
-                //torret = new Rect(position.x + 100, position.y - 200, 200, 150);
-                torret = new Rect(position.x + rectPositionOffsetX, positionY, rectWidth, rectHeight);
+                
+                mine = new Rect(positionX, positionY, rectWidth, rectHeight);
+                
+                missileTur = new Rect(positionX + rectWidth, positionY, rectWidth, rectHeight);
+                
+                torret = new Rect(positionX + rectWidth + 2*rectPositionOffsetX, positionY, rectWidth, rectHeight);
 
-                //GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                
                 GUI.backgroundColor = new Color(rectColorShade, rectColorShade, rectColorShade);
                 GUI.Box(mine, mineTexture);
                 GUI.Box(missileTur, missileTurrTexture);
                 GUI.Box(torret, torretTexture);
 
-                //GUI.backgroundColor = new Color(0, 0, 0, 0);
+                
                 GUI.backgroundColor = new Color(rectColorTextShade, rectColorTextShade, rectColorTextShade);
 
 
@@ -220,17 +249,26 @@ public class GUIManager : MonoBehaviour
             {
                 if (mine.Contains(touchPositionEnd))
                 {
-                    om.OnSpawnObject(worldPosition, 0);
+                    //om.OnSpawnObject(worldPosition, 0);
+                    mineSelected = true;
+                   // missileTurrSelected = false;
+                  //  stTurrSelected = false;
                     Debug.Log("Selected arma 1");
                 }
                 else if (missileTur.Contains(touchPositionEnd))
                 {
-                    om.OnSpawnObject(worldPosition, 1);
+                    //om.OnSpawnObject(worldPosition, 1);
+                    missileTurrSelected = true;
+                   // mineSelected = false;
+                   // stTurrSelected = false;
                     Debug.Log("Selected arma 2");
                 }
                 else if (torret.Contains(touchPositionEnd))
                 {
-                    om.OnSpawnObject(worldPosition, 2);
+                    //om.OnSpawnObject(worldPosition, 2);
+                    //mineSelected = false;
+                    //missileTurrSelected = false;
+                    stTurrSelected = true;
                     Debug.Log("Selected arma 3");
                 }
 

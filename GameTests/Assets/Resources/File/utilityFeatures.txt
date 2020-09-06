@@ -1,3 +1,4 @@
 ﻿MAX_RANGE=60.0
 MAX_RATE=10.0
 MAX_DAMAGE=99.0
+fadingSpeed=2.0

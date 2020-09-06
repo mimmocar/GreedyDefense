@@ -5,18 +5,17 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    //public void OnChangeScene()
-    //{
-    //    Messenger.Broadcast(GameEvent.CHANGE_SCENE);
-    //}
+   
 
     public void Select(string selectedButton)
     {
-        SceneManager.LoadScene(selectedButton);
+        GameControl.Load(selectedButton);
+        //SceneManager.LoadScene(selectedButton)
     }
 
     public void Quit()
     {
-        Application.Quit();
+        //Application.Quit();
+        GameControl.Quit();
     }
 }
