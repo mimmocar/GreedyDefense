@@ -264,6 +264,11 @@ public class GameControl : MonoBehaviour
         SceneManager.UnloadScene("WeaponSelection");
     }
 
+    public static void Quit()
+    {
+        Application.Quit();
+    }
+
 
 
 }

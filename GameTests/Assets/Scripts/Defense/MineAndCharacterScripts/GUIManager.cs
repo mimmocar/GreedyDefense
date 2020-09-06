@@ -157,12 +157,12 @@ public class GUIManager : MonoBehaviour
                     display = false;
                 }
             }
-            else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting || playerStatus.IsStanding)  //controllare che l'accesso allo stato sia consentito
-            {
-                display = false;
-            }
-            //else if (theTouch.phase == TouchPhase.Ended)
-            else if (Input.GetMouseButtonUp(0))
+        else if (playerStatus.IsMoving || playerStatus.IsRotating || playerStatus.IsShooting || playerStatus.IsStanding)  //controllare che l'accesso allo stato sia consentito
+        {
+            display = false;
+        }
+        //else if (theTouch.phase == TouchPhase.Ended)
+        else if (Input.GetMouseButtonUp(0))
             {
             //touchPositionEnd = theTouch.position;
                 touchPositionEnd = Input.mousePosition;
