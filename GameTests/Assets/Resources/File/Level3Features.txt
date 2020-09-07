@@ -1,10 +1,10 @@
 ﻿firstTH=0.5
 secondTH=0.75
-startCurrency=70
+startCurrency=100
 startFoodStamina=10
 explosionPower=1000.0
 explosionRadius=10.0
 upwardMod=0.0
 enemyOffset=-100
-berserk=10
-berserkCountdown=15
+berserk=22
+berserkCountdown=10
