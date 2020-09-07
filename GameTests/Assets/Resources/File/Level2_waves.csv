@@ -6,4 +6,5 @@ WaveID;NumEnemies;SpawnRate;Enemies;
 W1SP1;7;0.25;B;M;B;M;B;B;B;
 W2SP1;5;0.25;M;M;D;B;B;
 W3SP1;2;0.25;D;D;
-W4SP1;7;0.25;M;M;D;B;D;M;B;
+W4SP1;6;0.25;M;M;D;B;D;M;
+W5SP1;5;0.25;M;D;D;B;M;
