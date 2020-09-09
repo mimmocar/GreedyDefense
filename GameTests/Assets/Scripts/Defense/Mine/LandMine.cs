@@ -100,33 +100,13 @@ public class LandMine : Features
                 if (hit.GetComponent<Rigidbody>())
                 { // if it's a rigidbody, add explosion force:
                     Debug.Log("Explosion with RigidBody");
-                  
                     explosionPrefab.SetActive(true);
                     hit.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, explosionPosition, explosionRadius, upwardMod, ForceMode.Force);
-
                     Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, hit.gameObject, damage);
                     Debug.Log(hit);
-
                     explosion = true;
                 }
-                //else
-                //{ // but if it's a character with ImpactReceiver, add the impact:
-                //    ImpactReceiver script = hit.GetComponent<ImpactReceiver>();
-                //    if (script)
-                //    {
-
-                //        Debug.Log("Explosion ImpactReceiver");
-                //        explosionPrefab.SetActive(true);
-
-                //        Vector3 dir = hit.transform.position - explosionPosition;
-                //        float force = Mathf.Clamp(explosionPower / 3, 0, 5000);
-                //        script.AddImpact(dir, force);
-                //        //Messenger<GameObject,int>.Broadcast(GameEvent.ENEMY_HIT, hit.gameObject,damage);
-                //        Messenger<GameObject, _Damage>.Broadcast(GameEvent.HANDLE_DAMAGE, hit.gameObject, damage);
-                //        explosion = true;
-                //    }
-
-                //}
+             
 
                 
             }

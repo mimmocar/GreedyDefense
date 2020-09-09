@@ -16,11 +16,11 @@ public class GameControl : MonoBehaviour
     private static GameControl instance;
     private ObjectManager om;
     private WaveSpawner spawner;
-    private bool gameStarted = false;
+    
     private float playerLife;
     public _GameState gameState = _GameState.Play;
 
-    public int currentLevel; //Da testare: provare a leggere il numero del livello dal nome della scena o dall'indice
+    public int currentLevel; 
     private float firstTH, secondTH;
     private int levelReached;
     private int score = 0;
@@ -63,10 +63,7 @@ public class GameControl : MonoBehaviour
         return instance;
     }
 
-    public bool IsGameStarted()
-    {
-        return gameStarted;
-    }
+   
     public bool IsGameOver()
     {
         return gameState == _GameState.Over ? true : false;
@@ -76,7 +73,7 @@ public class GameControl : MonoBehaviour
         return gameState == _GameState.Pause ? true : false;
     }
 
-    public float GetPlayerLife() { return instance.playerLife; }
+    
 
     public _GameState GetGameState()
     {
@@ -121,7 +118,7 @@ public class GameControl : MonoBehaviour
 
     void Awake()
     {
-        //instance = this;
+        
         Time.timeScale = 1;
     }
 
@@ -156,7 +153,7 @@ public class GameControl : MonoBehaviour
 
         }
 
-        StartGame();
+        
     }
 
     // Update is called once per frame
@@ -196,10 +193,7 @@ public class GameControl : MonoBehaviour
     }
 
 
-    public void StartGame()
-    {
-        gameStarted = true;
-    }
+    
 
     public void PauseGame()
     {

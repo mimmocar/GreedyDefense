@@ -3562,7 +3562,6 @@ GameObject:
   - component: {fileID: 2017171300749000045}
   - component: {fileID: 4313652152875760578}
   - component: {fileID: 4313652152875760579}
-  - component: {fileID: 4313652152875760576}
   - component: {fileID: 3849973573197542543}
   - component: {fileID: 420704161658341108}
   m_Layer: 0
@@ -3686,18 +3685,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
   shootingButton: {fileID: 0}
---- !u!114 &4313652152875760576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4313652152875760581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21c0fe42630684ea495aa986e25e0856, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3849973573197542543
 MonoBehaviour:
   m_ObjectHideFlags: 0

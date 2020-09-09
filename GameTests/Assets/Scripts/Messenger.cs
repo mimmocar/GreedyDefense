@@ -35,22 +35,16 @@ public enum MessengerMode
 }
 public static class GameEvent
 {
-	public const string SPAWN_REQUESTED = "SPAWN_REQUESTED";
+	
 	public const string ENEMY_HIT = "ENEMY_HIT";
 	public const string HANDLE_DAMAGE = "HANDLE_DAMAGE";
-	public const string ENEMY_DIED = "ENEMY_DIED";
-	public const string SPEED_CHANGED = "SPEED_CHANGED";
-	public const string SHOOTING = "SHOOTING";
-	public const string STOP_SHOOTING = "STOP";
-	public const string PAUSE = "PAUSE";
-	public const string CHANGE_SCENE = "CHANGE SCENE";
 	public const string HANDLE_FOOD_ATTACK = "FOOD ATTACK";
 	public const string BERSERK_ON = "BERSERK ON";
 	public const string BERSERK_OFF = "BERSERK OFF";
-	public const string GAME_OVER = "GAME_OVER";
-	public const string LEVEL_WON = "LEVEL_WON";
-	public const string LOAD_WEAPON_SELECTOR = "LOAD_WEAPON_SELECTOR";
-	public const string UNLOAD_WEAPON_SELECTOR = "UNLOAD_WEAPON_SELECTOR";
+	
+	
+	
+	
 }
 static internal class MessengerInternal
 {

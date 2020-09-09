@@ -27,9 +27,10 @@ public class Enemy : MonoBehaviour
 	private float health;
 	private int worth;
 	private bool deathCounted;
+	public Image hbContainer;
+	public Image healthBar;
 
 
-	private int enemiesDied = 0;
 
 
 	public bool DeathCounted
@@ -44,18 +45,7 @@ public class Enemy : MonoBehaviour
 			deathCounted = value;
 		}
 	}
-	public int Died
-	{
-		get
-		{
-			return enemiesDied;
-		}
-
-		set
-		{
-			enemiesDied = value;
-		}
-	}
+	
 
 	public EnemyType Type
 	{
@@ -98,23 +88,13 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-    
-
-    [Header("Unity Stuff")]
-	public Image hbContainer;
-	public Image healthBar;
-
-	private bool isDead = false;
 	public bool Dead
 	{
 		get
 		{
 			return health <= 0;
 		}
-		//set
-		//{
-		//	isDead = value;
-		//}
+		
 	}
 
 	public float Health
@@ -136,7 +116,6 @@ public class Enemy : MonoBehaviour
 		multiplierDict = new Dictionary<string, float>();
 
 		string eT = type.ToString();
-		string path = "Assets/Resources/File/" + eT + "DamageMultipliers.txt";
 		string filePath = "File/" + eT + "DamageMultipliers";
 		List<float> dM = new List<float>();
 
