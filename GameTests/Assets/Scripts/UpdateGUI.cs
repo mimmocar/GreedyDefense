@@ -17,7 +17,7 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] private Image foodStaminaScore;
     [SerializeField] private GameObject berserkText;
     [SerializeField] private GameObject berserkSignal;
-    [SerializeField] private Text waveCountdown; 
+    [SerializeField] private Text waveCountdown;
     [SerializeField] private Text waveCounter;
     [SerializeField] private Image waveSignal;
     [SerializeField] GameObject joystickGO;
@@ -26,6 +26,7 @@ public class UpdateGUI : MonoBehaviour
     [SerializeField] FloatingButton shootingButton;
     [SerializeField] GameObject gameOverUI;
     [SerializeField] GameObject levelWonUI;
+    
     private JoystickCharacterState playerStatus;
     private Text berserkTxt;
     private float startFoodStamina;
@@ -43,11 +44,11 @@ public class UpdateGUI : MonoBehaviour
         startFoodStamina = om.StartFoodStamina;
         killsText.text = 0.ToString() + "/" + om.Berserk.ToString();
         foodStamina.fillAmount = om.FoodStamina / startFoodStamina;
-        skulls.text = om.Skulls.ToString(); 
+        skulls.text = om.Skulls.ToString();
         waveCounter.text = om.CurrentWave.ToString() + "/" + om.WavesNum.ToString();
 
         string filePath = "File/updateGuiFeatures";
-        
+
 
         TextAsset data = Resources.Load<TextAsset>(filePath);
         string[] lines = data.text.Split('\n');
@@ -71,8 +72,8 @@ public class UpdateGUI : MonoBehaviour
         }
 
     }
-    
-    
+
+
     // Update is called once per frame
     void Update()
     {
@@ -84,7 +85,8 @@ public class UpdateGUI : MonoBehaviour
 
         foodStamina.fillAmount = Mathf.Lerp(startStam, endStam, speed * Time.fixedDeltaTime);
 
-        if (gameState == _GameState.Play){
+        if (gameState == _GameState.Play)
+        {
             if (pauseMenu.IsOn)
             {
                 pauseMenu.Hide();
@@ -94,11 +96,17 @@ public class UpdateGUI : MonoBehaviour
 
             }
 
+           
+
             if (playerStatus.ReadScreeInput)
             {
                 joystickGO.SetActive(true);
                 if (!playerStatus.IsBerserkOn)
                     buttonGO.SetActive(true);
+                else
+                {
+                    buttonGO.SetActive(false);
+                }
             }
             else
             {
@@ -117,7 +125,7 @@ public class UpdateGUI : MonoBehaviour
             {
                 waveCountdown.gameObject.SetActive(false);
                 waveSignal.gameObject.SetActive(false);
-                
+
             }
             else
             {
@@ -126,7 +134,7 @@ public class UpdateGUI : MonoBehaviour
             }
             waveCountdown.text = "Next wave in " + om.WaveCountdown.ToString();
 
-            
+
 
             if (playerStatus.IsBerserkOn)
 
@@ -173,27 +181,32 @@ public class UpdateGUI : MonoBehaviour
                 pauseMenu.Show();
                 joystickGO.SetActive(false);
                 buttonGO.SetActive(false);
-            }
 
                 
+            }
+
+
         }
-        else if(gameState == _GameState.Over)
+        else if (gameState == _GameState.Over)
         {
             gameOverUI.SetActive(true);
             joystickGO.SetActive(false);
             buttonGO.SetActive(false);
             berserkText.SetActive(false);
             berserkSignal.SetActive(false);
+            
         }
-        else if(gameState == _GameState.Won){
+        else if (gameState == _GameState.Won)
+        {
             StartCoroutine(LevelWon());
             //testing
             float finalFoodStamina = om.FoodStamina;
             Debug.Log("FOOD STAMINA: " + finalFoodStamina);
             Debug.Log("FOOD SCORE: " + gameControl.Score);
+            
         }
 
-        
+
     }
 
     private IEnumerator LevelWon()
@@ -220,7 +233,7 @@ public class UpdateGUI : MonoBehaviour
         //foodStaminaScore.fillAmount = Mathf.Lerp(startStam, endStam, Mathf.SmoothStep(0.0f,1.0f,0.05f));
         while (foodStaminaScore.fillAmount >= endStam)
         {
-            if(foodStaminaScore.fillAmount < secondTH)
+            if (foodStaminaScore.fillAmount < secondTH)
             {
                 starBorders[2].transform.GetChild(0).gameObject.SetActive(false);
             }
@@ -239,6 +252,6 @@ public class UpdateGUI : MonoBehaviour
         Debug.Log("FOOD STAMINA: " + finalFoodStamina);
         Debug.Log("FOOD STAMINA SCORE: " + foodStaminaScore);
         StopCoroutine(LevelWon());
-        
+
     }
 }
