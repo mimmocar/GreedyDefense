@@ -48,9 +48,6 @@ public class GUIManager : MonoBehaviour
         mineCost = om.GetCost(0);
         missileTurCost = om.GetCost(1);
         torretCost = om.GetCost(2);
-        Messenger.AddListener(GameEvent.SHOOTING, OnShootingStart);
-        Messenger.AddListener(GameEvent.STOP_SHOOTING, OnShootingStop);
-
 
         string filePath = "File/guiManagerFeatures";
 
@@ -93,12 +90,7 @@ public class GUIManager : MonoBehaviour
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<JoystickCharacterState>();
     }
 
-    void OnDestroy()
-    {
-        Messenger.RemoveListener(GameEvent.SHOOTING, OnShootingStart);
-        Messenger.RemoveListener(GameEvent.STOP_SHOOTING, OnShootingStop);
-
-    }
+    
 
     void Update()
     {
@@ -119,18 +111,15 @@ public class GUIManager : MonoBehaviour
         missileTurrSelected = false;
         stTurrSelected = false;
     }
+
+
+
     void LateUpdate()
     {
-        //int count = Input.touchCount;
-        //if (count > 0)
-        //{
-
-
-        //Touch theTouch = Input.GetTouch(0);
-        //if (theTouch.phase == TouchPhase.Began)
+        
         if (Input.GetMouseButtonDown(0))
         {
-                //touchPositionStart = theTouch.position;
+                
                 touchPositionStart = Input.mousePosition;
                 if (EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -163,10 +152,10 @@ public class GUIManager : MonoBehaviour
         {
             display = false;
         }
-        //else if (theTouch.phase == TouchPhase.Ended)
+        
         else if (Input.GetMouseButtonUp(0))
             {
-            //touchPositionEnd = theTouch.position;
+            
                 touchPositionEnd = Input.mousePosition;
                 touchPositionEnd.y = Screen.height - touchPositionEnd.y;
                 if(display) evaluateSelection = true;
@@ -175,19 +164,10 @@ public class GUIManager : MonoBehaviour
 
 
 
-       // }
+       
 
     }
 
-    private void OnShootingStart()
-    {
-        shooting = true;
-    }
-
-    private void OnShootingStop()
-    {
-        shooting = false;
-    }
     
     void OnGUI()
     {
@@ -203,21 +183,15 @@ public class GUIManager : MonoBehaviour
             {
 
                 GUIStyle textStyle = new GUIStyle();
-                //textStyle.fontSize = 50;
                 textStyle.fontSize = rectFontSize;
                 textStyle.alignment = TextAnchor.LowerRight;
                 textStyle.normal.textColor = Color.white;
-                //textStyle.hover.textColor = Color.black;
                 textStyle.hover.textColor = Color.yellow;
-                Debug.Log("GUI FETURE- RECT POS X" + rectPositionOffsetX);
-                Debug.Log("GUI FETURE- RECT POS Y" + rectPositionOffsetY);
-                Debug.Log("GUI FETURE- RECT POS X+ WIDTH" + (rectPositionOffsetX + rectWidth));
-                Debug.Log("GUI FETURE- WIDTH" + rectWidth);
-                Debug.Log("GUI FETURE- HEIGHT" + rectHeight);
-
+                
 
                 float positionY = position.y - rectPositionOffsetY;
                 float positionX = position.x - (rectPositionOffsetX + rectWidth);
+
                 if (positionY < 0)
                     positionY = 0;
                 if (positionX < 0)
@@ -251,25 +225,18 @@ public class GUIManager : MonoBehaviour
             {
                 if (mine.Contains(touchPositionEnd))
                 {
-                    //om.OnSpawnObject(worldPosition, 0);
+                    
                     mineSelected = true;
-                   // missileTurrSelected = false;
-                  //  stTurrSelected = false;
                     Debug.Log("Selected arma 1");
                 }
                 else if (missileTur.Contains(touchPositionEnd))
                 {
-                    //om.OnSpawnObject(worldPosition, 1);
                     missileTurrSelected = true;
-                   // mineSelected = false;
-                   // stTurrSelected = false;
                     Debug.Log("Selected arma 2");
                 }
                 else if (torret.Contains(touchPositionEnd))
                 {
-                    //om.OnSpawnObject(worldPosition, 2);
-                    //mineSelected = false;
-                    //missileTurrSelected = false;
+                    
                     stTurrSelected = true;
                     Debug.Log("Selected arma 3");
                 }

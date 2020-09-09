@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelSelector : MonoBehaviour
 {
     
-    public UnityEngine.UI.Button[] levelButtons;
+    [SerializeField] protected UnityEngine.UI.Button[] levelButtons;
 
     private void Start()
     {
@@ -19,9 +19,6 @@ public class LevelSelector : MonoBehaviour
             {
                 int score = PlayerPrefs.GetInt("starForLevel" + (i + 1), 0);
                 
-
-                //Image[] borders = levelButtons[i].GetComponentsInChildren<Image>();
-                //Debug.Log("Number of borders found : "+ borders.Length);
                 for (int j = 0; j < 3; j++)
                 {
                     if (j + 1 <= score)
@@ -47,15 +44,12 @@ public class LevelSelector : MonoBehaviour
 
     public void Back()
     {
-        GameControl.Load("MainMenuScene");
+        GameControl.LoadMainMenu();
     }
 
     public void SelectWeapon()
     {
-        PlayerPrefs.SetString("previousScene", SceneManager.GetActiveScene().name);
-        //GameControl.Load("WeaponSelection");
         GameControl.LoadWeapon();
-        //SceneManager.LoadScene("WeaponSelection", LoadSceneMode.Additive);
 
     }
 }

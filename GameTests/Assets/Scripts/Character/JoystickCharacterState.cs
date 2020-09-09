@@ -155,7 +155,7 @@ public class JoystickCharacterState : MonoBehaviour
     {
 
         RaycastHit hit;
-        //if (Physics.Raycast(transform.position,transform.TransformDirection(Vector3.down), out hit, 0.1f) && hit.collider.tag == "floor")
+        
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, minimumDistance) && hit.collider.tag == "floor")
         {
             isGrounded = true;
@@ -228,15 +228,12 @@ public class JoystickCharacterState : MonoBehaviour
     public void OnSwitch(InputAction.CallbackContext context)
     {
         float button = context.ReadValue<float>();
-        //Debug.Log("Cambio di comandi Screen: " + button);
+        
         if (button > 0 && context.performed)
         {
             Debug.Log("Cambio di comandi Screen: " + button);
-            //Debug.Log("Cambio di comandi");
             readScreenInput = readScreenInput ? false: true ;
-            //Debug.Log("Cambio di comandi Screen: "+readScreenInput);
-            //joystick.gameObject.SetActive(joystick.gameObject.active ? false : true) ;
-            //shootingButton.gameObject.SetActive(joystick.gameObject.active ? false : true);
+         
         }
         
     }

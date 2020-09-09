@@ -8,7 +8,7 @@ public class CharacterJoystickMovement : MonoBehaviour
     private GameControl gameControl;
     private float velocity;
     private float runBoost;
-    private float turnSpeed; //implementare lettura da file dei parametri di configurazione
+    private float turnSpeed; 
     private float gravity;
     protected float rotationSensitivity;
     protected float vertSpeed = 0.0f;
@@ -19,7 +19,7 @@ public class CharacterJoystickMovement : MonoBehaviour
     Animator anim;
     Quaternion targetRotation;
     Transform cam;
-    Camera followingCamera;
+    
 
 
     protected JoystickCharacterState status;
@@ -30,7 +30,7 @@ public class CharacterJoystickMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        followingCamera = Camera.main;
+        
         cam = GameObject.Find("FollowingCamera").transform;
         gameControl = GameControl.Instance();
         status = GetComponent<JoystickCharacterState>();
@@ -61,7 +61,7 @@ public class CharacterJoystickMovement : MonoBehaviour
                     Debug.Log("ROTATION: " + rotationSensitivity);
                     break;
                 default:
-                    //possibile implementare come per enemy un dizionario di boost possibili
+                    
                     break;
             }
         }
@@ -77,7 +77,7 @@ public class CharacterJoystickMovement : MonoBehaviour
         {
 
             vertSpeed += gravity * Time.deltaTime;
-            Debug.Log("STIAMO VOLANDO");
+            
 
         }
         else
@@ -86,7 +86,7 @@ public class CharacterJoystickMovement : MonoBehaviour
 
         }
         _charController.Move(transform.TransformDirection(new Vector3(0, vertSpeed * Time.deltaTime, 0)));
-        //if (followingCamera.enabled)
+        
         if(!status.IsBerserkOn)
         {
             anim.enabled = true;
@@ -107,10 +107,7 @@ public class CharacterJoystickMovement : MonoBehaviour
                     Rotate();
                     Move();
                 }
-                //GetInput();
-                //CalculateDirection();
-                //Rotate();
-                //Move();
+                
             }
             else
             {
@@ -183,9 +180,7 @@ public class CharacterJoystickMovement : MonoBehaviour
         angle = Mathf.Atan2(input.x, input.y);
         angle = Mathf.Rad2Deg * angle;
         angle += cam.eulerAngles.y;
-        //Debug.Log(angle);
-        if (angle < 0) anim.SetBool("rotation", true);
-        else anim.SetBool("rotation", false);
+        
 
     }
 

@@ -13,10 +13,7 @@ public class PoolManager : MonoBehaviour {
 		if (!poolDictionary.ContainsKey (poolKey)) {
 			poolDictionary.Add (poolKey, new Queue<ObjectInstance> ());
 
-			//GameObject poolHolder = new GameObject (prefab.name + " pool");
-			//GameObject poolHolder = transform.Find("RoundsPool").gameObject;
 			GameObject poolHolder = GameObject.Find("PoolManager");
-			//poolHolder.transform.parent = transform;
 
 			for (int i = 0; i < poolSize; i++) {
 				ObjectInstance newObject = new ObjectInstance(Instantiate (prefab) as GameObject);

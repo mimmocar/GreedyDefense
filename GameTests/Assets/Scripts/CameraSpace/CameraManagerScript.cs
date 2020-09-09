@@ -24,16 +24,12 @@ namespace CameraSpace
         {
             Messenger.AddListener(GameEvent.BERSERK_ON, OnChangeCamera);
             Messenger.AddListener(GameEvent.BERSERK_OFF, OnChangeCamera);
-            Messenger.AddListener(GameEvent.LOAD_WEAPON_SELECTOR, OnLoadWeapon);
-            Messenger.AddListener(GameEvent.UNLOAD_WEAPON_SELECTOR, OnUnLoadWeapon);
         }
 
         void OnDestroy()
         {
             Messenger.RemoveListener(GameEvent.BERSERK_ON, OnChangeCamera);
-            Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnChangeCamera);
-            Messenger.RemoveListener(GameEvent.LOAD_WEAPON_SELECTOR, OnLoadWeapon);
-            Messenger.RemoveListener(GameEvent.UNLOAD_WEAPON_SELECTOR, OnUnLoadWeapon);
+            Messenger.RemoveListener(GameEvent.BERSERK_OFF, OnChangeCamera);            
         }
 
         // Start is called before the first frame update
@@ -83,21 +79,7 @@ namespace CameraSpace
             cameras[oldCamera].enabled = false;
         }
 
-        public void OnLoadWeapon()
-        {
-            for (int x = 0; x < cameras.Length; x++)
-            {
-                cameras[x].enabled = false;
-            }
-        }
-
-        public void OnUnLoadWeapon()
-        {
-            for (int x = 0; x < cameras.Length; x++)
-            {
-                cameras[x].enabled = true;
-            }
-        }
+        
 
 
     }

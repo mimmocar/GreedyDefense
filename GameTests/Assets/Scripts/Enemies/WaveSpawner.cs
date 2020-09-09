@@ -104,7 +104,7 @@ public class WaveSpawner : MonoBehaviour
 			yield return new WaitForSeconds(1);
 			countDown -= 1;
 		}
-		//yield return new WaitForSeconds(countDown);
+		
 
 		while (true)
 		{

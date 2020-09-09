@@ -8,18 +8,17 @@ using System.Globalization;
 
 public class ObjectManager : MonoBehaviour
 {
-    //private delegate void OnSpawnObject(Vector3 pos, GameObject pref);
-    //Start is called before the first frame update
+    
     private static ObjectManager _instance;
-    private int startCurrency; //implementare lettura da file/PlayerPrefs
+    private int startCurrency; 
     private int currentCurrency;
-    private int startSkulls; //implementare lettura da file/PlayerPrefs
+    private int startSkulls; 
     private int currentSkulls;
-    private int hit = 0, kills = 0, berserk = 100;  //inizializzazione all'inizio del livello
+    private int kills = 0, berserk;  
     [SerializeField] GameObject[] prefab;
     [SerializeField] protected GameObject enterEffect;
     private float timeEffect;
-
+    private const int indexClip = 1;
     private int berserkCountdown;
     private GameControl gameControl;
     private float startFoodStamina; //valore di inizializzazione costante
@@ -36,7 +35,7 @@ public class ObjectManager : MonoBehaviour
 
     private int currentLevel;
 
-    private bool gameEnded;
+    
 
 
     public int WavesNum
@@ -72,18 +71,6 @@ public class ObjectManager : MonoBehaviour
         set
         {
             waveCountdown = value;
-        }
-    }
-    public bool GameIsOver
-    {
-        get
-        {
-            return gameEnded;
-        }
-
-        set
-        {
-            gameEnded = value;
         }
     }
 
@@ -154,10 +141,7 @@ public class ObjectManager : MonoBehaviour
 
     void Awake()
     {
-        //startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
-        //currentCurrency = startCurrency;
-        //foodStamina = startFoodStamina;
-        //currentSkulls = startSkulls;   //per il momento lasciamo anche startSkulls, a seconda di come valutare il punteggio
+        
         
 
         for (int i = 0; i < prefab.Length; i++)
@@ -165,7 +149,7 @@ public class ObjectManager : MonoBehaviour
             prefab[i].GetComponent<Features>().Awake();
         }
 
-        Messenger<Vector3, int>.AddListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
+        
         Messenger<GameObject, _Damage>.AddListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
         Messenger<float>.AddListener(GameEvent.HANDLE_FOOD_ATTACK, OnHandleFoodAttack);
         Debug.Log("LETTURA FEATURES COST "+prefab[0].GetComponent<Features>().Cost);
@@ -224,63 +208,10 @@ public class ObjectManager : MonoBehaviour
 
     void OnDestroy()
     {
-        Messenger<Vector3, int>.RemoveListener(GameEvent.SPAWN_REQUESTED, OnSpawnObject);
         Messenger<GameObject, _Damage>.RemoveListener(GameEvent.HANDLE_DAMAGE, OnHandleDamage);
     }
 
-    private void Start()
-    {
-        //inizializza lettura monete, vita del cibo, raggio dell'esplosione, potenza dell'esplosione, countdown bererk, upward modification Anche per LandMine
-        // anche enemyOffset
-        //gameControl = GameControl.Instance();
-
-
-        //string filePath = "File/Level"+gameControl.currentLevel+"Features";
-        //TextAsset data = Resources.Load<TextAsset>(filePath);
-        //string[] lines = data.text.Split('\n');
-
-        //for (int i = 0; i < lines.Length; i++)
-        //{
-        //    string line = lines[i];
-        //    string[] token = line.Split('=');
-
-        //    switch (token[0])
-        //    {
-        //        case "startCurrency":
-        //            startCurrency = int.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "startFoodStamina":
-        //            startFoodStamina = float.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "explosionPower":
-        //            explosionPower = float.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "explosionRadius":
-        //            explosionRadius = float.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "upwardMod":
-        //            upwardMod = float.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "enemyOffset":
-        //            enemyOffset = float.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "berserk":
-        //            berserk = int.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        case "berserkCountdown":
-        //            berserkCountdown = int.Parse(token[1], CultureInfo.InvariantCulture);
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
-        //startSkulls = PlayerPrefs.GetInt("skullsCurrency", 0);
-        //currentCurrency = startCurrency;
-        //foodStamina = startFoodStamina;
-        //currentSkulls = startSkulls;
-
-    }
+    
 
     
 
@@ -289,7 +220,7 @@ public class ObjectManager : MonoBehaviour
         float cost = prefab[i].GetComponent<Features>().Cost;
         if (currentCurrency >= cost)
         {
-            //position += new Vector3(0, prefab[i].transform.localScale.y / 2, 0);
+            
             currentCurrency -= prefab[i].GetComponent<Features>().Cost;
             Instantiate(prefab[i], position, new Quaternion(0, 0, 0, 0));
         }
@@ -303,8 +234,7 @@ public class ObjectManager : MonoBehaviour
     void OnHandleDamage(GameObject target, _Damage damage)
     {
         Enemy enemy = target.GetComponent<Enemy>();
-        hit += 1;
-        Debug.Log("Invocazione n " + hit);
+        
 
         if (enemy != null)
         {
@@ -313,8 +243,7 @@ public class ObjectManager : MonoBehaviour
 
                 target.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, target.transform.position, explosionRadius, upwardMod, ForceMode.Force); //implementare lettura da file
                 enemy.Health = 0;
-                
-                
+                  
             }
             else
             {
@@ -335,8 +264,7 @@ public class ObjectManager : MonoBehaviour
             if (enemy.Dead)
             {
 
-                //enemy.Die(damage.Type);
-                //StartCoroutine(Die(enemy));
+                
                 if (!enemy.DeathCounted)
                 {
                     currentCurrency += enemy.Worth; //implementare lettura valore nemico
@@ -348,6 +276,9 @@ public class ObjectManager : MonoBehaviour
 
                     if (damage.Type != DamageType.Berserk)
                         kills++;
+
+                    enemy.DeathCounted = true;
+                    StartCoroutine(Die(enemy.gameObject));
                 }
                 
 
@@ -359,13 +290,7 @@ public class ObjectManager : MonoBehaviour
                     kills = 0;
                 }
 
-                if (!enemy.DeathCounted)
-                {
-                    enemy.DeathCounted = true;
-                    StartCoroutine(Die(enemy.gameObject));
-                }
-                    
-                //kills++;
+                
             }
         }
 
@@ -381,7 +306,7 @@ public class ObjectManager : MonoBehaviour
             anim.SetBool("isDead", true);
 
             var animController = anim.runtimeAnimatorController;
-            var clip = animController.animationClips[1];
+            var clip = animController.animationClips[indexClip];
 
             yield return new WaitForSeconds(clip.length);
 
@@ -405,7 +330,7 @@ public class ObjectManager : MonoBehaviour
     IEnumerator BerserkHandle()
     {
         Debug.Log("Head Camera Activated");
-        countDown = berserkCountdown; //15 secondi
+        countDown = berserkCountdown; 
         while(countDown >= 0)
         {
             yield return new WaitForSeconds(1);

@@ -46,7 +46,7 @@ public class AutoShooting : MonoBehaviour
 
     void Start()
     {
-        //default pari a 2 per testing
+        
         weaponSelected = PlayerPrefs.GetInt("weaponSelected", 1);
 
         weapon = weaponPrefabs[weaponSelected - 1];
@@ -54,7 +54,7 @@ public class AutoShooting : MonoBehaviour
 
         anim = GetComponent<Animator>();
         status = GetComponent<JoystickCharacterState>();
-      //  InvokeRepeating("UpdateTarget", 0f, 0.5f); //nuovi parametri sono startShooting  time e repeatShootingTime
+      
 
         string filePath = "File/weapon" + weaponSelected + "Features";
 
@@ -80,7 +80,7 @@ public class AutoShooting : MonoBehaviour
             }
         }
 
-        //Vector3 handOffset = new Vector3(0.15f, 0.013f, 0.05f);
+        
         Vector3 handOffset;
         Quaternion weaponRotation;
 
@@ -135,7 +135,7 @@ public class AutoShooting : MonoBehaviour
                     weapon.transform.localRotation = weaponRotation;
                     break;
 
-                default:   //aggiungere alla lettura turnSpeed e handOffset, scaleWeapon e rotation params, bulletPoolSize  
+                default:   
                     break;
 
             }
@@ -143,11 +143,9 @@ public class AutoShooting : MonoBehaviour
 
         
 
-        weapon.SetActive(true);
-
-        firePoint = weapon.transform.Find("Pistol05_Imp02").gameObject.transform.Find("FirePoint");
+        weapon.SetActive(true);        
+        firePoint = weapon.transform.Find("FirePoint");
         if (firePoint != null) Debug.Log("FIREPOINT TROVATO");
-
 
         poolManager = GetComponent<PoolManager>();
         poolManager.CreatePool(bulletPrefab, bulletPoolSize); // da leggere da file
@@ -193,6 +191,7 @@ public class AutoShooting : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+
 
     }
 

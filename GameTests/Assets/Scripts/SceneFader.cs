@@ -11,21 +11,17 @@ public class SceneFader : MonoBehaviour
     private Utility.Utility util;
     private float fSpeed;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         StartCoroutine(FadeIn());
         util = Utility.Utility.Instance();
         fSpeed = util.FadingSpeed;
         Debug.Log("FADING into Scene"+ SceneManager.GetActiveScene().name);
-        //Time.timeScale = 1;
+        
     }
 
-    //public void FadeTo(string scene)
-    //{
-    //    StartCoroutine(FadeOut(scene));
-    //    Debug.Log("FADING");
-    //}
+    
 
     IEnumerator FadeIn()
     {
@@ -40,18 +36,5 @@ public class SceneFader : MonoBehaviour
         }
     }
 
-    //IEnumerator FadeOut(string scene)
-    //{
-    //    float t = 0f;
-    //    while (t < 1f)
-    //    {
-    //        t += Time.deltaTime;
-    //        float a = fadingCurve.Evaluate(t);
-    //        fading.color = new Color(0f, 0f, 0f, a);
-    //        yield return 0;
-
-    //    }
-
-    //    SceneManager.LoadScene(scene);
-    //}
+    
 }
