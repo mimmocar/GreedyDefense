@@ -25,13 +25,13 @@ public class InputHandlerBerserk : MonoBehaviour
     {
         Debug.Log("DISATTIVO GUI");
         guiManager.enabled = false;
-        shootingButton.SetActive(false);
+        //shootingButton.SetActive(false);
     }
 
     private void OnBerserkOff()
     {
         Debug.Log("RIATTIVO GUI");
-        shootingButton.SetActive(true) ;
+        //shootingButton.SetActive(true) ;
         guiManager.enabled = true;
     }
 }

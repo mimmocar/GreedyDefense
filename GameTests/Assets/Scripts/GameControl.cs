@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
-public enum _GameState { Play, Pause, Over, Won }
+public enum _GameState { Play, Pause, Over, Won, Restart }
+public enum OperationRequested { Home, Continue, SelectLevel, Weapon, Retry, Null }
 public class GameControl : MonoBehaviour
 {
     private const char NEW_LINE = '\n';
@@ -18,13 +19,13 @@ public class GameControl : MonoBehaviour
     private bool gameStarted = false;
     private float playerLife;
     public _GameState gameState = _GameState.Play;
-    
+
     public int currentLevel; //Da testare: provare a leggere il numero del livello dal nome della scena o dall'indice
     private float firstTH, secondTH;
     private int levelReached;
     private int score = 0;
 
-    
+    private OperationRequested op = OperationRequested.Null;
     public float FirstTh
     {
         get
@@ -97,8 +98,20 @@ public class GameControl : MonoBehaviour
     }
 
 
+    public OperationRequested OpRequested
+    {
+
+        set
+        {
+            op = value;
+        }
+
+
+    }
+
     public static void LoadMainMenu()
     {
+        Time.timeScale = 1;
         Load("MainMenuScene");
     }
     public static void Load(string levelName)
@@ -149,12 +162,36 @@ public class GameControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameState == _GameState.Restart)
+            Load(SceneManager.GetActiveScene().name);
+
+
         playerLife = om.FoodStamina;
 
         if (playerLife <= 0)
             EndGame();
         else if (spawner.HasPlayerWon)
             WonGame();
+
+        switch (op)
+        {
+            case OperationRequested.Home: LoadMainMenu(); break;
+            case OperationRequested.Continue:
+                StoreSkulls();
+                //ResumeGame();
+                Load("Level" + (currentLevel + 1)); break;
+            case OperationRequested.SelectLevel:
+                if (gameState == _GameState.Won)
+                    StoreSkulls();
+                //ResumeGame();
+                Load("LevelSelector"); break;
+            case OperationRequested.Retry:
+                //ResumeGame();
+                Load(SceneManager.GetActiveScene().name);
+                break;
+            case OperationRequested.Weapon: LoadWeapon(); op = OperationRequested.Null; break;
+            default: break;
+        }
 
     }
 
@@ -179,15 +216,15 @@ public class GameControl : MonoBehaviour
 
     void EndGame()
     {
-        
+
         SetGameStateOver();
         Debug.Log("Game Over");
-        
+
     }
 
     void WonGame()
     {
-        
+
         SetGameStateWon();
         //int score = 0;
         float finalStamina = om.FoodStamina;
@@ -219,8 +256,11 @@ public class GameControl : MonoBehaviour
             PlayerPrefs.SetInt("levelReached", levelReached);
         }
 
-        
+
     }
+
+
+
 
 
     private void StoreSkulls()
@@ -229,28 +269,32 @@ public class GameControl : MonoBehaviour
     }
     public void SelectLevel()
     {
-        if(gameState == _GameState.Won)
-            StoreSkulls();
-        ResumeGame();
-        Load("LevelSelector");
+        //if(gameState == _GameState.Won)
+        //    StoreSkulls();
+        //ResumeGame();
+        //Load("LevelSelector");
+        op = OperationRequested.SelectLevel;
     }
     public void Retry()
     {
-        ResumeGame();
-        Load(SceneManager.GetActiveScene().name);
+        //ResumeGame();
+        //Load(SceneManager.GetActiveScene().name);
+        op = OperationRequested.Retry;
     }
 
     public void Continue()
     {
-        StoreSkulls();
-        ResumeGame();
-        Load("Level" + (currentLevel + 1));
+        //StoreSkulls();
+        //ResumeGame();
+        //Load("Level" + (currentLevel + 1));
+        op = OperationRequested.Continue;
     }
 
     public void SelectWeapon()
     {
         //ResumeGame();
-        LoadWeapon();
+        //LoadWeapon();
+        op = OperationRequested.Weapon;
 
     }
 

@@ -11,24 +11,24 @@ public class PauseMenu : MonoBehaviour
 	private bool isOn = true;
 
 	public bool IsOn
-    {
-        get
-        {
+	{
+		get
+		{
 			return isOn;
-        }
-    }
+		}
+	}
 
 	public static PauseMenu Instance()
-    {
-		if(instance == null)
-        {
+	{
+		if (instance == null)
+		{
 			instance = FindObjectOfType<PauseMenu>();
 			thisObj = instance.gameObject;
 			gameControl = GameControl.Instance();
-        }
-		
+		}
+
 		return instance;
-    }
+	}
 
 	void Awake()
 	{
@@ -50,41 +50,40 @@ public class PauseMenu : MonoBehaviour
 	}
 	public void OnMainMenuButton()
 	{
-		Time.timeScale = 1;
-		GameControl.LoadMainMenu();
+		//Time.timeScale = 1;
+		//GameControl.LoadMainMenu();
+		gameControl.OpRequested = OperationRequested.Home;
 	}
 	public void OnRestartButton()
 	{
-		GameControl.Load(SceneManager.GetActiveScene().name);
+		gameControl.gameState = _GameState.Restart;
+		//GameControl.Load(SceneManager.GetActiveScene().name);
 	}
 
-	public void Hide() {
+	public void Hide()
+	{
 		isOn = false;
-		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 
-	public void Show() {
+	public void Show()
+	{
 		isOn = true;
-		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 	public void _Show()
 	{
 		isOn = true;
-		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 	public void _Hide()
 	{
 		isOn = false;
-		//gameObject.SetActive(isOn);
 		thisObj.SetActive(isOn);
 	}
 
 	public void OnOptionBackButton()
 	{
-		//gameObject.SetActive(false);
 		thisObj.SetActive(true);
 	}
 }

@@ -132,6 +132,8 @@ public class GUIManager : MonoBehaviour
         {
                 //touchPositionStart = theTouch.position;
                 touchPositionStart = Input.mousePosition;
+                if (EventSystem.current.IsPointerOverGameObject()) return;
+
                 Ray ray = Camera.main.ScreenPointToRay(touchPositionStart);
                 RaycastHit hit;
 

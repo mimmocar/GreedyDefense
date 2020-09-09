@@ -23,13 +23,16 @@ public class WeaponSelector : MonoBehaviour
     public GameObject confirmationPanel;
     public Text currentCurrency;
     private int weaponSelected;
+    private int indexRequestedWeapon = 0;
+    private bool confirmPurchase = false;
+    private bool buyWeapon = false;
 
     private void Start()
     {
         unlockedWeapons = new string[levelButtons.Length];
         prices = new int[levelButtons.Length];
         util = Utility.Utility.Instance();
-        
+
 
         //Istruzione per testing
         skullsCurrency = PlayerPrefs.GetInt("skullsCurrency", 0);
@@ -40,9 +43,9 @@ public class WeaponSelector : MonoBehaviour
         {
             string filePath = "File/weapon" + (i + 1) + "Features";
 
-        
-        
-        
+
+
+
             //int price = int.Parse(sr.ReadLine(), CultureInfo.InvariantCulture);
             //prices[i] = price;
 
@@ -81,7 +84,7 @@ public class WeaponSelector : MonoBehaviour
 
 
                 }
-                
+
             }
 
 
@@ -118,7 +121,7 @@ public class WeaponSelector : MonoBehaviour
                     GameObject pricePanel = levelButtons[i].transform.Find("PricePanel").gameObject;
                     pricePanel.transform.Find("Value").GetComponent<Text>().text = "" + prices[i];
                     pricePanel.SetActive(true);
-                    if(prices[i]>skullsCurrency)
+                    if (prices[i] > skullsCurrency)
                         levelButtons[i].interactable = false;
 
                 }
@@ -127,14 +130,50 @@ public class WeaponSelector : MonoBehaviour
         }
     }
 
-    public void Select(int i)
+
+    private void Update()
     {
-        if (unlockedWeapons[i - 1] == "true")
-            SelectWeapon(i - 1);
+        if (confirmPurchase)
+        {
+            confirmationPanel.SetActive(true);
+            Debug.Log("Panel Conferma attivo");
+            if (buyWeapon)
+            {
+                Debug.Log("Buy true");
+                Buy();
+                confirmPurchase = false;
+                buyWeapon = false;
+            }
+        }
         else
         {
-            UnlockWeapon(i - 1);
+            confirmationPanel.SetActive(false);
         }
+
+        if (indexRequestedWeapon <= 0) return;
+
+
+        //Debug.Log(indexRequestedWeapon);
+        if (unlockedWeapons[indexRequestedWeapon - 1] == "true")
+            SelectWeapon(indexRequestedWeapon - 1);
+        else
+        {
+            //Debug.Log(indexRequestedWeapon);
+            UnlockWeapon(indexRequestedWeapon - 1);
+        }
+
+        indexRequestedWeapon = 0;
+
+
+
+
+    }
+
+    public void Select(int i)
+    {
+
+        indexRequestedWeapon = i;
+
     }
 
 
@@ -149,15 +188,16 @@ public class WeaponSelector : MonoBehaviour
 
     private void UnlockWeapon(int index)
     {
-        //Da rivedere perché i Find sono troppi. Possibile soluzione: array di immagini, parallelo con i bottoni
+
+
         Image img = levelButtons[index].transform.Find("ImagePanel").gameObject.transform.Find("Image").gameObject.GetComponent<Image>();
         confirmationPanel.transform.Find("Weapon").gameObject.GetComponent<Image>().sprite = img.sprite;
 
         weaponToUnlock = index;
-        confirmationPanel.SetActive(true);
+        confirmPurchase = true;
     }
 
-    public void Confirm()
+    private void Buy()
     {
         if (skullsCurrency >= prices[weaponToUnlock])
         {
@@ -172,7 +212,8 @@ public class WeaponSelector : MonoBehaviour
             levelButtons[weaponToUnlock].transform.Find("PricePanel").gameObject.SetActive(false);
 
             currentCurrency.text = "" + skullsCurrency;
-            confirmationPanel.gameObject.SetActive(false);
+            //confirmationPanel.gameObject.SetActive(false);
+            confirmPurchase = false;
 
 
         }
@@ -182,16 +223,23 @@ public class WeaponSelector : MonoBehaviour
         }
     }
 
+    public void Confirm()
+    {
+        buyWeapon = true;
+
+    }
+
     public void Cancel()
     {
-        confirmationPanel.gameObject.SetActive(false);
+
+        buyWeapon = false;
+        confirmPurchase = false;
     }
 
     public void BackButton()
     {
 
         Debug.Log("Back pressed");
-        //GameControl.Load("LevelSelector");
         GameControl.UnloadWeapon();
     }
 }
