@@ -184,6 +184,8 @@ public class GameControl : MonoBehaviour
                 Load("LevelSelector"); break;
             case OperationRequested.Retry:
                 //ResumeGame();
+                if (gameState == _GameState.Won)
+                    StoreSkulls();
                 Load(SceneManager.GetActiveScene().name);
                 break;
             case OperationRequested.Weapon: LoadWeapon(); op = OperationRequested.Null; break;
