@@ -15,23 +15,21 @@ public class Enemy : MonoBehaviour
 	private const char EQUALS = '=';
 
 	[SerializeField] private EnemyType type;
-	private float[] damegesMultipliers;
-	[HideInInspector]
-	private Dictionary<string, float> multiplierDict;
+
 	private Camera cam;
 	private Camera headCamera;
-	private Camera currentCamera;
-	public float startHealth;
 	private JoystickCharacterState playerStatus;
 	private Rigidbody rigidbody;
+
+	private float[] damegesMultipliers;
+	private Dictionary<string, float> multiplierDict;
+	private float startHealth;
 	private float health;
 	private int worth;
 	private bool deathCounted;
+
 	public Image hbContainer;
 	public Image healthBar;
-
-
-
 
 	public bool DeathCounted
 	{
@@ -45,8 +43,6 @@ public class Enemy : MonoBehaviour
 			deathCounted = value;
 		}
 	}
-	
-
 	public EnemyType Type
 	{
 		get
@@ -54,10 +50,6 @@ public class Enemy : MonoBehaviour
 			return type;
 		}
 	}
-
-
-	// public GameObject deathEffect;
-
 	public Dictionary<string, float> DamagesMultiplierDic
 	{
 
@@ -68,7 +60,6 @@ public class Enemy : MonoBehaviour
 
 
 	}
-
 	public float[] DamagesMultipliers
 	{
 
@@ -79,7 +70,6 @@ public class Enemy : MonoBehaviour
 
 
 	}
-
 	public int Worth
 	{
 		get
@@ -87,7 +77,6 @@ public class Enemy : MonoBehaviour
 			return worth;
 		}
 	}
-
 	public bool Dead
 	{
 		get
@@ -96,7 +85,13 @@ public class Enemy : MonoBehaviour
 		}
 		
 	}
-
+	public float StartHealth
+	{
+		get
+		{
+			return startHealth;
+		}
+	}
 	public float Health
 	{
 		get
@@ -129,9 +124,8 @@ public class Enemy : MonoBehaviour
 
 			switch (token[0])
 			{
-				case "startHealt":
+				case "startHealth":
 					startHealth = float.Parse(token[1], CultureInfo.InvariantCulture);
-					health = startHealth;
 					break;
 				case "worth":
 					worth = int.Parse(token[1], CultureInfo.InvariantCulture);
@@ -150,12 +144,9 @@ public class Enemy : MonoBehaviour
 		playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<JoystickCharacterState>();
 		rigidbody = GetComponent<Rigidbody>();
 
-
 	}
 
-    
 
-	
     void OnCollisionEnter(Collision collision)
     {
         if(!playerStatus.IsBerserkOn && collision.gameObject.tag == "Player")
@@ -173,18 +164,6 @@ public class Enemy : MonoBehaviour
     {
 		rigidbody.isKinematic = false;
 	}
-    public void Die(DamageType type)
-	{
-		
-		float delay = 0;
-		if (type == DamageType.Berserk)
-		{
-			delay = 2.0f;
-		}
-
-		Destroy(gameObject, delay);
-	}
-
 	void LateUpdate()
 	{
 		if (cam.enabled)

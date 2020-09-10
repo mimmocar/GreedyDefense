@@ -159,7 +159,7 @@ public class UpdateGUI : MonoBehaviour
                 {
                     float health = enemy.Health;
                     Image healthBar = enemy.healthBar;
-                    float startH = enemy.startHealth;
+                    float startH = enemy.StartHealth;
                     //healthBar.fillAmount = health / startH;
 
 
