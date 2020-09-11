@@ -265,31 +265,24 @@ public class GameControl : MonoBehaviour
     }
     public void SelectLevel()
     {
-        //if(gameState == _GameState.Won)
-        //    StoreSkulls();
-        //ResumeGame();
-        //Load("LevelSelector");
+       
         op = OperationRequested.SelectLevel;
     }
     public void Retry()
     {
-        //ResumeGame();
-        //Load(SceneManager.GetActiveScene().name);
+        
         op = OperationRequested.Retry;
     }
 
     public void Continue()
     {
-        //StoreSkulls();
-        //ResumeGame();
-        //Load("Level" + (currentLevel + 1));
+        
         op = OperationRequested.Continue;
     }
 
     public void SelectWeapon()
     {
-        //ResumeGame();
-        //LoadWeapon();
+        
         op = OperationRequested.Weapon;
 
     }

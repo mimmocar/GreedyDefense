@@ -1,3 +1,4 @@
 type=Missile
-description=Missile damage
-amount=35.0
+description=Missile Damage
+amount=25.0
+speed=70.0

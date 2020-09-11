@@ -311,7 +311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  startHealth: 60
   hbContainer: {fileID: 4959215373392863276}
   healthBar: {fileID: 4959215371740793424}
 --- !u!114 &8640678183319771427
