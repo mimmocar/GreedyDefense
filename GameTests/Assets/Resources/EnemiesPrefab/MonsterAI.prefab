@@ -215,7 +215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  startHealth: 72
   hbContainer: {fileID: 8589000211264845518}
   healthBar: {fileID: 4915804044799234887}
 --- !u!114 &2167025457999143671
@@ -405,7 +404,7 @@ PrefabInstance:
     - target: {fileID: 95000013290184230, guid: 5bcbf31ded2e353449622ec74f8954da,
         type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bcbf31ded2e353449622ec74f8954da, type: 3}
